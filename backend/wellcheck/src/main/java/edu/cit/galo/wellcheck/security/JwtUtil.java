@@ -6,13 +6,17 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long EXPIRATION = 86400000; // 24 hours
+    private final Key key = Keys.hmacShaKeyFor(
+            Base64.getDecoder().decode("d2VsbGNoZWNrc2VjcmV0a2V5Zm9yand0dG9rZW5nZW5lcmF0aW9ud2VsbGNoZWNr")
+    );
+
+    private final long EXPIRATION = 86400000;
 
     public String generateToken(String email, String role) {
         return Jwts.builder()
@@ -31,6 +35,15 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+    }
+
+    public String extractRole(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
     }
 
     public boolean validateToken(String token) {
