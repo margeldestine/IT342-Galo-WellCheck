@@ -4,16 +4,39 @@ import Login from './pages/Login';
 import StudentRegister from './pages/StudentRegister';
 import CounselorRegister from './pages/CounselorRegister';
 import StudentDashboard from './pages/StudentDashboard';
+import CounselorDashboard from './pages/CounselorDashboard';
+import AdminDashboard from './pages/AdminDashboard';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register/student" element={<StudentRegister />} />
         <Route path="/register/counselor" element={<CounselorRegister />} />
-        <Route path="/dashboard" element={<StudentDashboard />} />
+
+        {/* Protected routes */}
+        <Route path="/dashboard" element={
+          <PrivateRoute allowedRoles={['STUDENT']}>
+            <StudentDashboard />
+          </PrivateRoute>
+        } />
+
+        <Route path="/counselor/dashboard" element={
+          <PrivateRoute allowedRoles={['COUNSELOR']}>
+            <CounselorDashboard />
+          </PrivateRoute>
+        } />
+
+        <Route path="/admin/dashboard" element={
+          <PrivateRoute allowedRoles={['ADMIN']}>
+            <AdminDashboard />
+          </PrivateRoute>
+        } />
+
       </Routes>
     </BrowserRouter>
   );
