@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Check if already logged in
         val prefs = getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
         val token = prefs.getString("token", null)
         val role = prefs.getString("role", null)
@@ -27,9 +26,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterStudentActivity::class.java))
         }
 
-       // binding.btnSignUpCounselor.setOnClickListener {
-         //   startActivity(Intent(this, RegisterCounselorActivity::class.java))
-        //}
+       binding.btnSignUpCounselor.setOnClickListener {
+         startActivity(Intent(this, RegisterCounselorActivity::class.java))
+       }
 
         binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
@@ -39,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     private fun navigateByRole(role: String) {
         when (role) {
             "STUDENT" -> startActivity(Intent(this, StudentDashboardActivity::class.java))
-            //"COUNSELOR" -> startActivity(Intent(this, CounselorDashboardActivity::class.java))
+            "COUNSELOR" -> startActivity(Intent(this, CounselorDashboardActivity::class.java))
         }
         finish()
     }
