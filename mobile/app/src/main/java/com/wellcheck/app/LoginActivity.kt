@@ -89,9 +89,9 @@ class LoginActivity : AppCompatActivity() {
                         "STUDENT" -> startActivity(
                             Intent(this@LoginActivity, StudentDashboardActivity::class.java)
                         )
-                        //"COUNSELOR" -> startActivity(
-                            //Intent(this@LoginActivity, CounselorDashboardActivity::class.java)
-                        //)
+                        "COUNSELOR" -> startActivity(
+                            Intent(this@LoginActivity, CounselorDashboardActivity::class.java)
+                        )
                         else -> {
                             showError("Login failed. Please try again.")
                             setLoading(false)

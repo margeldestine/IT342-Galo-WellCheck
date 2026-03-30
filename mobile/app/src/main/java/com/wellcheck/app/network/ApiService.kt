@@ -26,7 +26,7 @@ data class StudentRegisterRequest(
 data class CounselorRegisterRequest(
     val firstName: String,
     val lastName: String,
-    val employeeId: String,
+    val employeeNumber: String,
     val specialization: String,
     val bio: String,
     val email: String,
