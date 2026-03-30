@@ -1,21 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-.dashboard-wrapper {
+/* ── Page wrapper ── */
+.counselor-wrapper {
   display: flex;
   min-height: 100vh;
   background-color: #f8f7f4;
   font-family: 'Inter', sans-serif;
 }
 
+/* ── Sidebar ── */
 .sidebar {
   width: 240px;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
   padding: 24px 16px;
-  border-right: 1px solid #f0f0f0;
+  border-right: 1px solid #e5e7eb;
   position: fixed;
   height: 100vh;
 }
@@ -37,7 +43,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 14px;
+  font-size: 16px;
   flex-shrink: 0;
 }
 
@@ -50,7 +56,7 @@
 
 .sidebar-subtitle {
   font-size: 11px;
-  color: #aaa;
+  color: #888;
   margin-top: 1px;
 }
 
@@ -58,7 +64,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .nav-item {
@@ -66,29 +72,27 @@
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 14px;
-  color: #555;
+  color: #444;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
   font-weight: 400;
 }
 
 .nav-item:hover {
-  background-color: #f5f5f5;
+  background-color: #f3f4f6;
   color: #1a1a1a;
 }
 
 .nav-item.active {
   background-color: #e6f4ef;
   color: #1F7A5A;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .nav-icon {
-  font-size: 15px;
-  width: 18px;
-  text-align: center;
+  font-size: 16px;
 }
 
 .sidebar-logout {
@@ -96,17 +100,18 @@
   align-items: center;
   gap: 10px;
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 14px;
   color: #e53e3e;
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition: all 0.2s ease;
 }
 
 .sidebar-logout:hover {
   background-color: #fff5f5;
 }
 
+/* ── Main content ── */
 .dashboard-main {
   margin-left: 240px;
   flex: 1;
@@ -114,13 +119,14 @@
   flex-direction: column;
 }
 
+/* ── Topbar ── */
 .topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px 32px;
   background-color: #ffffff;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #e5e7eb;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -147,18 +153,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
+/* ── Dashboard content ── */
 .dashboard-content {
   padding: 32px;
-  max-width: 860px;
 }
 
 .greeting {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 800;
   color: #1a1a1a;
   letter-spacing: -0.5px;
   margin-bottom: 4px;
@@ -167,116 +173,114 @@
 .greeting-sub {
   font-size: 14px;
   color: #888;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
-.wellness-card {
+/* ── Stats row ── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
   background-color: #ffffff;
-  border-radius: 12px;
-  padding: 20px 24px;
-  border: 1px solid #f0f0f0;
-  margin-bottom: 16px;
+  border-radius: 14px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease;
 }
 
-.wellness-header {
+.stat-card:hover {
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  font-size: 22px;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -1px;
+}
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+/* ── Quick actions ── */
+.quick-actions-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.quick-action-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  border: 1px solid #e5e7eb;
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.wellness-icon {
-  font-size: 16px;
-}
-
-.wellness-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1F7A5A;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  flex: 1;
-}
-
-.wellness-arrow {
-  font-size: 14px;
-  color: #ccc;
-  cursor: pointer;
-}
-
-.wellness-quote {
-  font-size: 15px;
-  color: #444;
-  line-height: 1.6;
-  font-style: italic;
-}
-
-.appointment-card {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 20px 24px;
-  border: 1px solid #f0f0f0;
-  margin-bottom: 16px;
-}
-
-.card-section-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 14px;
-}
-
-.appointment-empty {
-  font-size: 14px;
-  color: #aaa;
-  text-align: center;
-  padding: 20px 0;
-}
-
-.quick-actions {
-  background-color: #ffffff;
-  border-radius: 12px;
-  padding: 20px 24px;
-  border: 1px solid #f0f0f0;
-}
-
-.actions-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.btn-action-primary {
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
+  gap: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.btn-action-primary:hover {
-  background-color: #165f45;
+.quick-action-card:hover {
+  border-color: #1F7A5A;
+  background-color: #f0faf5;
   transform: translateY(-1px);
 }
 
-.btn-action-secondary {
-  background-color: #f5f5f5;
-  color: #444;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.qa-icon {
+  font-size: 24px;
 }
 
-.btn-action-secondary:hover {
-  background-color: #ebebeb;
+.qa-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.qa-sub {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── Section cards ── */
+.section-card {
+  background-color: #ffffff;
+  border-radius: 14px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 20px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  letter-spacing: -0.2px;
+}
+
+/* ── Empty state ── */
+.empty-msg {
+  font-size: 14px;
+  color: #aaa;
+  text-align: center;
+  padding: 24px 0;
 }
