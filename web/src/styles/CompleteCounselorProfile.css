@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.cc-wrapper {
+  min-height: 100vh;
+  background-color: #f8f7f4;
+  font-family: 'Inter', sans-serif;
+}
+
+.cc-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 60px;
+  background-color: rgba(248, 247, 244, 0.95);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.cc-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.cc-logo {
+  background-color: #1F7A5A;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.cc-title {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1a1a1a;
+  letter-spacing: -0.3px;
+}
+
+.cc-card {
+  max-width: 560px;
+  margin: 48px auto 80px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 48px;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+}
+
+.cc-heading {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.8px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.cc-subtitle {
+  font-size: 15px;
+  color: #888;
+  margin-bottom: 28px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.cc-section-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0 20px;
+}
+
+.cc-section-divider::before,
+.cc-section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background-color: #e5e7eb;
+}
+
+.cc-section-divider span {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1F7A5A;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cc-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.cc-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #444;
+}
+
+.cc-input {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #1a1a1a;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #fafafa;
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.cc-input:focus {
+  border-color: #1F7A5A;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(31, 122, 90, 0.08);
+}
+
+.cc-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.cc-select-wrapper {
+  position: relative;
+}
+
+.cc-select-wrapper select {
+  width: 100%;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  outline: none;
+  background-color: #fafafa;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.cc-select-wrapper select:focus {
+  border-color: #1F7A5A;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(31, 122, 90, 0.08);
+}
+
+.cc-select-wrapper::after {
+  content: '▾';
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  pointer-events: none;
+  font-size: 12px;
+}
+
+.cc-btn {
+  width: 100%;
+  background-color: #1F7A5A;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: all 0.2s ease;
+}
+
+.cc-btn:hover {
+  background-color: #165f45;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(31, 122, 90, 0.3);
+}
+
+.cc-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.cc-error {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #fed7d7;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .cc-navbar {
+    padding: 16px 24px;
+  }
+
+  .cc-card {
+    margin: 24px 16px 60px;
+    padding: 32px 24px;
+  }
+}

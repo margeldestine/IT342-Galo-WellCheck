@@ -21,8 +21,10 @@ function Login() {
       const { accessToken, role, status } = res.data;
 
       if (status === 'PENDING') {
-        setError('Your account is pending approval by the admin.');
-        setLoading(false);
+        localStorage.setItem('token', accessToken);
+        localStorage.setItem('role', role);
+        localStorage.setItem('user', JSON.stringify(res.data));
+        window.location.href = '/pending';
         return;
       }
 

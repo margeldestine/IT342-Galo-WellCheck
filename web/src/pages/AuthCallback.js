@@ -10,21 +10,38 @@ function AuthCallback() {
     const firstName = urlParams.searchParams.get('firstName');
     const lastName = urlParams.searchParams.get('lastName');
     const isNewUser = urlParams.searchParams.get('isNewUser');
+    const role = urlParams.searchParams.get('role') || 'STUDENT';
+    const status = urlParams.searchParams.get('status') || 'ACTIVE';
 
-    console.log('Full URL:', hash);
     console.log('Token:', token);
+    console.log('Role:', role);
+    console.log('Status:', status);
     console.log('Is New User:', isNewUser);
 
     if (token) {
-      const user = { token, email, firstName, lastName, role: 'STUDENT' };
+      const user = { token, email, firstName, lastName, role, status };
       localStorage.setItem('token', token);
-      localStorage.setItem('role', 'STUDENT');
+      localStorage.setItem('role', role);
       localStorage.setItem('user', JSON.stringify(user));
 
+      // If pending, redirect to pending page
+      if (status === 'PENDING') {
+        window.location.href = '/pending';
+        return;
+      }
+
       if (isNewUser === 'true') {
-        window.location.href = '/complete-profile';
+        if (role === 'COUNSELOR') {
+          window.location.href = '/complete-counselor-profile';
+        } else {
+          window.location.href = '/complete-profile';
+        }
       } else {
-        window.location.href = '/dashboard';
+        if (role === 'COUNSELOR') {
+          window.location.href = '/counselor/dashboard';
+        } else {
+          window.location.href = '/dashboard';
+        }
       }
     } else {
       console.error('Google login failed:', error);

@@ -9,6 +9,10 @@ import AdminDashboard from './pages/AdminDashboard';
 import PrivateRoute from './components/PrivateRoute';
 import AuthCallback from './pages/AuthCallback';
 import CompleteProfile from './pages/CompleteProfile';
+import CompleteCounselorProfile from './pages/CompleteCounselorProfile';
+import Pending from './pages/Pending';
+
+
 
 
 function App() {
@@ -22,6 +26,9 @@ function App() {
         <Route path="/register/student" element={<StudentRegister />} />
         <Route path="/register/counselor" element={<CounselorRegister />} />
         <Route path="/complete-profile" element={<CompleteProfile />} />
+        <Route path="/complete-counselor-profile" element={<CompleteCounselorProfile />} />
+        <Route path="/pending" element={<Pending />} />
+
 
         {/* Protected routes */}
         <Route path="/dashboard" element={

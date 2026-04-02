@@ -66,9 +66,9 @@ function StudentRegister() {
     setLoading(false);
   };
 
-  const handleGoogleSignUp = () => {
-    window.location.href = `${API}/oauth2/authorization/google`;
-  };
+ const handleGoogleSignUp = () => {
+  window.location.href = `${API}/oauth2/authorization/google?role=STUDENT`;
+};
 
   const EyeIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
