@@ -1,5 +1,6 @@
 package edu.cit.galo.wellcheck.config;
 
+import edu.cit.galo.wellcheck.entity.User;
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import edu.cit.galo.wellcheck.service.AuthService;
 import jakarta.servlet.ServletException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @Component
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
@@ -44,6 +46,21 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             String normalizedEmail = rawEmail.trim().toLowerCase();
             boolean isNewUser = !userRepository.existsByEmail(normalizedEmail);
 
+            String role;
+            String status = "ACTIVE";
+
+            if (!isNewUser) {
+                Optional<User> existingUser = userRepository.findByEmail(normalizedEmail);
+                role = existingUser.map(u -> u.getRole().name()).orElse("STUDENT");
+                status = existingUser.map(u -> u.getStatus().name()).orElse("ACTIVE");
+            } else {
+                String state = request.getParameter("state");
+                role = "STUDENT";
+                if (state != null && state.contains(":")) {
+                    role = state.substring(state.lastIndexOf(":") + 1);
+                }
+            }
+
             String token = authService.authenticateWithGoogleOAuth2User(oauth2User);
             String email = urlEncode(rawEmail);
             String firstName = urlEncode(oauth2User.getAttribute("given_name"));
@@ -55,7 +72,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                     + "&email=" + email
                     + "&firstName=" + firstName
                     + "&lastName=" + lastName
-                    + "&isNewUser=" + isNewUser);
+                    + "&isNewUser=" + isNewUser
+                    + "&role=" + role
+                    + "&status=" + status);
 
         } catch (Exception e) {
             response.sendRedirect(frontendUrl + "/auth/callback?error=" + urlEncode(e.getMessage()));

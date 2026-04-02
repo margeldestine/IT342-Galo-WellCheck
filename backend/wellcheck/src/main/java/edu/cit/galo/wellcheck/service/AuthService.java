@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
+import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
 
 @Service
 public class AuthService {
@@ -108,10 +109,6 @@ public class AuthService {
             throw new RuntimeException("Invalid email or password.");
         }
 
-        if (user.getStatus() == UserStatus.PENDING) {
-            throw new RuntimeException("Your account is pending admin approval.");
-        }
-
         if (user.getStatus() == UserStatus.INACTIVE) {
             throw new RuntimeException("Your account has been deactivated.");
         }
@@ -196,5 +193,28 @@ public class AuthService {
         userRepository.save(user);
 
         return "Profile completed successfully.";
+    }
+
+    @Transactional
+    public String completeCounselorProfile(String email, CompleteCounselorProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        if (counselorProfileRepository.existsByEmployeeNumber(request.getEmployeeNumber())) {
+            throw new RuntimeException("Employee number is already registered.");
+        }
+
+        user.setRole(UserRole.COUNSELOR);
+        user.setStatus(UserStatus.PENDING);
+        userRepository.save(user);
+
+        CounselorProfile profile = new CounselorProfile();
+        profile.setEmployeeNumber(request.getEmployeeNumber());
+        profile.setSpecialization(request.getSpecialization());
+        profile.setBio(request.getBio());
+        profile.setUser(user);
+        counselorProfileRepository.save(profile);
+
+        return "Counselor profile completed. Awaiting admin approval.";
     }
 }

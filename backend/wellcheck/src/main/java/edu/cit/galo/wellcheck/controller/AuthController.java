@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
+import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -71,6 +72,20 @@ public class AuthController {
             String token = authHeader.substring(7);
             String email = authService.getEmailFromToken(token);
             String response = authService.completeProfile(email, request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/complete-counselor-profile")
+    public ResponseEntity<?> completeCounselorProfile(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody CompleteCounselorProfileRequest request) {
+        try {
+            String token = authHeader.substring(7);
+            String email = authService.getEmailFromToken(token);
+            String response = authService.completeCounselorProfile(email, request);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
