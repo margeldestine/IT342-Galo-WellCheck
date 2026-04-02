@@ -290,6 +290,8 @@
   padding: 12px 16px;
   font-size: 13px;
   margin-bottom: 16px;
+  text-align: center;
+
 }
 
 .success-msg {
@@ -300,6 +302,7 @@
   padding: 12px 16px;
   font-size: 13px;
   margin-bottom: 16px;
+  text-align: center;
 }
 
 /* ── Responsive ── */
@@ -316,4 +319,52 @@
   .form-row {
     grid-template-columns: 1fr;
   }
+}
+
+.btn-google {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  color: #333;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.2s ease;
+}
+
+.btn-google:hover {
+  background-color: #f5f5f5;
+  border-color: #1F7A5A;
+}
+
+.btn-google:hover {
+  background-color: #f5f5f5;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 16px 0;
+  color: #aaa;
+  font-size: 13px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+}
+
+.divider span {
+  padding: 0 10px;
 }

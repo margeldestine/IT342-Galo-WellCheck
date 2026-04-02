@@ -7,6 +7,9 @@ import StudentDashboard from './pages/StudentDashboard';
 import CounselorDashboard from './pages/CounselorDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import PrivateRoute from './components/PrivateRoute';
+import AuthCallback from './pages/AuthCallback';
+import CompleteProfile from './pages/CompleteProfile';
+
 
 function App() {
   return (
@@ -15,8 +18,10 @@ function App() {
         {/* Public routes */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
         <Route path="/register/student" element={<StudentRegister />} />
         <Route path="/register/counselor" element={<CounselorRegister />} />
+        <Route path="/complete-profile" element={<CompleteProfile />} />
 
         {/* Protected routes */}
         <Route path="/dashboard" element={
@@ -43,3 +48,4 @@ function App() {
 }
 
 export default App;
+
