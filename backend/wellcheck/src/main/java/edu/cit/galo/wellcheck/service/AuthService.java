@@ -16,6 +16,8 @@ import edu.cit.galo.wellcheck.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
 
 @Service
 public class AuthService {
@@ -142,5 +144,57 @@ public class AuthService {
                 user.getFirstName(),
                 user.getLastName()
         );
+    }
+
+    @Transactional
+    public String authenticateWithGoogleOAuth2User(OAuth2User oauth2User) {
+        String email = oauth2User.getAttribute("email");
+        if (email == null || email.isBlank()) {
+            throw new RuntimeException("Google account email is unavailable.");
+        }
+        final String finalEmail = email.trim().toLowerCase();
+
+        String rawFirstName = oauth2User.getAttribute("given_name");
+        String rawLastName = oauth2User.getAttribute("family_name");
+        final String firstName = (rawFirstName == null || rawFirstName.isBlank()) ? "Google" : rawFirstName;
+        final String lastName = (rawLastName == null || rawLastName.isBlank()) ? "User" : rawLastName;
+
+        User user = userRepository.findByEmail(finalEmail).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setEmail(finalEmail);
+            newUser.setPasswordHash(passwordEncoder.encode(java.util.UUID.randomUUID().toString()));
+            newUser.setRole(UserRole.STUDENT);
+            newUser.setStatus(UserStatus.ACTIVE);
+            newUser.setProfileCompleted(false);
+            return userRepository.save(newUser);
+        });
+
+        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+    }
+
+    @Transactional
+    public String completeProfile(String email, CompleteProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        if (studentProfileRepository.existsByStudentIdNumber(request.getStudentIdNumber())) {
+            throw new RuntimeException("Student ID number is already registered.");
+        }
+
+        StudentProfile profile = new StudentProfile();
+        profile.setStudentIdNumber(request.getStudentIdNumber());
+        profile.setProgram(request.getProgram());
+        profile.setYearLevel(request.getYearLevel());
+        profile.setGender(request.getGender());
+        profile.setBirthdate(request.getBirthdate());
+        profile.setUser(user);
+        studentProfileRepository.save(profile);
+
+        user.setProfileCompleted(true);
+        userRepository.save(user);
+
+        return "Profile completed successfully.";
     }
 }

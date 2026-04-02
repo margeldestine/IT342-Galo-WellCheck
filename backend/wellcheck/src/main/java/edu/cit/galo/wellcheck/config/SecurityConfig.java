@@ -19,9 +19,11 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
 
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter) {
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter, OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
         this.jwtAuthFilter = jwtAuthFilter;
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
     }
 
     @Bean
@@ -35,12 +37,21 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/register/student",
                                 "/auth/register/counselor",
-                                "/auth/login"
+                                "/auth/login",
+                                "/oauth2/**",
+                                "/login/**"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/counselors/**", "/slots/**").hasAnyRole("COUNSELOR", "ADMIN", "STUDENT")
                         .requestMatchers("/appointments/**").hasAnyRole("STUDENT", "COUNSELOR", "ADMIN")
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(oAuth2LoginSuccessHandler)
+                        .failureHandler((request, response, exception) -> {
+                            System.out.println("OAuth2 failure: " + exception.getMessage());
+                            response.sendRedirect("http://localhost:5173/login?error=google_failed");
+                        })
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
