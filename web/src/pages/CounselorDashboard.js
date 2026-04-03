@@ -13,7 +13,6 @@ function CounselorDashboard() {
   const token = localStorage.getItem('token');
   const [activeTab, setActiveTab] = useState('dashboard');
 
-  // Slots state
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [showSlotForm, setShowSlotForm] = useState(false);
@@ -126,7 +125,7 @@ function CounselorDashboard() {
         </div>
         <nav className="sidebar-nav">
           <div className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
-            <span className="nav-icon">⊞</span> Dashboard
+            <span className="nav-icon">🏠</span> Dashboard
           </div>
           <div className={`nav-item ${activeTab === 'slots' ? 'active' : ''}`} onClick={() => setActiveTab('slots')}>
             <span className="nav-icon">📅</span> Manage Slots
@@ -162,31 +161,31 @@ function CounselorDashboard() {
               <p className="greeting-sub">Here is your counseling overview.</p>
               <div className="stats-row">
                 <div className="stat-card">
-                  <div className="stat-icon">📋</div>
+                  <div className="stat-icon-wrapper orange">📋</div>
                   <div className="stat-value">0</div>
                   <div className="stat-label">Pending Requests</div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">✅</div>
+                  <div className="stat-icon-wrapper green">✅</div>
                   <div className="stat-value">0</div>
                   <div className="stat-label">Confirmed Sessions</div>
                 </div>
                 <div className="stat-card">
-                  <div className="stat-icon">👥</div>
+                  <div className="stat-icon-wrapper purple">👥</div>
                   <div className="stat-value">0</div>
                   <div className="stat-label">Total</div>
                 </div>
               </div>
               <div className="quick-actions-row">
                 <div className="quick-action-card" onClick={() => setActiveTab('slots')}>
-                  <div className="qa-icon">📅</div>
+                  <div className="qa-icon-wrapper">📅</div>
                   <div>
                     <div className="qa-title">Create Slot</div>
                     <div className="qa-sub">Add a new available time slot</div>
                   </div>
                 </div>
                 <div className="quick-action-card" onClick={() => setActiveTab('requests')}>
-                  <div className="qa-icon">📋</div>
+                  <div className="qa-icon-wrapper">📋</div>
                   <div>
                     <div className="qa-title">Review Requests</div>
                     <div className="qa-sub">0 Pending Appointments</div>
@@ -221,7 +220,6 @@ function CounselorDashboard() {
 
               {slotSuccess && <div className="slot-success">{slotSuccess}</div>}
 
-              {/* Slot Form */}
               {showSlotForm && (
                 <div className="section-card">
                   <h3 className="section-title">{editingSlot ? 'Edit Slot' : 'Create New Slot'}</h3>
@@ -261,7 +259,6 @@ function CounselorDashboard() {
                 </div>
               )}
 
-              {/* Slots List */}
               <div className="section-card">
                 <h3 className="section-title">Your Slots ({slots.length})</h3>
                 {loadingSlots ? (
