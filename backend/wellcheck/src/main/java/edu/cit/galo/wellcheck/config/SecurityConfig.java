@@ -47,7 +47,8 @@ public class SecurityConfig {
                                 "/auth/complete-counselor-profile",
                                 "/oauth2/**",
                                 "/login/**",
-                                "/slots/counselor/**"
+                                "/slots/counselor/**",
+                                "/counselors/**"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/counselors/**", "/slots/**").hasAnyRole("COUNSELOR", "ADMIN", "STUDENT")
