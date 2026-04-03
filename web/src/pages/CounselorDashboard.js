@@ -17,9 +17,16 @@ function CounselorDashboard() {
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [showSlotForm, setShowSlotForm] = useState(false);
   const [editingSlot, setEditingSlot] = useState(null);
-  const [slotForm, setSlotForm] = useState({ startTime: '', endTime: '' });
+  const [slotForm, setSlotForm] = useState({
+    date: '',
+    startTime: '',
+    duration: '30',
+    endTime: ''
+  });
   const [slotError, setSlotError] = useState('');
   const [slotSuccess, setSlotSuccess] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deletingSlotId, setDeletingSlotId] = useState(null);
 
   useEffect(() => {
     if (activeTab === 'slots') fetchSlots();
@@ -31,26 +38,36 @@ function CounselorDashboard() {
       const res = await axios.get(`${API}/slots/my`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setSlots(res.data);
+      const sorted = res.data.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+      setSlots(sorted);
     } catch (err) {
       console.error('Failed to fetch slots:', err);
     }
     setLoadingSlots(false);
   };
 
+  const calculateEndTime = (startTime, duration) => {
+    if (!startTime || !duration) return '';
+    const [hours, minutes] = startTime.split(':').map(Number);
+    const totalMinutes = hours * 60 + minutes + parseInt(duration);
+    const endHours = Math.floor(totalMinutes / 60) % 24;
+    const endMinutes = totalMinutes % 60;
+    return `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
+  };
+
   const handleSlotSubmit = async () => {
     setSlotError('');
     setSlotSuccess('');
 
-    if (!slotForm.startTime || !slotForm.endTime) {
-      setSlotError('Please fill in both start and end time.');
+    if (!slotForm.date || !slotForm.startTime) {
+      setSlotError('Please fill in date and start time.');
       return;
     }
 
     try {
       const payload = {
-        startTime: slotForm.startTime,
-        endTime: slotForm.endTime
+        startTime: `${slotForm.date}T${slotForm.startTime}`,
+        endTime: `${slotForm.date}T${slotForm.endTime}`
       };
 
       if (editingSlot) {
@@ -58,16 +75,18 @@ function CounselorDashboard() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setSlotSuccess('Slot updated successfully!');
+        setTimeout(() => setSlotSuccess(''), 2000);
       } else {
         await axios.post(`${API}/slots`, payload, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setSlotSuccess('Slot created successfully!');
+        setTimeout(() => setSlotSuccess(''), 2000);
       }
 
       setShowSlotForm(false);
       setEditingSlot(null);
-      setSlotForm({ startTime: '', endTime: '' });
+      setSlotForm({ date: '', startTime: '', duration: '30', endTime: '' });
       fetchSlots();
     } catch (err) {
       setSlotError(err.response?.data || 'Something went wrong.');
@@ -76,35 +95,34 @@ function CounselorDashboard() {
 
   const handleEditSlot = (slot) => {
     setEditingSlot(slot);
+    const start = new Date(slot.startTime);
+    const end = new Date(slot.endTime);
+    const diffMinutes = (end - start) / 60000;
+    const date = start.toISOString().split('T')[0];
+    const startTime = start.toTimeString().slice(0, 5);
+    const endTime = end.toTimeString().slice(0, 5);
     setSlotForm({
-      startTime: slot.startTime.slice(0, 16),
-      endTime: slot.endTime.slice(0, 16)
+      date,
+      startTime,
+      duration: String(diffMinutes),
+      endTime
     });
     setShowSlotForm(true);
     setSlotError('');
     setSlotSuccess('');
   };
 
-  const handleDeleteSlot = async (slotId) => {
-    if (!window.confirm('Are you sure you want to delete this slot?')) return;
+  const handleDeleteSlot = async () => {
     try {
-      await axios.delete(`${API}/slots/${slotId}`, {
+      await axios.delete(`${API}/slots/${deletingSlotId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      setShowDeleteModal(false);
+      setDeletingSlotId(null);
       fetchSlots();
     } catch (err) {
       alert(err.response?.data || 'Failed to delete slot.');
     }
-  };
-
-  const formatDateTime = (dateTime) => {
-    return new Date(dateTime).toLocaleString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
   };
 
   const handleLogout = () => {
@@ -114,7 +132,6 @@ function CounselorDashboard() {
 
   return (
     <div className="counselor-wrapper">
-      {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-brand">
           <div className="navbar-logo">♥</div>
@@ -142,7 +159,6 @@ function CounselorDashboard() {
         </div>
       </aside>
 
-      {/* Main */}
       <main className="dashboard-main">
         <div className="topbar">
           <div />
@@ -154,7 +170,6 @@ function CounselorDashboard() {
 
         <div className="dashboard-content">
 
-          {/* Dashboard Tab */}
           {activeTab === 'dashboard' && (
             <>
               <h1 className="greeting">Welcome, {firstName}!</h1>
@@ -199,7 +214,6 @@ function CounselorDashboard() {
             </>
           )}
 
-          {/* Manage Slots Tab */}
           {activeTab === 'slots' && (
             <>
               <div className="slots-header">
@@ -210,7 +224,7 @@ function CounselorDashboard() {
                 <button className="btn-create-slot" onClick={() => {
                   setShowSlotForm(true);
                   setEditingSlot(null);
-                  setSlotForm({ startTime: '', endTime: '' });
+                  setSlotForm({ date: '', startTime: '', duration: '30', endTime: '' });
                   setSlotError('');
                   setSlotSuccess('');
                 }}>
@@ -225,23 +239,59 @@ function CounselorDashboard() {
                   <h3 className="section-title">{editingSlot ? 'Edit Slot' : 'Create New Slot'}</h3>
                   {slotError && <div className="slot-error">{slotError}</div>}
                   <div className="slot-form">
-                    <div className="slot-form-group">
-                      <label>Start Time</label>
-                      <input
-                        type="datetime-local"
-                        value={slotForm.startTime}
-                        onChange={(e) => setSlotForm({ ...slotForm, startTime: e.target.value })}
-                        min={new Date().toISOString().slice(0, 16)}
-                      />
-                    </div>
-                    <div className="slot-form-group">
-                      <label>End Time</label>
-                      <input
-                        type="datetime-local"
-                        value={slotForm.endTime}
-                        onChange={(e) => setSlotForm({ ...slotForm, endTime: e.target.value })}
-                        min={slotForm.startTime || new Date().toISOString().slice(0, 16)}
-                      />
+                    <div className="slot-form-row">
+                      <div className="slot-form-group">
+                        <label>Date</label>
+                        <input
+                          type="date"
+                          value={slotForm.date}
+                          onChange={(e) => {
+                            const updated = { ...slotForm, date: e.target.value };
+                            updated.endTime = calculateEndTime(updated.startTime, updated.duration);
+                            setSlotForm(updated);
+                          }}
+                          min={new Date().toISOString().split('T')[0]}
+                        />
+                      </div>
+                      <div className="slot-form-group">
+                        <label>Start Time</label>
+                        <input
+                          type="time"
+                          value={slotForm.startTime}
+                          onChange={(e) => {
+                            const updated = { ...slotForm, startTime: e.target.value };
+                            updated.endTime = calculateEndTime(e.target.value, updated.duration);
+                            setSlotForm(updated);
+                          }}
+                        />
+                      </div>
+                      <div className="slot-form-group">
+                        <label>Duration</label>
+                        <select
+                          value={slotForm.duration}
+                          onChange={(e) => {
+                            const updated = { ...slotForm, duration: e.target.value };
+                            updated.endTime = calculateEndTime(updated.startTime, e.target.value);
+                            setSlotForm(updated);
+                          }}
+                        >
+                          <option value="15">15 minutes</option>
+                          <option value="30">30 minutes</option>
+                          <option value="45">45 minutes</option>
+                          <option value="60">1 hour</option>
+                          <option value="90">1.5 hours</option>
+                          <option value="120">2 hours</option>
+                        </select>
+                      </div>
+                      <div className="slot-form-group">
+                        <label>End Time</label>
+                        <input
+                          type="time"
+                          value={slotForm.endTime}
+                          readOnly
+                          className="input-readonly"
+                        />
+                      </div>
                     </div>
                     <div className="slot-form-actions">
                       <button className="btn-save-slot" onClick={handleSlotSubmit}>
@@ -269,20 +319,40 @@ function CounselorDashboard() {
                   <div className="slots-list">
                     {slots.map(slot => (
                       <div key={slot.id} className="slot-item">
-                        <div className="slot-info">
-                          <div className="slot-time">
-                            📅 {formatDateTime(slot.startTime)} — {formatDateTime(slot.endTime)}
+                        <div className="slot-left">
+                          <div className="slot-date-badge">
+                            <span className="slot-month">
+                              {new Date(slot.startTime).toLocaleString('en-US', { month: 'short' })}
+                            </span>
+                            <span className="slot-day">
+                              {new Date(slot.startTime).getDate()}
+                            </span>
                           </div>
-                          <span className={`slot-status ${slot.status.toLowerCase()}`}>
-                            {slot.status}
-                          </span>
+                          <div className="slot-details">
+                            <div className="slot-time-text">
+                              {new Date(slot.startTime).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                              {' '}&rarr;{' '}
+                              {new Date(slot.endTime).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                            <div className="slot-date-text">
+                              {new Date(slot.startTime).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                            </div>
+                          </div>
                         </div>
-                        {slot.status === 'AVAILABLE' && (
-                          <div className="slot-actions">
-                            <button className="btn-edit-slot" onClick={() => handleEditSlot(slot)}>Edit</button>
-                            <button className="btn-delete-slot" onClick={() => handleDeleteSlot(slot.id)}>Delete</button>
-                          </div>
-                        )}
+                        <div className="slot-right">
+                          <span className={`slot-status ${slot.status.toLowerCase()}`}>
+                            {slot.status === 'AVAILABLE' ? 'Available' : '⏳ Booked'}
+                          </span>
+                          {slot.status === 'AVAILABLE' && (
+                            <div className="slot-actions">
+                              <button className="btn-edit-slot" onClick={() => handleEditSlot(slot)}>Edit</button>
+                              <button className="btn-delete-slot" onClick={() => {
+                                setDeletingSlotId(slot.id);
+                                setShowDeleteModal(true);
+                              }}>Delete</button>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -291,7 +361,6 @@ function CounselorDashboard() {
             </>
           )}
 
-          {/* Requests Tab */}
           {activeTab === 'requests' && (
             <>
               <h1 className="greeting">Appointment Requests</h1>
@@ -302,7 +371,6 @@ function CounselorDashboard() {
             </>
           )}
 
-          {/* Profile Tab */}
           {activeTab === 'profile' && (
             <>
               <h1 className="greeting">Profile</h1>
@@ -315,6 +383,25 @@ function CounselorDashboard() {
 
         </div>
       </main>
+
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <div className="modal-icon">🗑️</div>
+            <h3 className="modal-title">Delete Slot</h3>
+            <p className="modal-message">Are you sure you want to delete this slot? This action cannot be undone.</p>
+            <div className="modal-actions">
+              <button className="btn-modal-cancel" onClick={() => {
+                setShowDeleteModal(false);
+                setDeletingSlotId(null);
+              }}>Cancel</button>
+              <button className="btn-modal-delete" onClick={handleDeleteSlot}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
