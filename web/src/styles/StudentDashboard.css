@@ -153,7 +153,8 @@
 
 .dashboard-content {
   padding: 32px;
-  max-width: 860px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .greeting {
@@ -279,4 +280,146 @@
 
 .btn-action-secondary:hover {
   background-color: #ebebeb;
+}
+
+/* ── Counselors ── */
+.counselors-toolbar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.counselor-search {
+  flex: 1;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+}
+
+.counselor-search:focus {
+  border-color: #1F7A5A;
+  box-shadow: 0 0 0 3px rgba(31, 122, 90, 0.08);
+}
+
+.counselor-filter {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s ease;
+  background-color: #ffffff;
+  cursor: pointer;
+  min-width: 200px;
+}
+
+.counselor-filter:focus {
+  border-color: #1F7A5A;
+}
+
+.counselors-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.counselor-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.2s ease;
+}
+
+.counselor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-color: #1F7A5A;
+}
+
+.counselor-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.counselor-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #e6f4ef;
+  color: #1F7A5A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.counselor-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.counselor-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.counselor-specialization {
+  font-size: 12px;
+  font-weight: 500;
+  color: #888;
+}
+
+.counselor-bio {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.6;
+}
+
+.counselor-slots-count {
+  font-size: 13px;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-book-slot {
+  width: 100%;
+  background-color: #1F7A5A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.btn-book-slot:hover {
+  background-color: #165f45;
+}
+
+.empty-msg {
+  font-size: 14px;
+  color: #bbb;
+  text-align: center;
+  padding: 32px 0;
 }
