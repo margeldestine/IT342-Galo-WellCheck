@@ -226,4 +226,11 @@ public class AuthService {
         return studentProfileRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Student profile not found."));
     }
+
+    public CounselorProfile getCounselorProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+        return counselorProfileRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Counselor profile not found."));
+    }
 }
