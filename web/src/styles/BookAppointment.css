@@ -1,0 +1,619 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+.book-wrapper {
+  min-height: 100vh;
+  background-color: #f8f7f4;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Navbar ── */
+.book-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 32px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.book-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.book-logo {
+  background-color: #1F7A5A;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+}
+
+.book-title {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1a1a1a;
+}
+
+.book-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.book-username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+.book-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #1F7A5A;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ── Layout ── */
+.book-container {
+  display: flex;
+  flex: 1;
+}
+
+/* ── Sidebar ── */
+.book-sidebar {
+  width: 240px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: calc(100vh - 69px);
+  position: sticky;
+  top: 69px;
+  height: fit-content;
+}
+
+.book-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.book-nav-item:hover {
+  background-color: #f3f4f6;
+}
+
+.book-nav-item.active {
+  background-color: #e6f4ef;
+  color: #1F7A5A;
+  font-weight: 600;
+}
+
+.book-nav-logout {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #e53e3e;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.book-nav-logout:hover { background-color: #fff5f5; }
+
+/* ── Main ── */
+.book-main {
+  flex: 1;
+  padding: 36px 48px;
+  max-width: 720px;
+}
+
+.btn-back-counselors {
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #888;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 16px;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.btn-back-counselors:hover { color: #1a1a1a; }
+
+.book-heading {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1a1a1a;
+  letter-spacing: -0.8px;
+  margin-bottom: 4px;
+}
+
+.book-subheading {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 28px;
+}
+
+/* ── Step Indicators ── */
+.step-indicators {
+  display: flex;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.step-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #bbb;
+  background-color: #ffffff;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.step-circle.active {
+  border-color: #1F7A5A;
+  background-color: #1F7A5A;
+  color: white;
+}
+
+.step-circle.done {
+  border-color: #1F7A5A;
+  background-color: #e6f4ef;
+  color: #1F7A5A;
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background-color: #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.step-line.done { background-color: #1F7A5A; }
+
+/* ── Card ── */
+.book-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  border: 1px solid #e5e7eb;
+}
+
+.book-card-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.book-card-sub {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 24px;
+}
+
+.book-loading {
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  padding: 24px 0;
+}
+
+/* ── Form Fields ── */
+.book-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.book-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.book-input {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  background-color: #f8f7f4;
+  outline: none;
+  width: 100%;
+}
+
+.book-textarea {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+  outline: none;
+  resize: none;
+  width: 100%;
+  transition: all 0.2s ease;
+}
+
+.book-textarea:focus {
+  border-color: #1F7A5A;
+  box-shadow: 0 0 0 3px rgba(31,122,90,0.08);
+}
+
+.book-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+/* ── Actions ── */
+.book-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.btn-change-details {
+  width: 100%;
+  padding: 14px;
+  background-color: #f3f4f6;
+  color: #444;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.btn-change-details:hover { background-color: #e5e7eb; }
+
+.btn-confirm-details {
+  width: 100%;
+  padding: 14px;
+  background-color: #1F7A5A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.btn-confirm-details:hover { background-color: #165f45; }
+.btn-confirm-details:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── Review Box ── */
+.review-box {
+  background-color: #f8f7f4;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.review-label {
+  font-size: 13px;
+  color: #888;
+  font-weight: 500;
+}
+
+.review-value {
+  font-size: 13px;
+  color: #1a1a1a;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ── Error ── */
+.book-error {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #fed7d7;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+/* ── School ID ── */
+.school-id-uploaded {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.school-id-img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 10px;
+  border: 1px solid #e5e7eb;
+}
+
+.school-id-verified {
+  font-size: 14px;
+  color: #1F7A5A;
+  font-weight: 600;
+}
+
+.school-id-upload-area {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.school-id-warning {
+  font-size: 13px;
+  color: #f59e0b;
+  font-weight: 500;
+}
+
+.btn-choose-photo {
+  display: inline-block;
+  background-color: #e6f4ef;
+  color: #1F7A5A;
+  border: 1.5px dashed #1F7A5A;
+  border-radius: 10px;
+  padding: 14px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.btn-choose-photo:hover { background-color: #1F7A5A; color: white; }
+
+.upload-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.upload-file-name {
+  font-size: 13px;
+  color: #555;
+  font-weight: 500;
+}
+
+.btn-upload {
+  background-color: #1F7A5A;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.btn-upload:hover { background-color: #165f45; }
+.btn-upload:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.btn-change {
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-replace {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  text-decoration: underline;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Confirmed ── */
+.booking-confirmed {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 48px 40px;
+  border: 1px solid #e5e7eb;
+  text-align: center;
+  max-width: 520px;
+}
+
+.confirmed-icon { font-size: 56px; margin-bottom: 16px; }
+
+.confirmed-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.confirmed-sub {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+
+.confirmed-details {
+  background-color: #f8f7f4;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 28px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.confirmed-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.btn-view-apts {
+  width: 100%;
+  background-color: #1F7A5A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.btn-view-apts:hover { background-color: #165f45; }
+
+.btn-back-dash {
+  width: 100%;
+  background-color: #f3f4f6;
+  color: #444;
+  border: none;
+  border-radius: 10px;
+  padding: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.btn-back-dash:hover { background-color: #e5e7eb; }
+
+/* ── School ID Status ── */
+.school-id-status {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1.5px solid;
+}
+
+.school-id-status.success {
+  background-color: #f0faf5;
+  border-color: #c6f6d5;
+}
+
+.school-id-status.warning {
+  background-color: #fffbeb;
+  border-color: #fde68a;
+}
+
+.school-id-status-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+.school-id-status.success .school-id-status-icon {
+  background-color: #1F7A5A;
+  color: white;
+}
+
+.school-id-status.warning .school-id-status-icon {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.school-id-status-text {
+  flex: 1;
+}
+
+.school-id-status-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.school-id-status-sub {
+  font-size: 12px;
+  color: #888;
+  margin-top: 3px;
+}
+
+.btn-upload-in-profile {
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-upload-in-profile:hover { background-color: #333; }

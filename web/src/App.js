@@ -11,9 +11,8 @@ import AuthCallback from './pages/AuthCallback';
 import CompleteProfile from './pages/CompleteProfile';
 import CompleteCounselorProfile from './pages/CompleteCounselorProfile';
 import Pending from './pages/Pending';
-
-
-
+import BookAppointment from './pages/BookAppointment';
+import StudentProfile from './pages/StudentProfile';
 
 function App() {
   return (
@@ -28,6 +27,8 @@ function App() {
         <Route path="/complete-profile" element={<CompleteProfile />} />
         <Route path="/complete-counselor-profile" element={<CompleteCounselorProfile />} />
         <Route path="/pending" element={<Pending />} />
+        <Route path="/book-appointment" element={<BookAppointment />} />
+        <Route path="/studentprofile" element={<StudentProfile />} />
 
 
         {/* Protected routes */}
