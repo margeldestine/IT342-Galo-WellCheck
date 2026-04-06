@@ -13,6 +13,8 @@ import CompleteCounselorProfile from './pages/CompleteCounselorProfile';
 import Pending from './pages/Pending';
 import BookAppointment from './pages/BookAppointment';
 import StudentProfile from './pages/StudentProfile';
+import CounselorProfile from './pages/CounselorProfile';
+
 
 function App() {
   return (
@@ -29,7 +31,7 @@ function App() {
         <Route path="/pending" element={<Pending />} />
         <Route path="/book-appointment" element={<BookAppointment />} />
         <Route path="/studentprofile" element={<StudentProfile />} />
-
+        <Route path="/counselorprofile" element={<CounselorProfile />} />
 
         {/* Protected routes */}
         <Route path="/dashboard" element={

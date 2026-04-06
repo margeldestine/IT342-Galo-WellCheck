@@ -226,7 +226,8 @@ function CounselorDashboard() {
             <span className="nav-icon">📋</span> Requests
             {pendingCount > 0 && <span className="nav-badge">{pendingCount}</span>}
           </div>
-          <div className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`} onClick={() => setActiveTab('profile')}>
+          <div className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`} 
+            onClick={() => navigate('/counselorprofile')}>
             <span className="nav-icon">👤</span> Profile
           </div>
         </nav>
