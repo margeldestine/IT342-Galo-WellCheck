@@ -15,6 +15,8 @@ import BookAppointment from './pages/BookAppointment';
 import StudentProfile from './pages/StudentProfile';
 import CounselorProfile from './pages/CounselorProfile';
 import BrowseCounselors from './pages/BrowseCounselors';
+import MyAppointments from './pages/MyAppointments';
+
 
 function App() {
   return (
@@ -33,7 +35,7 @@ function App() {
         <Route path="/studentprofile" element={<StudentProfile />} />
         <Route path="/counselorprofile" element={<CounselorProfile />} />
         <Route path="/browse-counselors" element={<BrowseCounselors />} />
-
+        <Route path="/my-appointments" element={<MyAppointments />} />
 
         {/* Protected routes */}
         <Route path="/dashboard" element={

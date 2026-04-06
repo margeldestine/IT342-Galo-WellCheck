@@ -11,17 +11,15 @@ const StudentSidebar = ({ activeItem, onTabChange }) => {
   };
 
   const handleItemClick = (item, path) => {
-    if (onTabChange && (item === 'dashboard' || item === 'appointments')) {
+    // For dashboard, use onTabChange if available (for backward compatibility)
+    if (item === 'dashboard' && onTabChange) {
       onTabChange(item);
       if (window.location.pathname !== '/dashboard') {
-        navigate(`/dashboard?tab=${item}`);
+        navigate('/dashboard');
       }
     } else {
-      if (item === 'dashboard' || item === 'appointments') {
-        navigate(`/dashboard?tab=${item}`);
-      } else {
-        navigate(path);
-      }
+      // Direct navigation for all other items
+      navigate(path);
     }
   };
 
@@ -37,7 +35,7 @@ const StudentSidebar = ({ activeItem, onTabChange }) => {
           <span className="nav-icon">👥</span> Browse Counselors
         </div>
         <div className={`nav-item ${activeItem === 'appointments' ? 'active' : ''}`}
-          onClick={() => handleItemClick('appointments', '/dashboard')}>
+          onClick={() => handleItemClick('appointments', '/my-appointments')}>
           <span className="nav-icon">📅</span> My Appointments
         </div>
         <div className={`nav-item ${activeItem === 'profile' ? 'active' : ''}`}
