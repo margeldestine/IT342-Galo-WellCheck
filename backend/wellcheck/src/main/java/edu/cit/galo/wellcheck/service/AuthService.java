@@ -16,6 +16,10 @@ import edu.cit.galo.wellcheck.security.JwtUtil;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
+import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
+import edu.cit.galo.wellcheck.entity.StudentProfile;
 
 @Service
 public class AuthService {
@@ -106,10 +110,6 @@ public class AuthService {
             throw new RuntimeException("Invalid email or password.");
         }
 
-        if (user.getStatus() == UserStatus.PENDING) {
-            throw new RuntimeException("Your account is pending admin approval.");
-        }
-
         if (user.getStatus() == UserStatus.INACTIVE) {
             throw new RuntimeException("Your account has been deactivated.");
         }
@@ -142,5 +142,95 @@ public class AuthService {
                 user.getFirstName(),
                 user.getLastName()
         );
+    }
+
+    @Transactional
+    public String authenticateWithGoogleOAuth2User(OAuth2User oauth2User) {
+        String email = oauth2User.getAttribute("email");
+        if (email == null || email.isBlank()) {
+            throw new RuntimeException("Google account email is unavailable.");
+        }
+        final String finalEmail = email.trim().toLowerCase();
+
+        String rawFirstName = oauth2User.getAttribute("given_name");
+        String rawLastName = oauth2User.getAttribute("family_name");
+        final String firstName = (rawFirstName == null || rawFirstName.isBlank()) ? "Google" : rawFirstName;
+        final String lastName = (rawLastName == null || rawLastName.isBlank()) ? "User" : rawLastName;
+
+        User user = userRepository.findByEmail(finalEmail).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setFirstName(firstName);
+            newUser.setLastName(lastName);
+            newUser.setEmail(finalEmail);
+            newUser.setPasswordHash(passwordEncoder.encode(java.util.UUID.randomUUID().toString()));
+            newUser.setRole(UserRole.STUDENT);
+            newUser.setStatus(UserStatus.ACTIVE);
+            newUser.setProfileCompleted(false);
+            return userRepository.save(newUser);
+        });
+
+        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+    }
+
+    @Transactional
+    public String completeProfile(String email, CompleteProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        if (studentProfileRepository.existsByStudentIdNumber(request.getStudentIdNumber())) {
+            throw new RuntimeException("Student ID number is already registered.");
+        }
+
+        StudentProfile profile = new StudentProfile();
+        profile.setStudentIdNumber(request.getStudentIdNumber());
+        profile.setProgram(request.getProgram());
+        profile.setYearLevel(request.getYearLevel());
+        profile.setGender(request.getGender());
+        profile.setBirthdate(request.getBirthdate());
+        profile.setUser(user);
+        studentProfileRepository.save(profile);
+
+        user.setProfileCompleted(true);
+        userRepository.save(user);
+
+        return "Profile completed successfully.";
+    }
+
+    @Transactional
+    public String completeCounselorProfile(String email, CompleteCounselorProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        if (counselorProfileRepository.existsByEmployeeNumber(request.getEmployeeNumber())) {
+            throw new RuntimeException("Employee number is already registered.");
+        }
+
+        user.setRole(UserRole.COUNSELOR);
+        user.setStatus(UserStatus.PENDING);
+        userRepository.save(user);
+
+        CounselorProfile profile = new CounselorProfile();
+        profile.setEmployeeNumber(request.getEmployeeNumber());
+        profile.setSpecialization(request.getSpecialization());
+        profile.setBio(request.getBio());
+        profile.setUser(user);
+        counselorProfileRepository.save(profile);
+
+        return "Counselor profile completed. Awaiting admin approval.";
+    }
+
+    public StudentProfile getStudentProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        return studentProfileRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Student profile not found."));
+    }
+
+    public CounselorProfile getCounselorProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+        return counselorProfileRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Counselor profile not found."));
     }
 }

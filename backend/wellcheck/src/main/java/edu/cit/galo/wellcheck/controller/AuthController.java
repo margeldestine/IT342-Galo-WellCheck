@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
+import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
 
 @RestController
 @RequestMapping("/auth")
@@ -59,6 +61,56 @@ public class AuthController {
             return ResponseEntity.ok(authService.getCurrentUser(email));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or expired token.");
+        }
+    }
+
+    @PostMapping("/complete-profile")
+    public ResponseEntity<?> completeProfile(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody CompleteProfileRequest request) {
+        try {
+            String token = authHeader.substring(7);
+            String email = authService.getEmailFromToken(token);
+            String response = authService.completeProfile(email, request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/complete-counselor-profile")
+    public ResponseEntity<?> completeCounselorProfile(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody CompleteCounselorProfileRequest request) {
+        try {
+            String token = authHeader.substring(7);
+            String email = authService.getEmailFromToken(token);
+            String response = authService.completeCounselorProfile(email, request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/profile/student")
+    public ResponseEntity<?> getStudentProfile(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.substring(7);
+            String email = authService.getEmailFromToken(token);
+            return ResponseEntity.ok(authService.getStudentProfile(email));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/profile/counselor")
+    public ResponseEntity<?> getCounselorProfile(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.substring(7);
+            String email = authService.getEmailFromToken(token);
+            return ResponseEntity.ok(authService.getCounselorProfile(email));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

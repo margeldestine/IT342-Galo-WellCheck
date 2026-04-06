@@ -19,6 +19,8 @@ public class StudentProfile {
     private String gender;
     @Column(nullable = false)
     private LocalDate birthdate;
+    @Column
+    private String schoolIdPhotoUrl;
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
@@ -35,6 +37,8 @@ public class StudentProfile {
     public void setGender(String gender) { this.gender = gender; }
     public LocalDate getBirthdate() { return birthdate; }
     public void setBirthdate(LocalDate birthdate) { this.birthdate = birthdate; }
+    public String getSchoolIdPhotoUrl() { return schoolIdPhotoUrl; }
+    public void setSchoolIdPhotoUrl(String schoolIdPhotoUrl) { this.schoolIdPhotoUrl = schoolIdPhotoUrl; }
     public User getUser() { return user; }
     public void setUser(User user) { this.user = user; }
 }

@@ -1,0 +1,158 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.sp-wrapper {
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background-color: #f8f7f4;
+  display: flex;
+  flex-direction: column;
+}
+
+/* LAYOUT */
+.sp-container {
+  display: flex;
+  flex: 1;
+}
+
+/* MAIN CONTENT (Centering Logic) */
+.sp-main {
+  flex: 1;
+  padding: 32px 32px;
+  background-color: #f8f7f4;
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sp-banner {
+  width: 100%;
+  max-width: 650px;
+  background: #fff8e1;
+  border: 1px solid #ffe082;
+  padding: 14px 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-size: 14px;
+  color: #856404;
+}
+
+/* THE CARD */
+.sp-card {
+  width: 100%;
+  max-width: 650px; /* Aligns with SDD baseline */
+  background: #fff;
+  padding: 40px;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+.sp-avatar-section {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.sp-avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #d1fae5;
+  color: #1f7a5a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.sp-field {
+  margin-bottom: 20px;
+}
+
+.sp-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #4B5563;
+}
+
+.sp-input, .sp-select {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #E5E7EB;
+  background: #F9FAFB;
+  font-size: 14px;
+  color: #1F2933;
+}
+
+.sp-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* SCHOOL ID SECTION */
+.sp-school-id-section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #f1f1f1;
+}
+
+.sp-id-img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #f1f1f1;
+  margin-bottom: 16px;
+}
+
+.sp-upload-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.sp-btn-upload, .sp-btn-change-photo, .sp-btn-choose {
+  background: #1F7A5A;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sp-btn-upload:disabled {
+  background: #9CA3AF;
+}
+
+.sp-btn-change {
+  color: #1F7A5A;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .sp-sidebar {
+    display: none;
+  }
+  .sp-row {
+    grid-template-columns: 1fr;
+  }
+}
