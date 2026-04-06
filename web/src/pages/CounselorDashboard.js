@@ -195,14 +195,25 @@ function CounselorDashboard() {
 
   const handleDeleteSlot = async () => {
     try {
-      await axios.delete(`${API}/slots/${deletingSlotId}`, {
+      const response = await axios.delete(`${API}/slots/${deletingSlotId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      
+      // Handle the new response format
+      const result = response.data;
+      
+      if (result.action === 'marked_unavailable') {
+        alert(`⚠️ ${result.message}\n\nThe slot has been marked as unavailable instead of deleted to preserve appointment history.`);
+      } else if (result.action === 'deleted') {
+        alert('✅ Slot deleted successfully!');
+      }
+      
       setShowDeleteModal(false);
       setDeletingSlotId(null);
       fetchSlots();
     } catch (err) {
-      alert(err.response?.data || 'Failed to delete slot.');
+      const errorMsg = err.response?.data?.error || err.response?.data || 'Failed to delete slot.';
+      alert(errorMsg);
     }
   };
 
@@ -426,7 +437,7 @@ function CounselorDashboard() {
                   <div className="slots-list">
                     {slots.map(slot => (
                       <div key={slot.id} 
-                        className={`slot-item ${slot.status === 'BOOKED' ? 'is-booked' : ''}`}
+                        className={`slot-item ${slot.status === 'BOOKED' ? 'is-booked' : ''} ${slot.status === 'UNAVAILABLE' ? 'is-unavailable' : ''}`}
                         onClick={() => {
                           if (slot.status === 'BOOKED') {
                             const apt = appointments.find(a => a.slotId === slot.id);
@@ -457,7 +468,9 @@ function CounselorDashboard() {
                         </div>
                         <div className="slot-right">
                           <span className={`slot-status ${slot.status.toLowerCase()}`}>
-                            {slot.status === 'AVAILABLE' ? 'Available' : '⏳ Booked'}
+                            {slot.status === 'AVAILABLE' ? 'Available' : 
+                             slot.status === 'BOOKED' ? '⏳ Booked' : 
+                             '🚫 Unavailable'}
                           </span>
                           {slot.status === 'AVAILABLE' && (
                             <div className="slot-actions">
@@ -466,6 +479,14 @@ function CounselorDashboard() {
                                 setDeletingSlotId(slot.id);
                                 setShowDeleteModal(true);
                               }}>Delete</button>
+                            </div>
+                          )}
+                          {slot.status === 'UNAVAILABLE' && (
+                            <div className="slot-actions">
+                              <button className="btn-delete-slot" onClick={() => {
+                                setDeletingSlotId(slot.id);
+                                setShowDeleteModal(true);
+                              }}>Remove</button>
                             </div>
                           )}
                         </div>
@@ -477,7 +498,7 @@ function CounselorDashboard() {
             </>
           )}
 
-          {/* Requests Tab */}
+          {/* Requests Tab - keeping the rest of the component the same */}
           {activeTab === 'requests' && (
             <div className="requests-container">
               <h1 className="greeting">Appointment Requests</h1>
