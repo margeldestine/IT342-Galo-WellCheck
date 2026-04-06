@@ -92,4 +92,15 @@ public class AuthController {
         }
     }
 
+    @GetMapping("/profile/student")
+    public ResponseEntity<?> getStudentProfile(@RequestHeader("Authorization") String authHeader) {
+        try {
+            String token = authHeader.substring(7);
+            String email = authService.getEmailFromToken(token);
+            return ResponseEntity.ok(authService.getStudentProfile(email));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 }

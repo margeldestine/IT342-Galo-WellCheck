@@ -45,6 +45,7 @@ public class SecurityConfig {
                                 "/auth/login",
                                 "/auth/complete-profile",
                                 "/auth/complete-counselor-profile",
+                                "/auth/profile/**",
                                 "/oauth2/**",
                                 "/login/**",
                                 "/slots/counselor/**",

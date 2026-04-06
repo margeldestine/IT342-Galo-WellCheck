@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
 import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
+import edu.cit.galo.wellcheck.entity.StudentProfile;
 
 @Service
 public class AuthService {
@@ -216,5 +217,13 @@ public class AuthService {
         counselorProfileRepository.save(profile);
 
         return "Counselor profile completed. Awaiting admin approval.";
+    }
+
+    public StudentProfile getStudentProfile(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        return studentProfileRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Student profile not found."));
     }
 }
