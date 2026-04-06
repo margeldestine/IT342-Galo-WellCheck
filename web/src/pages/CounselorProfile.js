@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import CounselorTopbar from '../components/CounselorTopbar';
+import CounselorSidebar from '../components/CounselorSidebar';
 import '../styles/CounselorProfile.css';
 
 const API = process.env.REACT_APP_API_URL;
@@ -67,45 +69,10 @@ function CounselorProfile() {
   };
 
   return (
-    <div className="cp-wrapper">
-
-      {/* Navbar */}
-      <nav className="cp-navbar">
-        <div className="cp-brand" onClick={() => navigate('/counselor/dashboard')}>
-          <div className="cp-logo">♥</div>
-          <div>
-            <div className="cp-title">WellCheck</div>
-            <div className="cp-subtitle">Counselor Portal</div>
-          </div>
-        </div>
-        <div className="cp-user">
-          <span className="cp-username">{firstName} {lastName}</span>
-          <div className="cp-avatar">{firstName.charAt(0)}</div>
-        </div>
-      </nav>
-
-      <div className="cp-container">
-
-        {/* Sidebar */}
-        <aside className="cp-sidebar">
-          <nav className="cp-nav">
-            <div className="cp-nav-item" onClick={() => navigate('/counselor/dashboard')}>
-              <span>🏠</span> Dashboard
-            </div>
-            <div className="cp-nav-item" onClick={() => navigate('/counselor/dashboard')}>
-              <span>📅</span> Manage Slots
-            </div>
-            <div className="cp-nav-item" onClick={() => navigate('/counselor/dashboard')}>
-              <span>📋</span> Requests
-            </div>
-            <div className="cp-nav-item active">
-              <span>👤</span> Profile
-            </div>
-          </nav>
-          <div className="cp-nav-logout" onClick={handleLogout}>
-            <span>↪</span> Log Out
-          </div>
-        </aside>
+    <div className="cp-layout">
+      <CounselorTopbar />
+      <div className="cp-wrapper">
+        <CounselorSidebar activeItem="profile" />
 
         {/* Main */}
         <main className="cp-main">

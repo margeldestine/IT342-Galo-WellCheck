@@ -88,9 +88,9 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  min-height: calc(100vh - 69px);
+  min-height: calc(100vh - 72px);
   position: sticky;
-  top: 69px;
+  top: 72px;
   height: fit-content;
 }
 
@@ -134,11 +134,22 @@
 /* ── Main ── */
 .book-main {
   flex: 1;
-  padding: 36px 48px;
-  max-width: 720px;
+  padding: 32px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.book-content-wrapper {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
 }
 
 .btn-back-counselors {
+  align-self: flex-start;
   background: none;
   border: none;
   font-size: 14px;
@@ -152,6 +163,11 @@
 
 .btn-back-counselors:hover { color: #1a1a1a; }
 
+.book-header-group {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
 .book-heading {
   font-size: 28px;
   font-weight: 800;
@@ -163,14 +179,17 @@
 .book-subheading {
   font-size: 14px;
   color: #888;
-  margin-bottom: 28px;
 }
 
 /* ── Step Indicators ── */
 .step-indicators {
   display: flex;
   align-items: center;
-  margin-bottom: 28px;
+  justify-content: center;
+  margin-bottom: 32px;
+  width: 100%;
+  max-width: 400px;
+  align-self: center;
 }
 
 .step-circle {
@@ -202,7 +221,7 @@
 }
 
 .step-line {
-  flex: 1;
+  width: 60px;
   height: 2px;
   background-color: #e5e7eb;
   transition: all 0.2s ease;
@@ -216,6 +235,7 @@
   border-radius: 16px;
   padding: 32px;
   border: 1px solid #e5e7eb;
+  width: 100%;
 }
 
 .book-card-title {
@@ -224,12 +244,14 @@
   color: #1a1a1a;
   margin-bottom: 6px;
   letter-spacing: -0.3px;
+  text-align: center;
 }
 
 .book-card-sub {
   font-size: 14px;
   color: #888;
   margin-bottom: 24px;
+  text-align: center;
 }
 
 .book-loading {
@@ -468,12 +490,19 @@
 }
 
 /* ── Confirmed ── */
+.booking-confirmed-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
 .booking-confirmed {
   background-color: #ffffff;
   border-radius: 20px;
   padding: 48px 40px;
   border: 1px solid #e5e7eb;
   text-align: center;
+  width: 100%;
   max-width: 520px;
 }
 

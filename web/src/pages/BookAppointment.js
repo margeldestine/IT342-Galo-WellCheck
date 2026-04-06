@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import StudentTopbar from '../components/StudentTopbar';
+import StudentSidebar from '../components/StudentSidebar';
 import '../styles/BookAppointment.css';
 
 const API = process.env.REACT_APP_API_URL;
@@ -70,45 +72,14 @@ function BookAppointment() {
 
   return (
     <div className="book-wrapper">
-
-      {/* Navbar */}
-      <nav className="book-navbar">
-        <div className="book-brand" onClick={() => navigate('/dashboard')}>
-          <div className="book-logo">♥</div>
-          <span className="book-title">WellCheck</span>
-        </div>
-        <div className="book-user">
-          <span className="book-username">{firstName} {lastName}</span>
-          <div className="book-avatar">{firstName.charAt(0)}</div>
-        </div>
-      </nav>
+      <StudentTopbar />
 
       <div className="book-container">
-
-        {/* Sidebar */}
-        <aside className="book-sidebar">
-          <div className="book-nav-item" onClick={() => navigate('/dashboard')}>
-            <span>🏠</span> Dashboard
-          </div>
-          <div className="book-nav-item active">
-            <span>👥</span> Browse Counselors
-          </div>
-          <div className="book-nav-item" onClick={() => navigate('/dashboard')}>
-            <span>📅</span> My Appointments
-          </div>
-          <div className="book-nav-item" onClick={() => navigate('/dashboard')}>
-            <span>👤</span> Profile
-          </div>
-          <div className="book-nav-logout" onClick={() => {
-            localStorage.clear();
-            navigate('/');
-          }}>
-            <span>↪</span> Log Out
-          </div>
-        </aside>
+        <StudentSidebar activeItem="browse-counselors" />
 
         {/* Main Content */}
         <main className="book-main">
+          <div className="book-content-wrapper">
 
           {step !== 4 && (
             <>
@@ -118,10 +89,12 @@ function BookAppointment() {
               </button>
 
               {/* Header */}
-              <h1 className="book-heading">Book Appointment</h1>
-              <p className="book-subheading">
-                With {selectedCounselor.firstName} {selectedCounselor.lastName} on {formatDate(selectedSlot.startTime)} at {formatTime(selectedSlot.startTime)}
-              </p>
+              <div className="book-header-group">
+                <h1 className="book-heading">Book Appointment</h1>
+                <p className="book-subheading">
+                  With {selectedCounselor.firstName} {selectedCounselor.lastName} on {formatDate(selectedSlot.startTime)} at {formatTime(selectedSlot.startTime)}
+                </p>
+              </div>
 
               {/* Step Indicators */}
               <div className="step-indicators">
@@ -253,9 +226,9 @@ function BookAppointment() {
               {bookingError && <div className="book-error">{bookingError}</div>}
 
               <div className="book-actions">
-                <button className="btn-change-details" onClick={() => setStep(2)}>← Back</button>
+                <button className="btn-change-details" onClick={() => setStep(2)}>Back</button>
                 <button className="btn-confirm-details" onClick={handleBookAppointment} disabled={bookingLoading}>
-                  {bookingLoading ? 'Submitting...' : '✓ Confirm Booking'}
+                  {bookingLoading ? 'Submitting...' : 'Confirm Booking'}
                 </button>
               </div>
             </div>
@@ -263,43 +236,45 @@ function BookAppointment() {
 
           {/* STEP 4 — Booking Confirmed */}
           {step === 4 && (
-            <div className="booking-confirmed">
-              <div className="confirmed-icon">🎉</div>
-              <h2 className="confirmed-title">Booking Submitted!</h2>
-              <p className="confirmed-sub">
-                Your appointment request has been sent to {selectedCounselor.firstName} {selectedCounselor.lastName}.
-              </p>
+            <div className="booking-confirmed-wrapper">
+              <div className="booking-confirmed">
+                <div className="confirmed-icon">🎉</div>
+                <h2 className="confirmed-title">Booking Submitted!</h2>
+                <p className="confirmed-sub">
+                  Your appointment request has been sent to {selectedCounselor.firstName} {selectedCounselor.lastName}.
+                </p>
 
-              <div className="confirmed-details">
-                <div className="review-row">
-                  <span className="review-label">Counselor</span>
-                  <span className="review-value">{selectedCounselor.firstName} {selectedCounselor.lastName}</span>
+                <div className="confirmed-details">
+                  <div className="review-row">
+                    <span className="review-label">Counselor</span>
+                    <span className="review-value">{selectedCounselor.firstName} {selectedCounselor.lastName}</span>
+                  </div>
+                  <div className="review-row">
+                    <span className="review-label">Date</span>
+                    <span className="review-value">{formatFullDate(selectedSlot.startTime)}</span>
+                  </div>
+                  <div className="review-row">
+                    <span className="review-label">Time</span>
+                    <span className="review-value">{formatTime(selectedSlot.startTime)} → {formatTime(selectedSlot.endTime)}</span>
+                  </div>
+                  <div className="review-row">
+                    <span className="review-label">Status</span>
+                    <span className="review-value" style={{ color: '#f59e0b' }}>⏳ Pending Approval</span>
+                  </div>
                 </div>
-                <div className="review-row">
-                  <span className="review-label">Date</span>
-                  <span className="review-value">{formatFullDate(selectedSlot.startTime)}</span>
-                </div>
-                <div className="review-row">
-                  <span className="review-label">Time</span>
-                  <span className="review-value">{formatTime(selectedSlot.startTime)} → {formatTime(selectedSlot.endTime)}</span>
-                </div>
-                <div className="review-row">
-                  <span className="review-label">Status</span>
-                  <span className="review-value" style={{ color: '#f59e0b' }}>⏳ Pending Approval</span>
-                </div>
-              </div>
 
-              <div className="confirmed-actions">
-                <button className="btn-view-apts" onClick={() => navigate('/dashboard')}>
-                  📅 View My Appointments
-                </button>
-                <button className="btn-back-dash" onClick={() => navigate('/dashboard')}>
-                  Back to Dashboard
-                </button>
+                <div className="confirmed-actions">
+                  <button className="btn-view-apts" onClick={() => navigate('/dashboard')}>
+                    📅 View My Appointments
+                  </button>
+                  <button className="btn-back-dash" onClick={() => navigate('/dashboard')}>
+                    Back to Dashboard
+                  </button>
+                </div>
               </div>
             </div>
           )}
-
+          </div>
         </main>
       </div>
     </div>

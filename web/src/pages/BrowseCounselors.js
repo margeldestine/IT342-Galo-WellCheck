@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import StudentTopbar from '../components/StudentTopbar';
+import StudentSidebar from '../components/StudentSidebar';
 import '../styles/BrowseCounselors.css';
 
 const API = process.env.REACT_APP_API_URL;
@@ -83,51 +85,12 @@ function BrowseCounselors() {
 
   const specializations = [...new Set(counselors.map(c => c.specialization))];
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
-  };
-
   return (
     <div className="bc-wrapper">
-
-      {/* Navbar */}
-      <nav className="bc-navbar">
-        <div className="bc-brand" onClick={() => navigate('/dashboard')}>
-          <div className="bc-logo">♥</div>
-          <div>
-            <div className="bc-title">WellCheck</div>
-            <div className="bc-subtitle">Student Portal</div>
-          </div>
-        </div>
-        <div className="bc-user">
-          <span className="bc-username">{firstName} {lastName}</span>
-          <div className="bc-avatar">{firstName.charAt(0)}</div>
-        </div>
-      </nav>
+      <StudentTopbar />
 
       <div className="bc-container">
-
-        {/* Sidebar */}
-        <aside className="bc-sidebar">
-          <nav className="bc-nav">
-            <div className="bc-nav-item" onClick={() => navigate('/dashboard')}>
-              <span>🏠</span> Dashboard
-            </div>
-            <div className="bc-nav-item active">
-              <span>👥</span> Browse Counselors
-            </div>
-            <div className="bc-nav-item" onClick={() => navigate('/dashboard')}>
-              <span>📅</span> My Appointments
-            </div>
-            <div className="bc-nav-item" onClick={() => navigate('/studentprofile')}>
-              <span>👤</span> Profile
-            </div>
-          </nav>
-          <div className="bc-nav-logout" onClick={handleLogout}>
-            <span>↪</span> Log Out
-          </div>
-        </aside>
+        <StudentSidebar activeItem="browse-counselors" />
 
         {/* Main */}
         <main className="bc-main">

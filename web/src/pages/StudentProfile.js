@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import StudentTopbar from '../components/StudentTopbar';
+import StudentSidebar from '../components/StudentSidebar';
 import '../styles/StudentProfile.css';
 
 const API = process.env.REACT_APP_API_URL;
@@ -14,11 +16,9 @@ function StudentProfile() {
 
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
 
-  // School ID upload
   const [schoolIdFile, setSchoolIdFile] = useState(null);
   const [schoolIdPreview, setSchoolIdPreview] = useState(null);
   const [uploadingId, setUploadingId] = useState(false);
@@ -55,8 +55,6 @@ function StudentProfile() {
   const handleUploadSchoolId = async () => {
     if (!schoolIdFile) return;
     setUploadingId(true);
-    setUploadError('');
-    setUploadSuccess('');
     try {
       const formData = new FormData();
       formData.append('file', schoolIdFile);
@@ -77,60 +75,18 @@ function StudentProfile() {
     setUploadingId(false);
   };
 
-  const handleLogout = () => {
-    localStorage.clear();
-    navigate('/');
-  };
-
   return (
     <div className="sp-wrapper">
-
-      {/* Navbar */}
-      <nav className="sp-navbar">
-        <div className="sp-brand" onClick={() => navigate('/dashboard')}>
-          <div className="sp-logo">♥</div>
-          <div>
-            <div className="sp-title">WellCheck</div>
-            <div className="sp-subtitle">Student Portal</div>
-          </div>
-        </div>
-        <div className="sp-user">
-          <span className="sp-username">{firstName} {lastName}</span>
-          <div className="sp-avatar">{firstName.charAt(0)}</div>
-        </div>
-      </nav>
+      <StudentTopbar />
 
       <div className="sp-container">
+        <StudentSidebar activeItem="profile" />
 
-        {/* Sidebar */}
-        <aside className="sp-sidebar">
-          <nav className="sp-nav">
-            <div className="sp-nav-item" onClick={() => navigate('/dashboard')}>
-              <span>🏠</span> Dashboard
-            </div>
-            <div className="sp-nav-item" onClick={() => navigate('/dashboard')}>
-              <span>👥</span> Browse Counselors
-            </div>
-            <div className="sp-nav-item" onClick={() => navigate('/dashboard')}>
-              <span>📅</span> My Appointments
-            </div>
-            <div className="sp-nav-item active">
-              <span>👤</span> Profile
-            </div>
-          </nav>
-          <div className="sp-nav-logout" onClick={handleLogout}>
-            <span>↪</span> Log Out
-          </div>
-        </aside>
-
-        {/* Main */}
         <main className="sp-main">
-
           {loading ? (
             <div className="sp-loading">Loading your profile...</div>
           ) : (
             <>
-              {/* Banner */}
               {!profile?.schoolIdPhotoUrl && (
                 <div className="sp-banner">
                   ℹ️ Complete your profile to get started and access all features!
@@ -138,28 +94,17 @@ function StudentProfile() {
               )}
 
               <div className="sp-card">
-
-                {/* Avatar */}
                 <div className="sp-avatar-section">
                   <div className="sp-avatar-circle">
                     {firstName.charAt(0)}{lastName.charAt(0)}
                   </div>
                 </div>
 
-                {successMsg && <div className="sp-success">{successMsg}</div>}
-                {errorMsg && <div className="sp-error">{errorMsg}</div>}
-
-                {/* Student ID */}
                 <div className="sp-field">
                   <label className="sp-label">Student ID Number</label>
-                  <input
-                    className="sp-input"
-                    value={profile?.studentIdNumber || ''}
-                    readOnly
-                  />
+                  <input className="sp-input" value={profile?.studentIdNumber || ''} readOnly />
                 </div>
 
-                {/* Name */}
                 <div className="sp-row">
                   <div className="sp-field">
                     <label className="sp-label">First Name</label>
@@ -171,123 +116,50 @@ function StudentProfile() {
                   </div>
                 </div>
 
-                {/* Program */}
                 <div className="sp-field">
                   <label className="sp-label">Enrolled Program</label>
-                  <div className="sp-select-wrapper">
-                    <select className="sp-select" value={profile?.program || ''} disabled>
-                      <option value="">Select Program</option>
-                      <option value="BSIT">BSIT</option>
-                      <option value="BSCS">BSCS</option>
-                      <option value="BSIS">BSIS</option>
-                      <option value="BSA">BSA</option>
-                      <option value="BSBA">BSBA</option>
-                      <option value="BSN">BSN</option>
+                  <select className="sp-select" value={profile?.program || ''} disabled>
+                    <option value="BSIT">BSIT</option>
+                    <option value="BSCS">BSCS</option>
+                  </select>
+                </div>
+
+                <div className="sp-row">
+                  <div className="sp-field">
+                    <label className="sp-label">Year Level</label>
+                    <select className="sp-select" value={profile?.yearLevel || ''} disabled>
+                      <option value="3">3rd Year</option>
+                    </select>
+                  </div>
+                  <div className="sp-field">
+                    <label className="sp-label">Gender</label>
+                    <select className="sp-select" value={profile?.gender || ''} disabled>
+                      <option value="Female">Female</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Year Level & Gender */}
-                <div className="sp-row">
-                  <div className="sp-field">
-                    <label className="sp-label">Year Level</label>
-                    <div className="sp-select-wrapper">
-                      <select className="sp-select" value={profile?.yearLevel || ''} disabled>
-                        <option value="">Select</option>
-                        <option value="1">1st Year</option>
-                        <option value="2">2nd Year</option>
-                        <option value="3">3rd Year</option>
-                        <option value="4">4th Year</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="sp-field">
-                    <label className="sp-label">Gender</label>
-                    <div className="sp-select-wrapper">
-                      <select className="sp-select" value={profile?.gender || ''} disabled>
-                        <option value="">Select</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Birthdate */}
                 <div className="sp-field">
                   <label className="sp-label">Birthdate</label>
                   <input className="sp-input" value={profile?.birthdate || ''} readOnly />
                 </div>
 
-                {/* School ID Photo */}
                 <div className="sp-school-id-section">
                   <label className="sp-label">School ID Photo</label>
-
-                  {profile?.schoolIdPhotoUrl ? (
-                    <div className="sp-id-uploaded">
-                      <img
-                        src={profile.schoolIdPhotoUrl}
-                        alt="School ID"
-                        className="sp-id-img"
-                      />
-                      {uploadSuccess && <div className="sp-upload-success">{uploadSuccess}</div>}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        id="sp-school-id"
-                        style={{ display: 'none' }}
-                        onChange={handleSchoolIdChange}
-                      />
-                      {schoolIdFile ? (
-                        <div className="sp-upload-row">
-                          <span className="sp-filename">{schoolIdFile.name}</span>
-                          <button className="sp-btn-upload" onClick={handleUploadSchoolId} disabled={uploadingId}>
-                            {uploadingId ? 'Uploading...' : 'Upload'}
-                          </button>
-                          <label htmlFor="sp-school-id" className="sp-btn-change">Change</label>
-                        </div>
-                      ) : (
-                        <label htmlFor="sp-school-id" className="sp-btn-change-photo">
-                          🔄 Change Photo
-                        </label>
-                      )}
-                      {uploadError && <div className="sp-upload-error">{uploadError}</div>}
-                    </div>
-                  ) : (
-                    <div className="sp-id-empty">
-                      <div className="sp-id-placeholder">
-                        <div className="sp-id-icon">🪪</div>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          id="sp-school-id"
-                          style={{ display: 'none' }}
-                          onChange={handleSchoolIdChange}
-                        />
-                        {schoolIdPreview && (
-                          <img src={schoolIdPreview} alt="Preview" className="sp-id-img" />
-                        )}
-                        {schoolIdFile ? (
-                          <div className="sp-upload-row">
-                            <span className="sp-filename">{schoolIdFile.name}</span>
-                            <button className="sp-btn-upload" onClick={handleUploadSchoolId} disabled={uploadingId}>
-                              {uploadingId ? 'Uploading...' : 'Upload'}
-                            </button>
-                            <label htmlFor="sp-school-id" className="sp-btn-change">Change</label>
-                          </div>
-                        ) : (
-                          <label htmlFor="sp-school-id" className="sp-btn-choose">
-                            📷 Upload Photo
-                          </label>
-                        )}
-                        {uploadError && <div className="sp-upload-error">{uploadError}</div>}
-                        {uploadSuccess && <div className="sp-upload-success">{uploadSuccess}</div>}
+                  <input type="file" id="sp-school-id" style={{ display: 'none' }} onChange={handleSchoolIdChange} />
+                  
+                  {profile?.schoolIdPhotoUrl || schoolIdPreview ? (
+                    <>
+                      <img src={schoolIdPreview || profile.schoolIdPhotoUrl} alt="School ID" className="sp-id-img" />
+                      <div className="sp-upload-row">
+                        {schoolIdFile && <button className="sp-btn-upload" onClick={handleUploadSchoolId}>Upload</button>}
+                        <label htmlFor="sp-school-id" className="sp-btn-choose">Change Photo</label>
                       </div>
-                    </div>
+                    </>
+                  ) : (
+                    <label htmlFor="sp-school-id" className="sp-btn-choose">Upload Photo</label>
                   )}
                 </div>
-
               </div>
             </>
           )}

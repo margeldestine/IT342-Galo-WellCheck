@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import CounselorTopbar from '../components/CounselorTopbar';
+import CounselorSidebar from '../components/CounselorSidebar';
 import '../styles/CounselorDashboard.css';
 
 const API = process.env.REACT_APP_API_URL;
@@ -11,7 +13,9 @@ function CounselorDashboard() {
   const firstName = user.firstName || 'Counselor';
   const lastName = user.lastName || '';
   const token = localStorage.getItem('token');
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const initialTab = searchParams.get('tab') || 'dashboard';
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   const [slots, setSlots] = useState([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
@@ -29,6 +33,7 @@ function CounselorDashboard() {
   const [appointments, setAppointments] = useState([]);
   const [loadingAppointments, setLoadingAppointments] = useState(false);
   const [filterStatus, setFilterStatus] = useState('PENDING');
+  const [searchQuery, setSearchQuery] = useState('');
   const [actionLoading, setActionLoading] = useState(null);
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
@@ -37,6 +42,20 @@ function CounselorDashboard() {
   // Details modal state
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
+  const [viewingPhotoUrl, setViewingPhotoUrl] = useState('');
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (tab && tab !== activeTab) {
+      setActiveTab(tab);
+    }
+  }, [searchParams]);
+
+  const handleTabChange = (tab) => {
+    setActiveTab(tab);
+    setSearchParams({ tab });
+  };
 
   useEffect(() => {
     if (activeTab === 'slots') fetchSlots();
@@ -53,6 +72,12 @@ function CounselorDashboard() {
       const res = await axios.get(`${API}/slots/my`, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      // Fetch appointments too so we can link booked slots to their details
+      const apptsRes = await axios.get(`${API}/appointments/counselor`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setAppointments(apptsRes.data);
+      
       const sorted = res.data.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
       setSlots(sorted);
     } catch (err) {
@@ -191,9 +216,13 @@ function CounselorDashboard() {
   const pendingCount = appointments.filter(a => a.status === 'PENDING').length;
   const confirmedCount = appointments.filter(a => a.status === 'CONFIRMED').length;
 
-  const filteredAppointments = appointments.filter(a =>
-    filterStatus === 'ALL' || a.status === filterStatus
-  );
+  const filteredAppointments = appointments.filter(a => {
+    const matchesStatus = filterStatus === 'ALL' || a.status === filterStatus;
+    const fullName = `${a.studentFirstName} ${a.studentLastName}`.toLowerCase();
+    const matchesSearch = fullName.includes(searchQuery.toLowerCase()) || 
+                         (a.studentIdNumber && a.studentIdNumber.toLowerCase().includes(searchQuery.toLowerCase()));
+    return matchesStatus && matchesSearch;
+  });
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -206,46 +235,17 @@ function CounselorDashboard() {
   };
 
   return (
-    <div className="counselor-wrapper">
-      <aside className="sidebar">
-        <div className="sidebar-brand">
-          <div className="navbar-logo">♥</div>
-          <div>
-            <div className="navbar-title">WellCheck</div>
-            <div className="sidebar-subtitle">Counselor Portal</div>
-          </div>
-        </div>
-        <nav className="sidebar-nav">
-          <div className={`nav-item ${activeTab === 'dashboard' ? 'active' : ''}`} onClick={() => setActiveTab('dashboard')}>
-            <span className="nav-icon">🏠</span> Dashboard
-          </div>
-          <div className={`nav-item ${activeTab === 'slots' ? 'active' : ''}`} onClick={() => setActiveTab('slots')}>
-            <span className="nav-icon">📅</span> Manage Slots
-          </div>
-          <div className={`nav-item ${activeTab === 'requests' ? 'active' : ''}`} onClick={() => setActiveTab('requests')}>
-            <span className="nav-icon">📋</span> Requests
-            {pendingCount > 0 && <span className="nav-badge">{pendingCount}</span>}
-          </div>
-          <div className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`} 
-            onClick={() => navigate('/counselorprofile')}>
-            <span className="nav-icon">👤</span> Profile
-          </div>
-        </nav>
-        <div className="sidebar-logout" onClick={handleLogout}>
-          <span className="nav-icon">↪</span> Log Out
-        </div>
-      </aside>
+    <div className="counselor-layout">
+      <CounselorTopbar />
+      <div className="counselor-wrapper">
+        <CounselorSidebar 
+          activeItem={activeTab} 
+          onTabChange={handleTabChange} 
+          pendingCount={pendingCount} 
+        />
 
-      <main className="dashboard-main">
-        <div className="topbar">
-          <div />
-          <div className="topbar-user">
-            <span className="topbar-name">{firstName} {lastName}</span>
-            <div className="topbar-avatar">{firstName.charAt(0)}</div>
-          </div>
-        </div>
-
-        <div className="dashboard-content">
+        <main className="dashboard-main">
+          <div className="dashboard-content">
 
           {/* Dashboard Tab */}
           {activeTab === 'dashboard' && (
@@ -419,7 +419,18 @@ function CounselorDashboard() {
                 ) : (
                   <div className="slots-list">
                     {slots.map(slot => (
-                      <div key={slot.id} className="slot-item">
+                      <div key={slot.id} 
+                        className={`slot-item ${slot.status === 'BOOKED' ? 'is-booked' : ''}`}
+                        onClick={() => {
+                          if (slot.status === 'BOOKED') {
+                            const apt = appointments.find(a => a.slotId === slot.id);
+                            if (apt) {
+                              setSelectedAppointment(apt);
+                              setShowDetailsModal(true);
+                            }
+                          }
+                        }}
+                      >
                         <div className="slot-left">
                           <div className="slot-date-badge">
                             <span className="slot-month">
@@ -462,79 +473,178 @@ function CounselorDashboard() {
 
           {/* Requests Tab */}
           {activeTab === 'requests' && (
-            <>
+            <div className="requests-container">
               <h1 className="greeting">Appointment Requests</h1>
-              <p className="greeting-sub">Review and manage student appointment requests.</p>
+              <p className="greeting-sub">Review and manage student appointment requests</p>
 
-              <div className="apt-filter-tabs">
-                {['ALL', 'PENDING', 'CONFIRMED', 'REJECTED', 'CANCELLED'].map(status => (
-                  <button
-                    key={status}
-                    className={`apt-filter-tab ${filterStatus === status ? 'active' : ''}`}
-                    onClick={() => setFilterStatus(status)}
-                  >
-                    {status}
-                    {status === 'PENDING' && pendingCount > 0 && (
-                      <span className="tab-badge">{pendingCount}</span>
-                    )}
-                  </button>
-                ))}
+              <div className="requests-controls">
+                <div className="search-bar-wrapper">
+                  <span className="search-icon">🔍</span>
+                  <input 
+                    type="text" 
+                    className="requests-search" 
+                    placeholder="Search requests..." 
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                <div className="apt-filter-pills">
+                  {['PENDING', 'CONFIRMED', 'REJECTED', 'CANCELLED'].map(status => (
+                    <button
+                      key={status}
+                      className={`apt-filter-pill ${filterStatus === status ? 'active' : ''}`}
+                      onClick={() => setFilterStatus(status)}
+                    >
+                      {status.charAt(0) + status.slice(1).toLowerCase()}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               {loadingAppointments ? (
                 <div className="empty-msg">Loading appointments...</div>
-              ) : filteredAppointments.length === 0 ? (
-                <div className="section-card">
-                  <div className="empty-msg">No {filterStatus !== 'ALL' ? filterStatus.toLowerCase() : ''} appointments found.</div>
-                </div>
               ) : (
-                <div className="apt-list">
-                  {filteredAppointments.map(apt => (
-                    <div key={apt.id} className="apt-item" style={{ cursor: 'pointer' }}
-                      onClick={() => {
-                        setSelectedAppointment(apt);
-                        setShowDetailsModal(true);
-                      }}>
-                      <div className="apt-left">
-                        <div className="apt-date-badge">
-                          <span className="apt-month">
-                            {new Date(apt.startTime).toLocaleString('en-US', { month: 'short' })}
-                          </span>
-                          <span className="apt-day">{new Date(apt.startTime).getDate()}</span>
-                        </div>
-                        <div className="apt-details">
-                          <div className="apt-student">{apt.studentFirstName} {apt.studentLastName}</div>
-                          <div className="apt-date-text">{formatDate(apt.startTime)}</div>
-                          <div className="apt-time">{formatTime(apt.startTime)} → {formatTime(apt.endTime)}</div>
-                          {apt.note && <div className="apt-note">📝 {apt.note}</div>}
-                        </div>
+                <div className="requests-sections">
+                  {/* Current Status Section */}
+                  <div className="requests-section">
+                    <h2 className="section-heading">
+                      {filterStatus.charAt(0) + filterStatus.slice(1).toLowerCase()} Requests ({filteredAppointments.length})
+                    </h2>
+                    {filteredAppointments.length === 0 ? (
+                      <div className="section-card empty-state">
+                        <div className="empty-msg">No {filterStatus.toLowerCase()} requests found.</div>
                       </div>
-                      <div className="apt-right">
-                        <span className={`apt-status-badge ${getStatusClass(apt.status)}`}>
-                          {apt.status}
-                        </span>
-                        {apt.status === 'PENDING' && (
-                          <div className="apt-actions">
-                            <button className="btn-approve" disabled={actionLoading === apt.id}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActionId(apt.id);
-                                setShowApproveModal(true);
-                              }}>✓ Approve</button>
-                            <button className="btn-reject" disabled={actionLoading === apt.id}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setActionId(apt.id);
-                                setShowRejectModal(true);
-                              }}>✕ Reject</button>
+                    ) : (
+                      <div className="requests-grid">
+                        {filteredAppointments.map(apt => (
+                          <div key={apt.id} className="request-card expanded" style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              setSelectedAppointment(apt);
+                              setShowDetailsModal(true);
+                            }}>
+                            <div className="card-header">
+                              <div className="student-info-main">
+                                <h3 className="student-name">{apt.studentFirstName} {apt.studentLastName}</h3>
+                                <span className="student-id">ID: {apt.studentIdNumber || '2023-12345'}</span>
+                              </div>
+                              <span className={`status-pill ${apt.status.toLowerCase()}`}>
+                                {apt.status.charAt(0) + apt.status.slice(1).toLowerCase()}
+                              </span>
+                            </div>
+
+                            <div className="card-content-grid">
+                              <div className="info-group">
+                                <label>PROGRAM</label>
+                                <span>{apt.studentProgram || 'BS Computer Science'}</span>
+                              </div>
+                              <div className="info-group">
+                                <label>YEAR LEVEL</label>
+                                <span>{apt.studentYearLevel || '3rd Year'}</span>
+                              </div>
+                              <div className="info-group">
+                                <label>GENDER</label>
+                                <span>{apt.studentGender || 'Male'}</span>
+                              </div>
+                              <div className="info-group">
+                                <label>BIRTHDATE</label>
+                                <span>{apt.studentBirthdate ? new Date(apt.studentBirthdate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '05/15/2003'}</span>
+                              </div>
+                              <div className="info-group">
+                                <label>DATE</label>
+                                <div className="icon-text">
+                                  <span className="icon">📅</span>
+                                  <span>{new Date(apt.startTime).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+                                </div>
+                              </div>
+                              <div className="info-group">
+                                <label>TIME</label>
+                                <div className="icon-text">
+                                  <span className="icon">🕒</span>
+                                  <span>{formatTime(apt.startTime)}</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="card-footer">
+                              <button 
+                                className="btn-view-id"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (apt.studentSchoolIdPhotoUrl) {
+                                    setViewingPhotoUrl(apt.studentSchoolIdPhotoUrl);
+                                    setShowPhotoModal(true);
+                                  } else {
+                                    alert('No school photo ID uploaded by student.');
+                                  }
+                                }}
+                              >
+                                <span className="icon">↓</span> View School Photo ID
+                              </button>
+                              {apt.status === 'PENDING' && (
+                                <div className="action-buttons">
+                                  <button 
+                                    className="btn-reject-outline"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setActionId(apt.id);
+                                      setShowRejectModal(true);
+                                    }}
+                                  >
+                                    Reject
+                                  </button>
+                                  <button 
+                                    className="btn-approve-solid"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setActionId(apt.id);
+                                      setShowApproveModal(true);
+                                    }}
+                                  >
+                                    Approve
+                                  </button>
+                                </div>
+                              )}
+                            </div>
                           </div>
-                        )}
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Processed Section (Only show on Pending tab for reference) */}
+                  {filterStatus === 'PENDING' && appointments.filter(a => a.status !== 'PENDING').length > 0 && (
+                    <div className="requests-section processed">
+                      <h2 className="section-heading">Processed Appointments</h2>
+                      <div className="requests-grid">
+                        {appointments
+                          .filter(a => a.status !== 'PENDING')
+                          .slice(0, 3)
+                          .map(apt => (
+                            <div key={apt.id} className="request-card collapsed" style={{ cursor: 'pointer' }}
+                              onClick={() => {
+                                setSelectedAppointment(apt);
+                                setShowDetailsModal(true);
+                              }}>
+                              <div className="card-header">
+                                <div className="student-info-minimal">
+                                  <h3 className="student-name-small">{apt.studentFirstName} {apt.studentLastName}</h3>
+                                  <div className="apt-time-minimal">
+                                    <span className="icon">📅</span> {new Date(apt.startTime).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                                    <span className="icon ml-10">🕒</span> {formatTime(apt.startTime)}
+                                  </div>
+                                </div>
+                                <span className={`status-pill ${apt.status.toLowerCase()}`}>
+                                  {apt.status.charAt(0) + apt.status.slice(1).toLowerCase()}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
                       </div>
                     </div>
-                  ))}
+                  )}
                 </div>
               )}
-            </>
+            </div>
           )}
 
           {/* Profile Tab */}
@@ -550,6 +660,7 @@ function CounselorDashboard() {
 
         </div>
       </main>
+      </div>
 
       {/* Delete Slot Modal */}
       {showDeleteModal && (
@@ -608,63 +719,116 @@ function CounselorDashboard() {
       {/* Appointment Details Modal */}
       {showDetailsModal && selectedAppointment && (
         <div className="modal-overlay" onClick={() => setShowDetailsModal(false)}>
-          <div className="modal-box modal-details" onClick={(e) => e.stopPropagation()}>
+          <div className="modal-box modal-details-large" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3 className="modal-title">Appointment Details</h3>
               <button className="modal-close" onClick={() => setShowDetailsModal(false)}>✕</button>
             </div>
 
-            <div className="details-section">
-              <div className="details-label">Student</div>
-              <div className="details-value">
-                {selectedAppointment.studentFirstName} {selectedAppointment.studentLastName}
+            <div className="details-main-content">
+              <div className="details-user-info">
+                <div className="details-avatar">
+                  {selectedAppointment.studentFirstName.charAt(0)}
+                </div>
+                <div className="details-user-text">
+                  <div className="details-label-small">STUDENT</div>
+                  <h2 className="details-user-name">
+                    {selectedAppointment.studentFirstName} {selectedAppointment.studentLastName}
+                  </h2>
+                  <div className="details-user-id">ID: {selectedAppointment.studentIdNumber || '2023-12345'}</div>
+                </div>
               </div>
-            </div>
 
-            <div className="details-section">
-              <div className="details-label">Date</div>
-              <div className="details-value">{formatDate(selectedAppointment.startTime)}</div>
-            </div>
-
-            <div className="details-section">
-              <div className="details-label">Time</div>
-              <div className="details-value">
-                {formatTime(selectedAppointment.startTime)} → {formatTime(selectedAppointment.endTime)}
+              <div className="details-grid-card">
+                <div className="details-grid-item">
+                  <span className="details-grid-label">PROGRAM</span>
+                  <span className="details-grid-value">{selectedAppointment.studentProgram || 'BSIT'}</span>
+                </div>
+                <div className="details-grid-item">
+                  <span className="details-grid-label">YEAR LEVEL</span>
+                  <span className="details-grid-value">{selectedAppointment.studentYearLevel || '1'}</span>
+                </div>
+                <div className="details-grid-item">
+                  <span className="details-grid-label">GENDER</span>
+                  <span className="details-grid-value">{selectedAppointment.studentGender || 'Female'}</span>
+                </div>
+                <div className="details-grid-item">
+                  <span className="details-grid-label">BIRTHDATE</span>
+                  <span className="details-grid-value">
+                    {selectedAppointment.studentBirthdate ? new Date(selectedAppointment.studentBirthdate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'N/A'}
+                  </span>
+                </div>
               </div>
-            </div>
 
-            <div className="details-section">
-              <div className="details-label">Status</div>
-              <div className="details-value">
-                <span className={`apt-status-badge ${getStatusClass(selectedAppointment.status)}`}>
+              <div className="details-schedule-section">
+                <div className="details-label-left">APPOINTMENT SCHEDULE</div>
+                <div className="details-schedule-row">
+                  <div className="schedule-item">
+                    <span className="schedule-icon">📅</span>
+                    <span className="schedule-text">{formatDate(selectedAppointment.startTime)}</span>
+                  </div>
+                  <div className="schedule-item">
+                    <span className="schedule-icon">🕒</span>
+                    <span className="schedule-text">{formatTime(selectedAppointment.startTime)} → {formatTime(selectedAppointment.endTime)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="details-status-section">
+                <div className="details-label-left">STATUS</div>
+                <div className={`details-status-pill ${selectedAppointment.status.toLowerCase()}`}>
                   {selectedAppointment.status}
-                </span>
+                </div>
               </div>
+
+              {selectedAppointment.note && (
+                <div className="details-note-section">
+                  <div className="details-label-left">NOTE FROM STUDENT</div>
+                  <div className="details-note-box-large">
+                    {selectedAppointment.note}
+                  </div>
+                </div>
+              )}
+
+              {selectedAppointment.status === 'PENDING' && (
+                <div className="details-footer-actions">
+                  <button className="btn-reject-large" onClick={(e) => {
+                    e.stopPropagation();
+                    setShowDetailsModal(false);
+                    setActionId(selectedAppointment.id);
+                    setShowRejectModal(true);
+                  }}>Reject</button>
+                  <button className="btn-approve-large" onClick={(e) => {
+                    e.stopPropagation();
+                    setShowDetailsModal(false);
+                    setActionId(selectedAppointment.id);
+                    setShowApproveModal(true);
+                  }}>Approve</button>
+                </div>
+              )}
             </div>
+          </div>
+        </div>
+      )}
 
-            {selectedAppointment.note && (
-              <div className="details-section">
-                <div className="details-label">Note from Student</div>
-                <div className="details-value details-note">{selectedAppointment.note}</div>
-              </div>
-            )}
-
-            {selectedAppointment.status === 'PENDING' && (
-              <div className="details-actions">
-                <button className="btn-approve" onClick={(e) => {
-                  e.stopPropagation();
-                  setShowDetailsModal(false);
-                  setActionId(selectedAppointment.id);
-                  setShowApproveModal(true);
-                }}>✓ Approve</button>
-                <button className="btn-reject" onClick={(e) => {
-                  e.stopPropagation();
-                  setShowDetailsModal(false);
-                  setActionId(selectedAppointment.id);
-                  setShowRejectModal(true);
-                }}>✕ Reject</button>
-              </div>
-            )}
+      {/* Photo ID Modal */}
+      {showPhotoModal && (
+        <div className="modal-overlay" onClick={() => setShowPhotoModal(false)}>
+          <div className="photo-modal-box" onClick={(e) => e.stopPropagation()}>
+            <div className="photo-modal-header">
+              <h3 className="modal-title">Student School ID</h3>
+              <button className="modal-close" onClick={() => setShowPhotoModal(false)}>✕</button>
+            </div>
+            <div className="photo-container">
+              <img 
+                src={viewingPhotoUrl.startsWith('http') ? viewingPhotoUrl : `${API}/uploads/${viewingPhotoUrl}`} 
+                alt="Student School ID" 
+                className="student-id-image"
+              />
+            </div>
+            <div className="photo-modal-footer">
+              <button className="btn-modal-cancel" onClick={() => setShowPhotoModal(false)}>Close</button>
+            </div>
           </div>
         </div>
       )}

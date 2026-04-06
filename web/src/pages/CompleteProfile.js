@@ -129,15 +129,15 @@ function CompleteProfile() {
           </div>
         </div>
 
-        <div className="form-group">
-          <label>Birthdate</label>
-          <input 
+        <div className="complete-form-group">
+          <label className="complete-label">Birthdate</label>
+            <input 
             type="date" 
             name="birthdate" 
             value={form.birthdate} 
             onChange={handleChange}
             max={new Date().toISOString().split('T')[0]}
-          />
+            />
         </div>
 
         <button className="complete-btn" onClick={handleSubmit} disabled={loading}>
