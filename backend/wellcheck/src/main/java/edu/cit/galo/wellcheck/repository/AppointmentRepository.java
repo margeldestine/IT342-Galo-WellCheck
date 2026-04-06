@@ -13,4 +13,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     List<Appointment> findBySlotCounselorId(Long counselorId);
     List<Appointment> findByStudentIdAndStatus(Long studentId, AppointmentStatus status);
     boolean existsBySlotIdAndStatusNot(Long slotId, AppointmentStatus status);
+
+    // Count appointments for a specific slot (for delete validation)
+    long countBySlotId(Long slotId);
 }

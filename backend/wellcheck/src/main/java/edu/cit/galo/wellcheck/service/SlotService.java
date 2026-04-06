@@ -5,6 +5,7 @@ import edu.cit.galo.wellcheck.dto.SlotResponse;
 import edu.cit.galo.wellcheck.entity.CounselorProfile;
 import edu.cit.galo.wellcheck.entity.Slot;
 import edu.cit.galo.wellcheck.enums.SlotStatus;
+import edu.cit.galo.wellcheck.repository.AppointmentRepository;
 import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.repository.SlotRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,13 +24,16 @@ public class SlotService {
     private final SlotRepository slotRepository;
     private final CounselorProfileRepository counselorProfileRepository;
     private final UserRepository userRepository;
+    private final AppointmentRepository appointmentRepository;
 
     public SlotService(SlotRepository slotRepository,
                        CounselorProfileRepository counselorProfileRepository,
-                       UserRepository userRepository) {
+                       UserRepository userRepository,
+                       AppointmentRepository appointmentRepository) {
         this.slotRepository = slotRepository;
         this.counselorProfileRepository = counselorProfileRepository;
         this.userRepository = userRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     @Transactional
@@ -110,7 +116,7 @@ public class SlotService {
     }
 
     @Transactional
-    public void deleteSlot(String email, Long slotId) {
+    public Map<String, Object> deleteSlot(String email, Long slotId) {
         Slot slot = slotRepository.findById(slotId)
                 .orElseThrow(() -> new RuntimeException("Slot not found."));
 
@@ -124,11 +130,28 @@ public class SlotService {
             throw new RuntimeException("You are not authorized to delete this slot.");
         }
 
-        if (slot.getStatus() == SlotStatus.BOOKED) {
-            throw new RuntimeException("Cannot delete a booked slot.");
+        Map<String, Object> result = new HashMap<>();
+
+        // Check if slot has any appointments
+        long appointmentCount = appointmentRepository.countBySlotId(slotId);
+
+        if (appointmentCount > 0) {
+            // Mark as unavailable instead of deleting
+            slot.setStatus(SlotStatus.UNAVAILABLE);
+            slotRepository.save(slot);
+
+            result.put("action", "marked_unavailable");
+            result.put("message", "Slot marked as unavailable (has " + appointmentCount + " appointment(s))");
+            result.put("appointmentCount", appointmentCount);
+        } else {
+            // No appointments, safe to delete
+            slotRepository.delete(slot);
+
+            result.put("action", "deleted");
+            result.put("message", "Slot deleted successfully");
         }
 
-        slotRepository.delete(slot);
+        return result;
     }
 
     private SlotResponse toResponse(Slot slot) {
