@@ -1063,6 +1063,10 @@
   color: #1a1a1a;
   margin-bottom: 8px;
   letter-spacing: -0.3px;
+  text-align: center;
+}
+
+.modal-details-large .modal-title {
   text-align: left;
 }
 
@@ -1071,6 +1075,41 @@
   color: #888;
   margin-bottom: 28px;
   line-height: 1.6;
+}
+
+.rejection-reason-container {
+  text-align: left;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.rejection-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #4A5568;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rejection-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  transition: all 0.2s ease;
+  color: #2d3748;
+}
+
+.rejection-textarea:focus {
+  border-color: #E53E3E;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1);
 }
 
 .modal-actions {

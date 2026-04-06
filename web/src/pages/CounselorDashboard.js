@@ -38,6 +38,7 @@ function CounselorDashboard() {
   const [showApproveModal, setShowApproveModal] = useState(false);
   const [showRejectModal, setShowRejectModal] = useState(false);
   const [actionId, setActionId] = useState(null);
+  const [rejectionReason, setRejectionReason] = useState('');
 
   // Details modal state
   const [showDetailsModal, setShowDetailsModal] = useState(false);
@@ -115,13 +116,18 @@ function CounselorDashboard() {
   };
 
   const handleReject = async () => {
+    if (!rejectionReason.trim()) {
+      alert('Please provide a reason for rejection.');
+      return;
+    }
     setActionLoading(actionId);
     try {
-      await axios.put(`${API}/appointments/${actionId}/reject`, {}, {
+      await axios.put(`${API}/appointments/${actionId}/reject`, { reason: rejectionReason }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setShowRejectModal(false);
       setActionId(null);
+      setRejectionReason('');
       fetchAppointments();
       fetchSlots();
     } catch (err) {
@@ -705,12 +711,27 @@ function CounselorDashboard() {
             <div className="modal-icon">❌</div>
             <h3 className="modal-title">Reject Appointment</h3>
             <p className="modal-message">Are you sure you want to reject this appointment request?</p>
+            
+            <div className="rejection-reason-container">
+              <label className="rejection-label">Reason for Rejection</label>
+              <textarea 
+                className="rejection-textarea"
+                placeholder="Please explain why this appointment is being rejected..."
+                value={rejectionReason}
+                onChange={(e) => setRejectionReason(e.target.value)}
+                rows={4}
+              />
+            </div>
+
             <div className="modal-actions">
               <button className="btn-modal-cancel" onClick={() => {
                 setShowRejectModal(false);
                 setActionId(null);
+                setRejectionReason('');
               }}>Cancel</button>
-              <button className="btn-modal-delete" onClick={handleReject}>Yes, Reject</button>
+              <button className="btn-modal-delete" onClick={handleReject} disabled={actionLoading === actionId}>
+                {actionLoading === actionId ? 'Rejecting...' : 'Yes, Reject'}
+              </button>
             </div>
           </div>
         </div>

@@ -212,17 +212,6 @@ function BookAppointment() {
                 </div>
               </div>
 
-              <div className="book-field" style={{ marginTop: '20px' }}>
-                <label className="book-label">Note (optional)</label>
-                <textarea
-                  className="book-textarea"
-                  placeholder="Add a note or reason for your visit..."
-                  value={bookingNote}
-                  onChange={(e) => setBookingNote(e.target.value)}
-                  rows={3}
-                />
-              </div>
-
               {bookingError && <div className="book-error">{bookingError}</div>}
 
               <div className="book-actions">
