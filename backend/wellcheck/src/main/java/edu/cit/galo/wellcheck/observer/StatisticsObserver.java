@@ -17,7 +17,5 @@ public class StatisticsObserver implements AppointmentObserver {
         System.out.println("   Action: Updating dashboard metrics...");
         System.out.println("   [Database update would happen here]\n");
 
-        // TODO: Implement actual statistics update in database
-        // Example: UPDATE statistics SET confirmed_count = confirmed_count + 1
     }
 }
