@@ -29,6 +29,7 @@
 
         <activity android:name=".StudentDashboardActivity" android:exported="false" />
         <activity android:name=".CounselorDashboardActivity" android:exported="false" />
+        <activity android:name=".ManageSlotsActivity" android:exported="false" />
 
     </application>
 

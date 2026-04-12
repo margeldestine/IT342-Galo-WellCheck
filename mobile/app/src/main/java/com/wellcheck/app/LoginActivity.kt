@@ -62,10 +62,9 @@ class LoginActivity : AppCompatActivity() {
                         return@launch
                     }
 
-                    // Save to SharedPreferences
                     val prefs = getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
                     prefs.edit()
-                        .putString("token", user?.accessToken)
+                        .putString("accessToken", user?.accessToken)
                         .putString("role", user?.role)
                         .putString("email", user?.email)
                         .putString("firstName", user?.firstName ?: "")
@@ -73,27 +72,17 @@ class LoginActivity : AppCompatActivity() {
                         .apply()
 
                     val firstName = user?.firstName ?: ""
-                    val lastName = user?.lastName ?: ""
-                    val fullName = "$firstName $lastName".trim().ifEmpty { "User" }
+                    val fullName = "$firstName ${user?.lastName ?: ""}".trim().ifEmpty { "User" }
 
                     runOnUiThread {
-                        Toast.makeText(
-                            this@LoginActivity,
-                            "Welcome back, $fullName! 🎉",
-                            Toast.LENGTH_LONG
-                        ).show()
+                        Toast.makeText(this@LoginActivity, "Welcome back, $fullName! 🎉", Toast.LENGTH_LONG).show()
                     }
 
-                    // Navigate based on role
                     when (user?.role) {
-                        "STUDENT" -> startActivity(
-                            Intent(this@LoginActivity, StudentDashboardActivity::class.java)
-                        )
-                        "COUNSELOR" -> startActivity(
-                            Intent(this@LoginActivity, CounselorDashboardActivity::class.java)
-                        )
+                        "STUDENT" -> startActivity(Intent(this@LoginActivity, StudentDashboardActivity::class.java))
+                        "COUNSELOR" -> startActivity(Intent(this@LoginActivity, CounselorDashboardActivity::class.java))
                         else -> {
-                            showError("Login failed. Please try again.")
+                            showError("Login failed. Unknown role.")
                             setLoading(false)
                             return@launch
                         }

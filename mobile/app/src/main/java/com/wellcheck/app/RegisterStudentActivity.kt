@@ -144,7 +144,6 @@ class RegisterStudentActivity : AppCompatActivity() {
             year, month, day
         )
 
-        // Set max date to today (can't be born in the future)
         datePickerDialog.datePicker.maxDate = System.currentTimeMillis()
         datePickerDialog.show()
     }
