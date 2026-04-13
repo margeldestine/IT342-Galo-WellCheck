@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+    android:layout_margin="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Appointment Details"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#1A1A1A"/>
+            <ImageButton
+                android:id="@+id/btnCloseDialog"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@android:drawable/ic_menu_close_clear_cancel"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                app:tint="#888888"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="20dp">
+
+            <TextView
+                android:id="@+id/tvDialogAvatar"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_avatar"
+                android:backgroundTint="#E8F3E8"
+                android:gravity="center"
+                android:text="J"
+                android:textColor="#2D6A4F"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STUDENT"
+                    android:textSize="10sp"
+                    android:textColor="#888888"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tvDialogName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Jhoe Doe"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A1A1A"/>
+                <TextView
+                    android:id="@+id/tvDialogStudentId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ID: 2011-89765"
+                    android:textSize="12sp"
+                    android:textColor="#666666"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="2"
+            android:layout_marginBottom="24dp"
+            android:background="#F8F9FA"
+            android:padding="12dp">
+
+            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical" android:layout_marginBottom="16dp">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PROGRAM" android:textSize="10sp" android:textStyle="bold" android:textColor="#888888"/>
+                <TextView android:id="@+id/tvDialogProgram" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BSIT" android:textColor="#1A1A1A" android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="YEAR LEVEL" android:textSize="10sp" android:textStyle="bold" android:textColor="#888888"/>
+                <TextView android:id="@+id/tvDialogYear" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="1" android:textColor="#1A1A1A" android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GENDER" android:textSize="10sp" android:textStyle="bold" android:textColor="#888888"/>
+                <TextView android:id="@+id/tvDialogGender" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Female" android:textColor="#1A1A1A" android:textStyle="bold"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="0dp" android:layout_columnWeight="1" android:orientation="vertical">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BIRTHDATE" android:textSize="10sp" android:textStyle="bold" android:textColor="#888888"/>
+                <TextView android:id="@+id/tvDialogBirthdate" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="April 12, 2026" android:textColor="#1A1A1A" android:textStyle="bold"/>
+            </LinearLayout>
+        </GridLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="APPOINTMENT SCHEDULE" android:textSize="10sp" android:textStyle="bold" android:textColor="#888888" android:layout_marginBottom="12dp"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
+            <TextView android:id="@+id/tvDialogDate" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="📅 Saturday, April 18, 2026" android:textColor="#1A1A1A" android:textSize="13sp"/>
+            <TextView android:id="@+id/tvDialogTime" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="🕒 01:24 AM → 01:54 AM" android:textColor="#1A1A1A" android:textSize="13sp"/>
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="STUDENT NOTE" android:textSize="10sp" android:textStyle="bold" android:textColor="#888888" android:layout_marginTop="16dp" android:layout_marginBottom="4dp"/>
+        <TextView android:id="@+id/tvDialogNote" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="No notes provided." android:textColor="#1A1A1A" android:textSize="13sp" android:layout_marginBottom="24dp" android:padding="8dp" android:background="#F0F0F0"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginTop="8dp">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDialogReject"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Reject"
+                android:textColor="#E53E3E"
+                app:strokeColor="#DDDDDD"
+                app:cornerRadius="10dp"
+                android:layout_marginEnd="8dp"
+                android:textAllCaps="false"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDialogApprove"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:text="Approve"
+                android:backgroundTint="#2D6A4F"
+                app:cornerRadius="10dp"
+                android:layout_marginStart="8dp"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#2D6A4F"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="#F5FAF5">
+
+        <LinearLayout
+            android:layout_width="54dp"
+            android:layout_height="54dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_avatar"
+            android:backgroundTint="#E2F0CB">
+            <TextView
+                android:id="@+id/tvBadgeMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="APR"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:textColor="#2D6A4F"/>
+            <TextView
+                android:id="@+id/tvBadgeDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#2D6A4F"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:id="@+id/tvTimeRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01:24 AM → 01:54 AM"
+                android:textStyle="bold"
+                android:textColor="#1A1A1A"
+                android:textSize="14sp"/>
+
+            <TextView
+                android:id="@+id/tvFullDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Saturday, April 18, 2026"
+                android:textColor="#888888"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSelectSlot"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Select"
+            android:textSize="12sp"
+            android:backgroundTint="#2D6A4F"
+            app:cornerRadius="8dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:textAllCaps="false"/>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

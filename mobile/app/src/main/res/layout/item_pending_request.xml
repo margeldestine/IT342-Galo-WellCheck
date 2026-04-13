@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    app:strokeColor="#EAEAEA"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="#FFFFFF">
+
+        <LinearLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_avatar"
+            android:backgroundTint="#E8F3E8">
+            <TextView android:id="@+id/tvBadgeMonth" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="APR" android:textSize="10sp" android:textStyle="bold" android:textColor="#2D6A4F"/>
+            <TextView android:id="@+id/tvBadgeDay" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15" android:textSize="14sp" android:textStyle="bold" android:textColor="#2D6A4F"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+            <TextView android:id="@+id/tvStudentName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Margel Galo" android:textStyle="bold" android:textColor="#1A1A1A" android:textSize="14sp"/>
+            <TextView android:id="@+id/tvTime" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="04:00 PM → 04:30 PM" android:textColor="#888888" android:textSize="12sp" android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <TextView android:id="@+id/btnApproveList" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Approve" android:textColor="#2D6A4F" android:textStyle="bold" android:textSize="12sp" android:padding="8dp" android:background="?attr/selectableItemBackground"/>
+        <TextView android:id="@+id/btnRejectList" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Reject" android:textColor="#E53E3E" android:textStyle="bold" android:textSize="12sp" android:padding="8dp" android:layout_marginStart="8dp" android:background="?attr/selectableItemBackground"/>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

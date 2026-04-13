@@ -1,353 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F8F7F4">
+    android:background="#F9F8F3">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+        android:layout_height="64dp"
         android:background="#FFFFFF"
-        android:elevation="2dp">
+        android:elevation="2dp"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="16dp">
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/bg_logo"
-                android:layout_marginEnd="8dp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="WellCheck"
-                    android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:textColor="#1A1A1A" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Counselor Portal"
-                    android:textSize="11sp"
-                    android:textColor="#888888" />
-            </LinearLayout>
+        <ImageView android:layout_width="32dp" android:layout_height="32dp" android:src="@drawable/ic_launcher_foreground" app:tint="#2D6A4F" />
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:layout_marginStart="8dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="WellCheck" android:textStyle="bold" android:textColor="#1A1A1A" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Counselor Portal" android:textSize="10sp" />
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:id="@+id/tvUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:textColor="#333333"
-                android:layout_marginEnd="8dp"
-                android:maxWidth="150dp"
-                android:ellipsize="end"
-                android:singleLine="true" />
-
-            <TextView
-                android:id="@+id/tvAvatar"
-                android:layout_width="34dp"
-                android:layout_height="34dp"
-                android:text="C"
-                android:textSize="14sp"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:background="@drawable/bg_avatar" />
-        </LinearLayout>
+        <TextView android:id="@+id/tvCounselorNameTop" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Elena" android:layout_marginEnd="12dp" />
+        <TextView android:id="@+id/tvAvatar" android:layout_width="34dp" android:layout_height="34dp" android:backgroundTint="#2D6A4F" android:background="@drawable/bg_avatar" android:gravity="center" android:text="E" android:textStyle="bold" android:textColor="#FFFFFF" />
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            <TextView android:id="@+id/tvGreeting" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Welcome, Elena!" android:textSize="22sp" android:textStyle="bold" android:textColor="#1A1A1A" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Here is your counseling overview." android:textSize="13sp" android:textColor="#666666" android:layout_marginBottom="20dp" />
 
-            <TextView
-                android:id="@+id/tvGreeting"
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:weightSum="3" android:layout_marginBottom="16dp">
+                <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="110dp" android:layout_weight="1" app:cardCornerRadius="12dp" app:cardElevation="1dp" android:layout_marginEnd="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="12dp" android:gravity="start|center_vertical">
+                        <TextView android:layout_width="28dp" android:layout_height="28dp" android:text="📋" android:gravity="center" android:background="#FFF5F0" android:textSize="14sp"/>
+                        <TextView android:id="@+id/tvPendingCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="22sp" android:textStyle="bold" android:textColor="#1A1A1A" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PENDING" android:textSize="8sp" android:textColor="#888888" android:textStyle="bold"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="110dp" android:layout_weight="1" app:cardCornerRadius="12dp" app:cardElevation="1dp" android:layout_marginHorizontal="2dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="12dp" android:gravity="start|center_vertical">
+                        <TextView android:layout_width="28dp" android:layout_height="28dp" android:text="✅" android:gravity="center" android:background="#F0FFF5" android:textSize="14sp"/>
+                        <TextView android:id="@+id/tvConfirmedCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="22sp" android:textStyle="bold" android:textColor="#1A1A1A" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CONFIRMED" android:textSize="8sp" android:textColor="#888888" android:textStyle="bold"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.google.android.material.card.MaterialCardView android:layout_width="0dp" android:layout_height="110dp" android:layout_weight="1" app:cardCornerRadius="12dp" app:cardElevation="1dp" android:layout_marginStart="4dp">
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="12dp" android:gravity="start|center_vertical">
+                        <TextView android:layout_width="28dp" android:layout_height="28dp" android:text="👥" android:gravity="center" android:background="#F5F0FF" android:textSize="14sp"/>
+                        <TextView android:id="@+id/tvTotalCount" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textSize="22sp" android:textStyle="bold" android:textColor="#1A1A1A" />
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TOTAL" android:textSize="8sp" android:textColor="#888888" android:textStyle="bold"/>
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCreateSlot"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Welcome!"
-                android:textSize="24sp"
-                android:textStyle="bold"
+                android:layout_height="56dp"
+                android:text="📅  Create New Time Slot"
+                android:backgroundTint="#FFFFFF"
                 android:textColor="#1A1A1A"
-                android:layout_marginBottom="4dp" />
+                app:strokeColor="#DDDDDD"
+                app:strokeWidth="1dp"
+                app:cornerRadius="12dp"
+                android:textAllCaps="false"
+                android:layout_marginBottom="24dp"/>
 
-            <TextView
-                android:id="@+id/tvGreetingSub"
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Recent Pending Requests" android:textStyle="bold" android:textSize="14sp" android:textColor="#1A1A1A" android:gravity="center" android:layout_marginBottom="12dp" />
+
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Here is your counseling overview."
-                android:textSize="13sp"
-                android:textColor="#888888"
-                android:layout_marginBottom="20dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_card"
-                    android:padding="16dp"
-                    android:layout_marginEnd="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="📋"
-                        android:textSize="20sp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:id="@+id/tvPendingCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="28sp"
-                        android:textStyle="bold"
-                        android:textColor="#1A1A1A"
-                        android:layout_marginBottom="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="PENDING REQUESTS"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:textColor="#888888" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_card"
-                    android:padding="16dp"
-                    android:layout_marginEnd="8dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="✅"
-                        android:textSize="20sp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:id="@+id/tvConfirmedCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="28sp"
-                        android:textStyle="bold"
-                        android:textColor="#1A1A1A"
-                        android:layout_marginBottom="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="CONFIRMED SESSIONS"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:textColor="#888888" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_card"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="👥"
-                        android:textSize="20sp"
-                        android:layout_marginBottom="8dp" />
-
-                    <TextView
-                        android:id="@+id/tvTotalCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:textSize="28sp"
-                        android:textStyle="bold"
-                        android:textColor="#1A1A1A"
-                        android:layout_marginBottom="4dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="TOTAL"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:textColor="#888888" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <LinearLayout
-                    android:id="@+id/cardCreateSlot"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/bg_card"
-                    android:padding="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="📅"
-                        android:textSize="22sp"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Create Slot"
-                            android:textStyle="bold"
-                            android:textColor="#1A1A1A" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Add a new time slot"
-                            android:textSize="11sp"
-                            android:textColor="#888888" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/cardReviewRequests"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/bg_card"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="📋"
-                        android:textSize="22sp"
-                        android:layout_marginEnd="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Review Requests"
-                            android:textStyle="bold"
-                            android:textColor="#1A1A1A" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="0 Pending"
-                            android:textSize="11sp"
-                            android:textColor="#888888" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/bg_card"
-                android:padding="20dp">
-
-                <TextView
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#EAEAEA"
+                app:strokeWidth="1dp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvPendingRequests"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Recent Pending Requests"
-                    android:textStyle="bold"
-                    android:textColor="#1A1A1A"
-                    android:gravity="center"
-                    android:layout_marginBottom="12dp" />
+                    android:nestedScrollingEnabled="false"
+                    android:padding="8dp"/>
+            </com.google.android.material.card.MaterialCardView>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="No pending requests yet."
-                    android:textSize="13sp"
-                    android:textColor="#AAAAAA"
-                    android:gravity="center" />
-            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:background="#FFFFFF"
-        android:elevation="4dp">
-
-        <TextView
-            android:id="@+id/btnLogout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="↪  Log Out"
-            android:textSize="14sp"
-            android:textColor="#E53E3E"
-            android:clickable="true"
-            android:focusable="true" />
-    </LinearLayout>
-
+    <TextView android:id="@+id/btnLogout" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp" android:text="↪  Log Out" android:textColor="#E53E3E" android:textSize="14sp" android:textStyle="bold" android:background="#FFFFFF" android:elevation="8dp" />
 </LinearLayout>
