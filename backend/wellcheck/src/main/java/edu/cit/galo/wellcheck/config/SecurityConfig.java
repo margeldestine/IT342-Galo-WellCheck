@@ -1,6 +1,7 @@
 package edu.cit.galo.wellcheck.config;
 
 import edu.cit.galo.wellcheck.security.JwtAuthFilter;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,6 +39,15 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // --- ADD THIS SECTION BELOW ---
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"Unauthorized - Invalid Token\"}");
+                        })
+                )
+                // --- END OF ADDED SECTION ---
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/register/student",
@@ -66,10 +76,6 @@ public class SecurityConfig {
                                 )
                         )
                         .successHandler(oAuth2LoginSuccessHandler)
-                        .failureHandler((request, response, exception) -> {
-                            System.out.println("OAuth2 failure: " + exception.getMessage());
-                            response.sendRedirect("http://localhost:3000/login?error=google_failed");
-                        })
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
