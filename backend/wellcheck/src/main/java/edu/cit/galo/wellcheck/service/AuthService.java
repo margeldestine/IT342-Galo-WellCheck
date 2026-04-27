@@ -9,6 +9,8 @@ import edu.cit.galo.wellcheck.entity.StudentProfile;
 import edu.cit.galo.wellcheck.entity.User;
 import edu.cit.galo.wellcheck.enums.UserRole;
 import edu.cit.galo.wellcheck.enums.UserStatus;
+import edu.cit.galo.wellcheck.factory.CounselorProfileFactory;
+import edu.cit.galo.wellcheck.factory.StudentProfileFactory;
 import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
@@ -29,17 +31,23 @@ public class AuthService {
     private final CounselorProfileRepository counselorProfileRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final StudentProfileFactory studentProfileFactory;
+    private final CounselorProfileFactory counselorProfileFactory;
 
     public AuthService(UserRepository userRepository,
                        StudentProfileRepository studentProfileRepository,
                        CounselorProfileRepository counselorProfileRepository,
                        PasswordEncoder passwordEncoder,
-                       JwtUtil jwtUtil) {
+                       JwtUtil jwtUtil,
+                       StudentProfileFactory studentProfileFactory,
+                       CounselorProfileFactory counselorProfileFactory) {
         this.userRepository = userRepository;
         this.studentProfileRepository = studentProfileRepository;
         this.counselorProfileRepository = counselorProfileRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+        this.studentProfileFactory = studentProfileFactory;
+        this.counselorProfileFactory = counselorProfileFactory;
     }
 
     @Transactional
@@ -51,6 +59,7 @@ public class AuthService {
             throw new RuntimeException("Student ID number is already registered.");
         }
 
+        // Create user
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -61,14 +70,8 @@ public class AuthService {
         user.setProfileCompleted(false);
         userRepository.save(user);
 
-        StudentProfile profile = new StudentProfile();
-        profile.setStudentIdNumber(request.getStudentIdNumber());
-        profile.setProgram(request.getProgram());
-        profile.setYearLevel(request.getYearLevel());
-        profile.setGender(request.getGender());
-        profile.setBirthdate(request.getBirthdate());
-        profile.setUser(user);
-        studentProfileRepository.save(profile);
+        // Use factory to create profile (eliminates duplication)
+        studentProfileFactory.createAndSaveProfile(user, request);
 
         return "Student registered successfully.";
     }
@@ -82,6 +85,7 @@ public class AuthService {
             throw new RuntimeException("Employee number is already registered.");
         }
 
+        // Create user
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -92,12 +96,8 @@ public class AuthService {
         user.setProfileCompleted(false);
         userRepository.save(user);
 
-        CounselorProfile profile = new CounselorProfile();
-        profile.setEmployeeNumber(request.getEmployeeNumber());
-        profile.setSpecialization(request.getSpecialization());
-        profile.setBio(request.getBio());
-        profile.setUser(user);
-        counselorProfileRepository.save(profile);
+        // Use factory to create profile (eliminates duplication)
+        counselorProfileFactory.createAndSaveProfile(user, request);
 
         return "Counselor registration submitted. Awaiting admin approval.";
     }

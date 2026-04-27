@@ -7,6 +7,7 @@ import edu.cit.galo.wellcheck.entity.Slot;
 import edu.cit.galo.wellcheck.entity.StudentProfile;
 import edu.cit.galo.wellcheck.enums.AppointmentStatus;
 import edu.cit.galo.wellcheck.enums.SlotStatus;
+import edu.cit.galo.wellcheck.observer.AppointmentObserver;
 import edu.cit.galo.wellcheck.repository.AppointmentRepository;
 import edu.cit.galo.wellcheck.repository.SlotRepository;
 import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
@@ -26,17 +27,20 @@ public class AppointmentService {
     private final StudentProfileRepository studentProfileRepository;
     private final UserRepository userRepository;
     private final CounselorProfileRepository counselorProfileRepository;
+    private final List<AppointmentObserver> observers;
 
     public AppointmentService(AppointmentRepository appointmentRepository,
                               SlotRepository slotRepository,
                               StudentProfileRepository studentProfileRepository,
                               UserRepository userRepository,
-                              CounselorProfileRepository counselorProfileRepository) {
+                              CounselorProfileRepository counselorProfileRepository,
+                              List<AppointmentObserver> observers) {
         this.appointmentRepository = appointmentRepository;
         this.slotRepository = slotRepository;
         this.studentProfileRepository = studentProfileRepository;
         this.userRepository = userRepository;
         this.counselorProfileRepository = counselorProfileRepository;
+        this.observers = observers;
     }
 
     @Transactional
@@ -115,10 +119,14 @@ public class AppointmentService {
             throw new RuntimeException("Only PENDING appointments can be cancelled.");
         }
 
+        String oldStatus = appointment.getStatus().name();
         appointment.setStatus(AppointmentStatus.CANCELLED);
         appointment.getSlot().setStatus(SlotStatus.AVAILABLE);
         slotRepository.save(appointment.getSlot());
         appointmentRepository.save(appointment);
+
+        // Notify all observers
+        notifyObservers(appointment, oldStatus, "CANCELLED");
 
         return toResponse(appointment);
     }
@@ -132,8 +140,13 @@ public class AppointmentService {
             throw new RuntimeException("Only PENDING appointments can be approved.");
         }
 
+        String oldStatus = appointment.getStatus().name();
         appointment.setStatus(AppointmentStatus.CONFIRMED);
         appointmentRepository.save(appointment);
+
+        // Notify all observers
+        notifyObservers(appointment, oldStatus, "CONFIRMED");
+
         return toResponse(appointment);
     }
 
@@ -146,11 +159,26 @@ public class AppointmentService {
             throw new RuntimeException("Only PENDING appointments can be rejected.");
         }
 
+        String oldStatus = appointment.getStatus().name();
         appointment.setStatus(AppointmentStatus.REJECTED);
         appointment.getSlot().setStatus(SlotStatus.AVAILABLE);
         slotRepository.save(appointment.getSlot());
         appointmentRepository.save(appointment);
+
+        // Notify all observers
+        notifyObservers(appointment, oldStatus, "REJECTED");
+
         return toResponse(appointment);
+    }
+    private void notifyObservers(Appointment appointment, String oldStatus, String newStatus) {
+        System.out.println("\n🔔 Notifying " + observers.size() + " observers...");
+        for (AppointmentObserver observer : observers) {
+            try {
+                observer.onStatusChanged(appointment, oldStatus, newStatus);
+            } catch (Exception e) {
+                System.err.println("❌ Observer " + observer.getClass().getSimpleName() + " failed: " + e.getMessage());
+            }
+        }
     }
 
     private AppointmentResponse toResponse(Appointment a) {
