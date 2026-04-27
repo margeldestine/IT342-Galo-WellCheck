@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/CounselorTopbar.css';
+import logo from '../assets/wellcheck-logo.png';
 
 const CounselorTopbar = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const CounselorTopbar = () => {
   return (
     <div className="counselor-topbar">
       <div className="topbar-brand" onClick={() => navigate('/counselor/dashboard')}>
-        <div className="navbar-logo">♥</div>
+        <img src={logo} alt="WellCheck" style={{ width: '36px', height: '36px' }} />
         <div className="topbar-brand-text">
           <div className="navbar-title">WellCheck</div>
           <div className="navbar-subtitle">Counselor Portal</div>

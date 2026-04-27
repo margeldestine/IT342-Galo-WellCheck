@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/AdminDashboard.css';
+import logo from '../assets/wellcheck-logo.png';
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -98,11 +99,11 @@ function AdminDashboard() {
       {/* Sidebar */}
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <div className="navbar-logo">♥</div>
+          <img src={logo} alt="WellCheck" style={{ width: '36px', height: '36px' }} />
           <div>
             <div className="navbar-title">WellCheck</div>
             <div className="sidebar-subtitle">Admin Portal</div>
-          </div>
+          </div>  
         </div>
         <nav className="sidebar-nav">
           <div

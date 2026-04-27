@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/StudentTopbar.css';
+import logo from '../assets/wellcheck-logo.png';
 
 const StudentTopbar = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const StudentTopbar = () => {
   return (
     <div className="student-topbar">
       <div className="topbar-brand" onClick={() => navigate('/dashboard')}>
-        <div className="navbar-logo">♥</div>
+        <img src={logo} alt="WellCheck" style={{ width: '36px', height: '36px' }} />
         <div className="topbar-brand-text">
           <div className="navbar-title">WellCheck</div>
           <div className="navbar-subtitle">Student Portal</div>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/CompleteProfile.css';
+import logo from '../assets/wellcheck-logo.png';
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -60,8 +61,8 @@ function CompleteProfile() {
     <div className="complete-wrapper">
       <nav className="complete-navbar">
         <div className="complete-brand" onClick={() => navigate('/')}>
-          <div className="complete-logo">♥</div>
-          <span className="complete-title">WellCheck</span>
+          <img src={logo} alt="WellCheck" style={{ width: '36px', height: '36px' }} />
+          <span className="navbar-title">WellCheck</span>
         </div>
       </nav>
 

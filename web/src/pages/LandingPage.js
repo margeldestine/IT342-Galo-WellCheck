@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/LandingPage.css';
+import logo from '../assets/wellcheck-logo.png';
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ function LandingPage() {
       {/* Navbar */}
       <nav className="navbar">
         <div className="navbar-brand" onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
-          <div className="navbar-logo">♥</div>
+          <img src={logo} alt="WellCheck" style={{ width: '36px', height: '36px' }} />
           <span className="navbar-title">WellCheck</span>
         </div>
         <button className="btn-login" onClick={() => navigate('/login')}>

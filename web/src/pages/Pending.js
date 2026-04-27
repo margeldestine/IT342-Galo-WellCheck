@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import '../styles/Pending.css';
+import logo from '../assets/wellcheck-logo.png';
+
 
 function Pending() {
   const navigate = useNavigate();
@@ -15,9 +17,9 @@ function Pending() {
   return (
     <div className="pending-wrapper">
       <nav className="pending-navbar">
-        <div className="pending-brand" onClick={() => navigate('/')}>
-          <div className="pending-logo">♥</div>
-          <span className="pending-title">WellCheck</span>
+        <div className="pending-brand" onClick={() => navigate('/')}> 
+          <img src={logo} alt="WellCheck" style={{ width: '36px', height: '36px' }} />
+          <span className="navbar-title">WellCheck</span>
         </div>
       </nav>
 
