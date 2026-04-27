@@ -235,3 +235,11 @@
     grid-template-columns: 1fr;
   }
 }
+
+input[type="date"].complete-input {
+  color: #888;
+}
+
+input[type="date"].complete-input:valid {
+  color: #1a1a1a;
+}
