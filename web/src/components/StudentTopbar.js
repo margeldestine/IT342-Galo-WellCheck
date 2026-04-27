@@ -20,7 +20,9 @@ const StudentTopbar = () => {
       </div>
       <div className="topbar-user" onClick={() => navigate('/studentprofile')} style={{ cursor: 'pointer' }}>
         <span className="topbar-name">{firstName} {lastName}</span>
-        <div className="topbar-avatar">{firstName.charAt(0)}</div>
+        <div className="topbar-avatar">
+          {firstName.charAt(0)}{lastName.charAt(0)}
+        </div>
       </div>
     </div>
   );

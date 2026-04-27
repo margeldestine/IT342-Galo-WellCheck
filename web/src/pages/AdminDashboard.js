@@ -125,7 +125,7 @@ function AdminDashboard() {
       </aside>
 
       {/* Main */}
-      <main className="dashboard-main">
+      <main className="admin-dashboard-main">
         {/* Topbar */}
         <div className="topbar">
           <div />
