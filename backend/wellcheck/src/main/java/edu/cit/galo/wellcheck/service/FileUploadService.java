@@ -38,7 +38,8 @@ public class FileUploadService {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-            if (response.statusCode() == 200 || response.statusCode() == 200) {
+            System.out.println("Supabase response: " + response.statusCode() + " - " + response.body());
+            if (response.statusCode() == 200 || response.statusCode() == 201) {
                 return supabaseUrl + "/storage/v1/object/public/" + bucket + "/" + fileName;
             } else {
                 throw new RuntimeException("Upload failed: " + response.body());
