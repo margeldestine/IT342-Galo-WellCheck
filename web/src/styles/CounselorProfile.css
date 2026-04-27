@@ -188,3 +188,15 @@
   margin-bottom: 16px;
   text-align: center;
 }
+
+input[type="date"].complete-input {
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  color: #888;
+}
+
+input[type="date"].complete-input::-webkit-calendar-picker-indicator {
+  opacity: 0.5;
+  cursor: pointer;
+}
