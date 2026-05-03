@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import StudentTopbar from '../components/StudentTopbar';
 import StudentSidebar from '../components/StudentSidebar';
-import '../styles/StudentDashboard.css';
+import '../styles/MyAppointments.css';
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -12,7 +11,7 @@ function MyAppointments() {
   const token = localStorage.getItem('token');
 
   const [appointments, setAppointments] = useState([]);
-  const [loadingAppointments, setLoadingAppointments] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [filterStatus, setFilterStatus] = useState('ALL');
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [cancellingId, setCancellingId] = useState(null);
@@ -22,7 +21,7 @@ function MyAppointments() {
   }, []);
 
   const fetchAppointments = async () => {
-    setLoadingAppointments(true);
+    setLoading(true);
     try {
       const res = await axios.get(`${API}/appointments/my`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -31,7 +30,7 @@ function MyAppointments() {
     } catch (err) {
       console.error('Failed to fetch appointments:', err);
     }
-    setLoadingAppointments(false);
+    setLoading(false);
   };
 
   const handleCancelAppointment = async () => {
@@ -47,117 +46,149 @@ function MyAppointments() {
     }
   };
 
-  const filteredAppointments = appointments.filter(a =>
+  const filtered = appointments.filter(a =>
     filterStatus === 'ALL' || a.status === filterStatus
   );
 
-  const formatTime = (dt) => new Date(dt).toLocaleString('en-US', {
-    hour: '2-digit', minute: '2-digit'
-  });
+  const getMonth = (dt) =>
+    new Date(dt).toLocaleString('en-US', { month: 'short' }).toUpperCase();
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'PENDING': return 'status-pending';
-      case 'CONFIRMED': return 'status-confirmed';
-      case 'REJECTED': return 'status-rejected';
-      case 'CANCELLED': return 'status-cancelled';
-      default: return '';
-    }
+  const getDay = (dt) => new Date(dt).getDate();
+
+  const formatTime = (dt) =>
+    new Date(dt).toLocaleString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+  const statusLabel = (s) =>
+    s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+
+  const statusClass = {
+    PENDING:   'ma-badge-pending',
+    CONFIRMED: 'ma-badge-confirmed',
+    REJECTED:  'ma-badge-rejected',
+    CANCELLED: 'ma-badge-cancelled',
   };
 
+  const tabs = ['ALL', 'PENDING', 'CONFIRMED', 'REJECTED', 'CANCELLED'];
+
   return (
-    <div className="dashboard-layout">
-      <StudentTopbar />
-      <div className="dashboard-wrapper">
-        <StudentSidebar activeItem="appointments" />
+    <div className="ma-root">
+      <StudentSidebar activeItem="appointments" />
 
-        <main className="dashboard-main">
-          <div className="dashboard-content">
-            <h1 className="greeting">My Appointments</h1>
-            <p className="greeting-sub">View and manage your appointments.</p>
+      <main className="ma-main">
+        <div className="ma-inner">
 
-            <div className="filter-tabs">
-              {['ALL', 'PENDING', 'CONFIRMED', 'REJECTED', 'CANCELLED'].map(status => (
-                <button
-                  key={status}
-                  className={`filter-tab ${filterStatus === status ? 'active' : ''}`}
-                  onClick={() => setFilterStatus(status)}
-                >
-                  {status}
-                </button>
-              ))}
+          {/* ── Header ── */}
+          <div className="ma-header">
+            <div>
+              <h1 className="ma-title">My Appointments</h1>
+              <p className="ma-sub">View and manage your counseling sessions.</p>
             </div>
+            <button className="ma-btn-book" onClick={() => navigate('/browse-counselors')}>
+              + Book new session
+            </button>
+          </div>
 
-            {loadingAppointments ? (
-              <div className="empty-msg">Loading appointments...</div>
-            ) : filteredAppointments.length === 0 ? (
-              <div className="empty-msg">
-                <div className="empty-apt-icon">📭</div>
-                <p>No appointments found.</p>
-                <button className="btn-book-now" onClick={() => navigate('/browse-counselors')}>
-                  Book your first appointment
-                </button>
-              </div>
-            ) : (
-              <div className="appointments-list">
-                {filteredAppointments.map(apt => (
-                  <div key={apt.id} className="apt-item">
-                    <div className="apt-left">
-                      <div className="apt-date-badge">
-                        <span className="apt-month">
-                          {new Date(apt.startTime).toLocaleString('en-US', { month: 'short' })}
-                        </span>
-                        <span className="apt-day">{new Date(apt.startTime).getDate()}</span>
-                      </div>
-                      <div className="apt-details">
-                        <div className="apt-counselor">
-                          {apt.counselorFirstName} {apt.counselorLastName}
-                        </div>
-                        <div className="apt-specialization">{apt.counselorSpecialization}</div>
-                        <div className="apt-time">{formatTime(apt.startTime)}</div>
-                      </div>
+          {/* ── Filter tabs ── */}
+          <div className="ma-tabs">
+            {tabs.map(t => (
+              <button
+                key={t}
+                className={`ma-tab ${filterStatus === t ? 'ma-tab-active' : ''}`}
+                onClick={() => setFilterStatus(t)}
+              >
+                {t === 'ALL' ? 'All' : statusLabel(t)}
+              </button>
+            ))}
+          </div>
+
+          {/* ── Content ── */}
+          {loading ? (
+            <div className="ma-loading">Loading appointments…</div>
+          ) : filtered.length === 0 ? (
+            <div className="ma-empty">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" strokeWidth="1.4" className="ma-empty-icon">
+                <rect x="3" y="4" width="18" height="18" rx="3"/>
+                <line x1="3" y1="10" x2="21" y2="10"/>
+                <line x1="8" y1="2" x2="8" y2="6"/>
+                <line x1="16" y1="2" x2="16" y2="6"/>
+              </svg>
+              <p className="ma-empty-title">No appointments found</p>
+              <small className="ma-empty-sub">Try a different filter or book a new session.</small>
+            </div>
+          ) : (
+            <div className="ma-list">
+              {filtered.map(apt => (
+                <div key={apt.id} className="ma-card">
+
+                  {/* Date badge */}
+                  <div className="ma-date">
+                    <span className="ma-date-month">{getMonth(apt.startTime)}</span>
+                    <span className="ma-date-day">{getDay(apt.startTime)}</span>
+                  </div>
+
+                  {/* Info */}
+                  <div className="ma-info">
+                    <div className="ma-counselor">
+                      {apt.counselorFirstName} {apt.counselorLastName}
                     </div>
-                    <div className="apt-right">
-                      <span className={`apt-status ${getStatusColor(apt.status)}`}>
-                        {apt.status}
-                      </span>
-                      {apt.status === 'PENDING' && (
-                        <button 
-                          className="btn-cancel-apt" 
-                          onClick={() => {
-                            setCancellingId(apt.id);
-                            setShowCancelModal(true);
-                          }}
-                        >
-                          Cancel
-                        </button>
-                      )}
+                    <div className="ma-spec">{apt.counselorSpecialization}</div>
+                    <div className="ma-time">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" strokeWidth="2">
+                        <circle cx="12" cy="12" r="9"/>
+                        <polyline points="12 7 12 12 15 15"/>
+                      </svg>
+                      {formatTime(apt.startTime)}
                     </div>
                   </div>
-                ))}
-              </div>
-            )}
-          </div>
-        </main>
-      </div>
 
+                  {/* Right: badge + cancel */}
+                  <div className="ma-actions">
+                    <span className={`ma-badge ${statusClass[apt.status] || ''}`}>
+                      {statusLabel(apt.status)}
+                    </span>
+                    {apt.status === 'PENDING' && (
+                      <button
+                        className="ma-btn-cancel"
+                        onClick={() => {
+                          setCancellingId(apt.id);
+                          setShowCancelModal(true);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+
+      {/* ── Cancel Modal ── */}
       {showCancelModal && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <div className="modal-icon">⚠️</div>
-            <h3 className="modal-title">Cancel Appointment</h3>
-            <p className="modal-message">Are you sure you want to cancel this appointment?</p>
-            <div className="modal-actions">
-              <button 
-                className="btn-modal-cancel" 
-                onClick={() => setShowCancelModal(false)}
-              >
+        <div
+          className="ma-overlay"
+          onClick={(e) => e.target === e.currentTarget && setShowCancelModal(false)}
+        >
+          <div className="ma-modal">
+            <div className="ma-modal-head">
+              <div>
+                <div className="ma-modal-title">Cancel Appointment</div>
+                <div className="ma-modal-sub">This action cannot be undone.</div>
+              </div>
+              <button className="ma-modal-x" onClick={() => setShowCancelModal(false)}>✕</button>
+            </div>
+            <p className="ma-modal-msg">
+              Are you sure you want to cancel this appointment?
+            </p>
+            <div className="ma-modal-foot">
+              <button className="ma-btn-keep" onClick={() => setShowCancelModal(false)}>
                 Keep it
               </button>
-              <button 
-                className="btn-modal-delete" 
-                onClick={handleCancelAppointment}
-              >
+              <button className="ma-btn-confirm-cancel" onClick={handleCancelAppointment}>
                 Yes, Cancel
               </button>
             </div>
