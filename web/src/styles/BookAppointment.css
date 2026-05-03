@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap');
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -39,17 +39,27 @@
 
 .ba-btn-back:hover { color: #1a1a1a; }
 
+/* ── Header ── */
 .ba-header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 8px;
   width: 100%;
 }
 
+.ba-header-meta {
+  font-size: 12px;
+  color: #aaa;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  margin-bottom: 2px;
+}
+
 .ba-heading {
-  font-size: 26px;
-  font-weight: 800;
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  font-weight: 400;
   color: #1a1a1a;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.3px;
   margin-bottom: 4px;
 }
 
@@ -58,6 +68,7 @@
   color: #aaa;
 }
 
+/* ── Step Indicator ── */
 .ba-steps {
   display: flex;
   align-items: center;
@@ -105,28 +116,30 @@
 
 .ba-step-line.done { background-color: #1c3a2f; }
 
+/* ── Main Card ── */
 .ba-card {
   background-color: #ffffff;
-  border-radius: 14px;
-  padding: 28px;
+  border-radius: 16px;
+  padding: 32px;
   border: 1px solid #e5e0d8;
   width: 100%;
-  max-width: 640px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  max-width: 620px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .ba-card-title {
-  font-size: 18px;
-  font-weight: 800;
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
   color: #1a1a1a;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   text-align: center;
 }
 
 .ba-card-sub {
   font-size: 13px;
   color: #aaa;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   text-align: center;
 }
 
@@ -137,6 +150,7 @@
   padding: 24px 0;
 }
 
+/* ── Form Fields (Steps 1 & 2) ── */
 .ba-field {
   display: flex;
   flex-direction: column;
@@ -145,11 +159,11 @@
 }
 
 .ba-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: #555;
+  font-size: 11px;
+  font-weight: 700;
+  color: #888;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.6px;
 }
 
 .ba-input {
@@ -162,6 +176,12 @@
   background-color: #f8f6f3;
   outline: none;
   width: 100%;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ba-input:focus {
+  border-color: #1c3a2f;
+  box-shadow: 0 0 0 3px rgba(28,58,47,0.08);
 }
 
 .ba-textarea {
@@ -175,6 +195,7 @@
   resize: none;
   width: 100%;
   transition: all 0.2s ease;
+  background-color: #f8f6f3;
 }
 
 .ba-textarea:focus {
@@ -188,11 +209,54 @@
   gap: 14px;
 }
 
+/* ── Review Box (Step 3) ── */
+.ba-review-section {
+  margin-bottom: 16px;
+}
+
+.ba-review-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1c3a2f;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.ba-review-box {
+  background-color: #f8f6f3;
+  border-radius: 10px;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ba-review-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 13px 16px;
+}
+
+.ba-review-label {
+  font-size: 13px;
+  color: #888;
+  font-weight: 500;
+}
+
+.ba-review-value {
+  font-size: 13px;
+  color: #1a1a1a;
+  font-weight: 600;
+  text-align: right;
+}
+
+/* ── Actions ── */
 .ba-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 
 .ba-btn-primary {
@@ -228,35 +292,7 @@
 
 .ba-btn-secondary:hover { background-color: #e5e0d8; }
 
-.ba-review-box {
-  background-color: #f8f6f3;
-  border-radius: 10px;
-  padding: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 16px;
-}
-
-.ba-review-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.ba-review-label {
-  font-size: 12px;
-  color: #888;
-  font-weight: 500;
-}
-
-.ba-review-value {
-  font-size: 13px;
-  color: #1a1a1a;
-  font-weight: 600;
-  text-align: right;
-}
-
+/* ── Error ── */
 .ba-error {
   background-color: #fff5f5;
   color: #e53e3e;
@@ -268,6 +304,7 @@
   text-align: center;
 }
 
+/* ── ID Status ── */
 .ba-id-status {
   display: flex;
   align-items: center;
@@ -341,6 +378,7 @@
 
 .ba-btn-upload-profile:hover { background-color: #333; }
 
+/* ── Confirmed ── */
 .ba-confirmed-wrapper {
   display: flex;
   justify-content: center;
@@ -351,28 +389,28 @@
 .ba-confirmed {
   background-color: #ffffff;
   border-radius: 16px;
-  padding: 40px 36px;
+  padding: 48px 36px;
   border: 1px solid #e5e0d8;
   text-align: center;
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .ba-confirmed-icon { font-size: 48px; margin-bottom: 14px; }
 
 .ba-confirmed-title {
-  font-size: 24px;
-  font-weight: 800;
+  font-family: 'DM Serif Display', serif;
+  font-size: 26px;
+  font-weight: 400;
   color: #1a1a1a;
   margin-bottom: 8px;
-  letter-spacing: -0.3px;
 }
 
 .ba-confirmed-sub {
   font-size: 13px;
   color: #888;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   line-height: 1.6;
 }
 
@@ -380,4 +418,22 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+/* ── Divider between sections ── */
+.ba-review-divider {
+  height: 1px;
+  background-color: #ece8e1;
+  margin: 4px 0 16px;
+}
+
+.ba-status-pending {
+  background-color: #fef9ec;
+  color: #b45309;
+  border: 1px solid #fde68a;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
 }

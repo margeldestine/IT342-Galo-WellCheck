@@ -50,7 +50,8 @@ function BrowseCounselors() {
     setLoadingSlots(false);
   };
 
-  const handleViewSlots = (counselor) => {
+  const handleViewSlots = (e, counselor) => {
+    e.stopPropagation();
     setSelectedCounselor(counselor);
     setShowSlotsModal(true);
     fetchSlots(counselor.id);
@@ -75,12 +76,18 @@ function BrowseCounselors() {
 
   const specializations = [...new Set(counselors.map(c => c.specialization))];
 
+  const truncateBio = (bio, limit = 250) => {
+    if (!bio) return 'No bio available.';
+    return bio.length > limit ? bio.slice(0, limit) + '…' : bio;
+  };
+
   return (
     <div className="bc-layout">
       <StudentSidebar activeItem="browse-counselors" />
       <main className="bc-main">
         <div className="bc-content">
 
+          {/* ── Header ── */}
           <div className="bc-page-header">
             <div>
               <h1 className="bc-heading">Browse Counselors</h1>
@@ -88,6 +95,7 @@ function BrowseCounselors() {
             </div>
           </div>
 
+          {/* ── Toolbar ── */}
           <div className="bc-toolbar">
             <div className="bc-search-wrapper">
               <Search size={15} className="bc-search-icon" />
@@ -111,6 +119,7 @@ function BrowseCounselors() {
             </select>
           </div>
 
+          {/* ── Grid ── */}
           {loadingCounselors ? (
             <div className="bc-empty">Loading counselors...</div>
           ) : filteredCounselors.length === 0 ? (
@@ -118,8 +127,12 @@ function BrowseCounselors() {
           ) : (
             <div className="bc-grid">
               {filteredCounselors.map(counselor => (
-                <div key={counselor.id} className="bc-card">
-                  <div className="bc-card-header">
+                <div
+                  key={counselor.id}
+                  className="bc-card"
+                  onClick={() => navigate(`/counselor/${counselor.id}`)}
+                >
+                  <div className="bc-card-top">
                     <div className="bc-avatar">
                       {counselor.firstName.charAt(0)}{counselor.lastName.charAt(0)}
                     </div>
@@ -127,28 +140,39 @@ function BrowseCounselors() {
                       <div className="bc-name">{counselor.firstName} {counselor.lastName}</div>
                       <div className="bc-spec">{counselor.specialization}</div>
                     </div>
+                    <span className="bc-available-dot-wrap">
+                      <span className="bc-available-dot" /> Available
+                    </span>
                   </div>
-                  <p className="bc-bio">{counselor.bio || 'No bio available.'}</p>
-                  <div className="bc-slots-count">
-                    {counselor.availableSlots} available slot{counselor.availableSlots !== 1 ? 's' : ''}
+
+                  <p className="bc-bio">{truncateBio(counselor.bio)}</p>
+
+                  <div className="bc-card-footer">
+                    <span className={`bc-slots-count ${counselor.availableSlots === 0 ? 'none' : ''}`}>
+                      {counselor.availableSlots > 0
+                        ? `${counselor.availableSlots} slot${counselor.availableSlots !== 1 ? 's' : ''} available`
+                        : 'No slots available'}
+                    </span>
+                    <button
+                      className="bc-btn-slots"
+                      disabled={counselor.availableSlots === 0}
+                      onClick={(e) => handleViewSlots(e, counselor)}
+                    >
+                      {counselor.availableSlots === 0 ? 'No slots available' : 'View available slots'}
+                    </button>
                   </div>
-                  <button
-                    className="bc-btn-view"
-                    onClick={() => handleViewSlots(counselor)}
-                    disabled={counselor.availableSlots === 0}
-                  >
-                    {counselor.availableSlots === 0 ? 'No slots available' : 'View available slots'}
-                  </button>
                 </div>
               ))}
             </div>
           )}
+
         </div>
       </main>
 
+      {/* ── Slots Modal ── */}
       {showSlotsModal && (
-        <div className="bc-modal-overlay">
-          <div className="bc-modal">
+        <div className="bc-modal-overlay" onClick={() => setShowSlotsModal(false)}>
+          <div className="bc-modal" onClick={(e) => e.stopPropagation()}>
             <div className="bc-modal-header">
               <div>
                 <h3 className="bc-modal-title">Available Slots</h3>
@@ -156,8 +180,9 @@ function BrowseCounselors() {
                   {selectedCounselor?.firstName} {selectedCounselor?.lastName} · {selectedCounselor?.specialization}
                 </p>
               </div>
-              <button className="bc-modal-close" onClick={() => setShowSlotsModal(false)}>✕</button>
+              <button className="bc-modal-close" onClick={() => setShowSlotsModal(false)}>×</button>
             </div>
+
             {loadingSlots ? (
               <div className="bc-empty">Loading slots...</div>
             ) : slots.length === 0 ? (
@@ -176,7 +201,12 @@ function BrowseCounselors() {
                       <div className="bc-slot-time">{formatTime(slot.startTime)} → {formatTime(slot.endTime)}</div>
                       <div className="bc-slot-date">{formatDate(slot.startTime)}</div>
                     </div>
-                    <button className="bc-btn-select">Select</button>
+                    <button
+                      className="bc-btn-select"
+                      onClick={(e) => { e.stopPropagation(); handleSelectSlot(slot); }}
+                    >
+                      Select 
+                    </button>
                   </div>
                 ))}
               </div>

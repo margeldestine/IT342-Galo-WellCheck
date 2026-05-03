@@ -1,7 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap');
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── Layout ── */
 .bc-layout {
   display: flex;
   height: 100vh;
@@ -20,8 +21,10 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
 }
 
+/* ── Header ── */
 .bc-page-header {
   display: flex;
   align-items: flex-start;
@@ -29,10 +32,10 @@
 }
 
 .bc-heading {
+  font-family: 'DM Serif Display', serif;
   font-size: 28px;
-  font-weight: 800;
+  font-weight: 400;
   color: #1a1a1a;
-  letter-spacing: -0.5px;
   line-height: 1.15;
 }
 
@@ -42,6 +45,7 @@
   margin-top: 4px;
 }
 
+/* ── Toolbar ── */
 .bc-toolbar {
   display: flex;
   gap: 12px;
@@ -66,61 +70,66 @@
   border: 1px solid #e5e0d8;
   border-radius: 10px;
   padding: 11px 16px 11px 38px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-family: 'Inter', sans-serif;
   outline: none;
   background-color: #ffffff;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  color: #1a1a1a;
+  transition: border-color 0.15s;
 }
 
-.bc-search:focus {
-  border-color: #1c3a2f;
-  box-shadow: 0 0 0 3px rgba(28,58,47,0.08);
-}
+.bc-search:focus { border-color: #4caf82; }
 
 .bc-filter {
   border: 1px solid #e5e0d8;
   border-radius: 10px;
   padding: 11px 16px;
-  font-size: 14px;
+  font-size: 13.5px;
   font-family: 'Inter', sans-serif;
   outline: none;
   background-color: #ffffff;
   cursor: pointer;
   min-width: 200px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  color: #1a1a1a;
+  transition: border-color 0.15s;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23aaa' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
 }
 
-.bc-filter:focus {
-  border-color: #1c3a2f;
-}
+.bc-filter:focus { border-color: #4caf82; }
 
+/* ── Grid ── */
 .bc-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 }
 
+/* ── Card ── */
 .bc-card {
-  background-color: #ffffff;
+  background: #ffffff;
+  border: 1px solid #e5e0d8;
   border-radius: 14px;
   padding: 22px;
-  border: 1px solid #e5e0d8;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  transition: all 0.2s ease;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .bc-card:hover {
+  border-color: #4caf82;
+  box-shadow: 0 4px 20px rgba(28,58,47,0.08);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  border-color: #1c3a2f;
 }
 
-.bc-card-header {
+.bc-card-top {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -130,8 +139,8 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: #edf7f2;
-  color: #1c3a2f;
+  background: #2d5c45;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,6 +150,7 @@
 }
 
 .bc-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -158,52 +168,88 @@
   font-weight: 500;
 }
 
+.bc-available-dot-wrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #4caf82;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.bc-available-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4caf82;
+  flex-shrink: 0;
+}
+
 .bc-bio {
   font-size: 13px;
   color: #666;
-  line-height: 1.6;
+  line-height: 1.65;
+  flex: 1;
+}
+
+/* ── Card footer ── */
+.bc-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid #f0ede8;
+  gap: 12px;
 }
 
 .bc-slots-count {
   font-size: 12px;
   color: #4caf82;
   font-weight: 600;
+  white-space: nowrap;
 }
 
-.bc-btn-view {
-  width: 100%;
-  background-color: #1c3a2f;
+.bc-slots-count.none {
+  color: #bbb;
+}
+
+.bc-btn-slots {
+  background: #1c3a2f;
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 11px;
-  font-size: 13px;
+  padding: 9px 16px;
+  font-size: 12.5px;
   font-weight: 600;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-  margin-top: auto;
+  transition: background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.bc-btn-view:hover { background-color: #2d5c45; }
+.bc-btn-slots:hover { background: #2d5c45; }
 
-.bc-btn-view:disabled {
-  background-color: #f0ede8;
+.bc-btn-slots:disabled {
+  background: #f0ede8;
   color: #bbb;
   cursor: not-allowed;
 }
 
+/* ── Empty ── */
 .bc-empty {
   font-size: 14px;
   color: #bbb;
   text-align: center;
-  padding: 40px 0;
+  padding: 60px 0;
 }
 
+/* ── Modal ── */
 .bc-modal-overlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -212,7 +258,7 @@
 }
 
 .bc-modal {
-  background-color: #ffffff;
+  background: #ffffff;
   border-radius: 18px;
   padding: 28px;
   width: 100%;
@@ -228,8 +274,9 @@
 }
 
 .bc-modal-title {
-  font-size: 18px;
-  font-weight: 800;
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  font-weight: 400;
   color: #1a1a1a;
 }
 
@@ -242,9 +289,12 @@
 .bc-modal-close {
   background: none;
   border: none;
-  font-size: 16px;
-  color: #888;
+  font-size: 20px;
+  color: #aaa;
   cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
 }
 
 .bc-slots-list {
@@ -263,18 +313,18 @@
   border: 1px solid #e5e0d8;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
 }
 
 .bc-slot-item:hover {
-  border-color: #1c3a2f;
-  background-color: #f4faf7;
+  border-color: #4caf82;
+  background: #f4faf7;
 }
 
 .bc-slot-badge {
   width: 46px;
   height: 46px;
-  background-color: #edf7f2;
+  background: #edf7f2;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -312,7 +362,7 @@
 }
 
 .bc-btn-select {
-  background-color: #1c3a2f;
+  background: #1c3a2f;
   color: white;
   border: none;
   border-radius: 8px;
@@ -321,8 +371,13 @@
   font-weight: 600;
   cursor: pointer;
   font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
+  transition: background 0.15s;
   flex-shrink: 0;
 }
 
-.bc-btn-select:hover { background-color: #2d5c45; }
+.bc-btn-select:hover { background: #2d5c45; }
+
+@media (max-width: 768px) {
+  .bc-grid { grid-template-columns: 1fr; }
+  .bc-content { padding: 20px 16px; }
+}

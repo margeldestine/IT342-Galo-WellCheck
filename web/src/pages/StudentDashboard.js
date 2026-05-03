@@ -281,7 +281,7 @@ function StudentDashboard() {
             ) : (
               <div className="sd-counselor-list">
                 {counselors.map((c) => (
-                  <div key={c.id} className="sd-counselor-row">
+                  <div key={c.id} className="sd-counselor-row" style={{ cursor: 'pointer' }} onClick={() => navigate(`/counselor/${c.id}`)}>
                     <div className="sd-counselor-avatar">
                       {c.firstName?.charAt(0)}{c.lastName?.charAt(0)}
                     </div>

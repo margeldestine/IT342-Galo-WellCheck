@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { ArrowLeft, CheckCircle, AlertTriangle } from 'lucide-react';
 import StudentSidebar from '../components/StudentSidebar';
 import '../styles/BookAppointment.css';
 
@@ -53,9 +54,22 @@ function BookAppointment() {
     setBookingLoading(false);
   };
 
-  const formatDate = (dt) => new Date(dt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  // "May 6, 2026 (Wednesday)"
+  const formatDate = (dt) => {
+    const d = new Date(dt);
+    const date = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const weekday = d.toLocaleDateString('en-US', { weekday: 'long' });
+    return `${date} (${weekday})`;
+  };
+
+  // "12:29 AM"
   const formatTime = (dt) => new Date(dt).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  const formatFullDate = (dt) => new Date(dt).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+  // "12:29 AM to 12:59 AM"
+  const formatTimeRange = (start, end) => `${formatTime(start)} to ${formatTime(end)}`;
+
+  // short date for subheading "May 6, 2026 at 12:29 AM"
+  const formatShortDate = (dt) => new Date(dt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
   const user = JSON.parse(localStorage.getItem('user') || '{}');
   const firstName = user.firstName || '';
@@ -70,12 +84,12 @@ function BookAppointment() {
           {step !== 4 && (
             <>
               <button className="ba-btn-back" onClick={() => navigate('/browse-counselors')}>
-                ← Back to Counselors
+                <ArrowLeft size={14} /> Back to Counselors
               </button>
               <div className="ba-header">
                 <h1 className="ba-heading">Book Appointment</h1>
                 <p className="ba-subheading">
-                  With {selectedCounselor.firstName} {selectedCounselor.lastName} on {formatDate(selectedSlot.startTime)} at {formatTime(selectedSlot.startTime)}
+                  With {selectedCounselor.firstName} {selectedCounselor.lastName} on {formatShortDate(selectedSlot.startTime)} at {formatTime(selectedSlot.startTime)}
                 </p>
               </div>
               <div className="ba-steps">
@@ -88,9 +102,13 @@ function BookAppointment() {
             </>
           )}
 
+          {/* ── Step 1: Personal Info ── */}
           {step === 1 && (
             <div className="ba-card">
-              <h2 className="ba-card-title">Personal Information</h2>
+              <div className="ba-card-header">
+                <h2 className="ba-card-title">Personal Information</h2>
+                <p className="ba-card-sub">Verify your details before proceeding.</p>
+              </div>
               {loading ? (
                 <div className="ba-loading">Loading your profile...</div>
               ) : (
@@ -136,6 +154,7 @@ function BookAppointment() {
             </div>
           )}
 
+          {/* ── Step 2: School ID + Note ── */}
           {step === 2 && (
             <SchoolIdStep
               token={token}
@@ -148,72 +167,111 @@ function BookAppointment() {
             />
           )}
 
+          {/* ── Step 3: Review ── */}
           {step === 3 && (
             <div className="ba-card">
-              <h2 className="ba-card-title">Review & Submit</h2>
-              <p className="ba-card-sub">Please review your booking details before submitting.</p>
-              <div className="ba-review-box">
-                <div className="ba-review-row">
-                  <span className="ba-review-label">Counselor</span>
-                  <span className="ba-review-value">{selectedCounselor.firstName} {selectedCounselor.lastName}</span>
-                </div>
-                <div className="ba-review-row">
-                  <span className="ba-review-label">Specialization</span>
-                  <span className="ba-review-value">{selectedCounselor.specialization}</span>
-                </div>
-                <div className="ba-review-row">
-                  <span className="ba-review-label">Date</span>
-                  <span className="ba-review-value">{formatFullDate(selectedSlot.startTime)}</span>
-                </div>
-                <div className="ba-review-row">
-                  <span className="ba-review-label">Time</span>
-                  <span className="ba-review-value">{formatTime(selectedSlot.startTime)} → {formatTime(selectedSlot.endTime)}</span>
-                </div>
-                <div className="ba-review-row">
-                  <span className="ba-review-label">Student</span>
-                  <span className="ba-review-value">{firstName} {lastName}</span>
-                </div>
-                <div className="ba-review-row">
-                  <span className="ba-review-label">Student ID</span>
-                  <span className="ba-review-value">{studentProfile?.studentIdNumber}</span>
+              <div className="ba-card-header">
+                <h2 className="ba-card-title">Review & Submit</h2>
+                <p className="ba-card-sub">Please review your booking details before submitting.</p>
+              </div>
+
+              <div className="ba-review-section">
+                <div className="ba-review-section-label">Counselor Details</div>
+                <div className="ba-review-box">
+                  <div className="ba-review-row">
+                    <span className="ba-review-label">Counselor</span>
+                    <span className="ba-review-value">{selectedCounselor.firstName} {selectedCounselor.lastName}</span>
+                  </div>
+        
+                  <div className="ba-review-row">
+                    <span className="ba-review-label">Specialization</span>
+                    <span className="ba-review-value">{selectedCounselor.specialization}</span>
+                  </div>
                 </div>
               </div>
+
+              <div className="ba-review-section">
+                <div className="ba-review-section-label">Schedule</div>
+                <div className="ba-review-box">
+                  <div className="ba-review-row">
+                    <span className="ba-review-label">Date</span>
+                    <span className="ba-review-value">{formatDate(selectedSlot.startTime)}</span>
+                  </div>
+                  <div className="ba-review-row">
+                    <span className="ba-review-label">Time</span>
+                    <span className="ba-review-value">{formatTimeRange(selectedSlot.startTime, selectedSlot.endTime)}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="ba-review-section">
+                <div className="ba-review-section-label">Student</div>
+                <div className="ba-review-box">
+                  <div className="ba-review-row">
+                    <span className="ba-review-label">Name</span>
+                    <span className="ba-review-value">{firstName} {lastName}</span>
+                  </div>
+                  <div className="ba-review-row">
+                    <span className="ba-review-label">Student ID</span>
+                    <span className="ba-review-value">{studentProfile?.studentIdNumber}</span>
+                  </div>
+                </div>
+              </div>
+
+              {bookingNote && (
+                <div className="ba-review-section">
+                  <div className="ba-review-section-label">Note</div>
+                  <div className="ba-review-box">
+                    <p className="ba-review-note-text">{bookingNote}</p>
+                  </div>
+                </div>
+              )}
+
               {bookingError && <div className="ba-error">{bookingError}</div>}
+
               <div className="ba-actions">
                 <button className="ba-btn-secondary" onClick={() => setStep(2)}>Back</button>
                 <button className="ba-btn-primary" onClick={handleBookAppointment} disabled={bookingLoading}>
-                  {bookingLoading ? 'Submitting...' : 'Confirm Booking'}
+                  {bookingLoading ? 'Submitting…' : 'Confirm Booking'}
                 </button>
               </div>
             </div>
           )}
 
+          {/* ── Step 4: Success ── */}
           {step === 4 && (
             <div className="ba-confirmed-wrapper">
               <div className="ba-confirmed">
-                <div className="ba-confirmed-icon"></div>
+                <div className="ba-confirmed-icon-wrap">
+                  <CheckCircle size={40} color="#1c3a2f" />
+                </div>
                 <h2 className="ba-confirmed-title">Booking Submitted!</h2>
                 <p className="ba-confirmed-sub">
-                  Your appointment request has been sent to {selectedCounselor.firstName} {selectedCounselor.lastName}.
+                  Your appointment request has been sent to {selectedCounselor.firstName} {selectedCounselor.lastName}. You'll be notified once it's confirmed.
                 </p>
-                <div className="ba-review-box" style={{ marginBottom: '24px', textAlign: 'left' }}>
-                  <div className="ba-review-row">
-                    <span className="ba-review-label">Counselor</span>
-                    <span className="ba-review-value">{selectedCounselor.firstName} {selectedCounselor.lastName}</span>
-                  </div>
-                  <div className="ba-review-row">
-                    <span className="ba-review-label">Date</span>
-                    <span className="ba-review-value">{formatFullDate(selectedSlot.startTime)}</span>
-                  </div>
-                  <div className="ba-review-row">
-                    <span className="ba-review-label">Time</span>
-                    <span className="ba-review-value">{formatTime(selectedSlot.startTime)} → {formatTime(selectedSlot.endTime)}</span>
-                  </div>
-                  <div className="ba-review-row">
-                    <span className="ba-review-label">Status</span>
-                    <span className="ba-review-value" style={{ color: '#f59e0b' }}>Pending Approval</span>
+
+                <div className="ba-review-section" style={{ width: '100%', textAlign: 'left' }}>
+                  <div className="ba-review-box">
+                    <div className="ba-review-row">
+                      <span className="ba-review-label">Counselor</span>
+                      <span className="ba-review-value">{selectedCounselor.firstName} {selectedCounselor.lastName}</span>
+                    </div>
+                    <div className="ba-review-row">
+                      <span className="ba-review-label">Date</span>
+                      <span className="ba-review-value">{formatDate(selectedSlot.startTime)}</span>
+                    </div>
+                    <div className="ba-review-row">
+                      <span className="ba-review-label">Time</span>
+                      <span className="ba-review-value">{formatTimeRange(selectedSlot.startTime, selectedSlot.endTime)}</span>
+                    </div>
+                    <div className="ba-review-divider" />
+                    <div className="ba-review-row">
+                      <span className="ba-review-label">Status</span>
+                      <span className="ba-status-pending">Pending Approval</span>
+                    </div>
                   </div>
                 </div>
+
                 <div className="ba-confirmed-actions">
                   <button className="ba-btn-primary" onClick={() => navigate('/my-appointments')}>View My Appointments</button>
                   <button className="ba-btn-secondary" onClick={() => navigate('/dashboard')}>Back to Dashboard</button>
@@ -233,10 +291,16 @@ function SchoolIdStep({ token, studentProfile, onBack, onNext, API, bookingNote,
 
   return (
     <div className="ba-card">
-      <h2 className="ba-card-title">Additional Info</h2>
+      <div className="ba-card-header">
+        <h2 className="ba-card-title">Additional Info</h2>
+        <p className="ba-card-sub">Make sure your school ID is on file before proceeding.</p>
+      </div>
+
       {studentProfile?.schoolIdPhotoUrl ? (
         <div className="ba-id-status success">
-          <div className="ba-id-icon">✓</div>
+          <div className="ba-id-icon-wrap success">
+            <CheckCircle size={18} color="#1c3a2f" />
+          </div>
           <div className="ba-id-text">
             <div className="ba-id-title">School ID on file</div>
             <div className="ba-id-sub">Your counselor will use this to verify your enrollment.</div>
@@ -244,7 +308,9 @@ function SchoolIdStep({ token, studentProfile, onBack, onNext, API, bookingNote,
         </div>
       ) : (
         <div className="ba-id-status warning">
-          <div className="ba-id-icon">⚠</div>
+          <div className="ba-id-icon-wrap warning">
+            <AlertTriangle size={18} color="#b45309" />
+          </div>
           <div className="ba-id-text">
             <div className="ba-id-title">No School ID uploaded yet</div>
             <div className="ba-id-sub">School ID is required before your booking can be reviewed.</div>
@@ -254,21 +320,22 @@ function SchoolIdStep({ token, studentProfile, onBack, onNext, API, bookingNote,
           </button>
         </div>
       )}
+
       <div className="ba-field" style={{ marginTop: '20px' }}>
         <label className="ba-label">Note / Message (optional)</label>
         <textarea
           className="ba-textarea"
-          placeholder="Enter any additional notes or messages..."
+          placeholder="Briefly describe what you'd like to talk about…"
           value={bookingNote}
           onChange={(e) => setBookingNote(e.target.value)}
           rows={4}
         />
       </div>
-      <div className="ba-actions" style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-        <button className="ba-btn-secondary" style={{ width: 'auto', padding: '12px 24px' }} onClick={onBack}>Back</button>
+
+      <div className="ba-actions">
+        <button className="ba-btn-secondary" onClick={onBack}>Back</button>
         <button
           className="ba-btn-primary"
-          style={{ width: 'auto', padding: '12px 24px' }}
           onClick={onNext}
           disabled={!studentProfile?.schoolIdPhotoUrl}
         >
