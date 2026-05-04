@@ -1,19 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Calendar, Clock, Inbox, Heart } from 'lucide-react';
+import { Calendar, Clock, Inbox, Heart, RefreshCw } from 'lucide-react';
 import StudentSidebar from '../components/StudentSidebar';
 import '../styles/StudentDashboard.css';
 
 const API = process.env.REACT_APP_API_URL;
 
-const wellnessTips = [
-  "Take 5 minutes today to breathe deeply and reset your focus.",
-  "Remember to drink water and take short breaks between tasks.",
-  "Talking to someone about how you feel is a sign of strength.",
-  "A short walk outside can do wonders for your mental clarity.",
-  "You don't have to have it all figured out. Take it one day at a time."
+const FALLBACK_QUOTES = [
+  { q: 'Almost everything will work again if you unplug it for a few minutes, including you.', a: 'Anne Lamott' },
+  { q: "You don't have to be positive all the time. It's perfectly okay to feel sad, angry, or frustrated.", a: 'Lori Deschene' },
+  { q: "Take care of your body. It's the only place you have to live.", a: 'Jim Rohn' },
+  { q: 'Self-care is not selfish. You cannot serve from an empty vessel.', a: 'Eleanor Brown' },
+  { q: 'You are enough just as you are.', a: 'Meghan Markle' },
 ];
+
+const LOADING_QUOTE = {
+  q: 'The greatest wealth is to live content with little.',
+  a: 'Plato',
+};
 
 const moods = [
   { label: 'Awful', emoji: '😣' },
@@ -62,8 +67,57 @@ function StudentDashboard() {
   const [loadingAppointments, setLoadingAppointments] = useState(false);
   const [selectedMood, setSelectedMood] = useState(null);
 
-  const tip = wellnessTips[new Date().getDay() % wellnessTips.length];
+  // ── Wellness Quote State ──
+  const [quote, setQuote] = useState(LOADING_QUOTE.q);
+  const [quoteAuthor, setQuoteAuthor] = useState(LOADING_QUOTE.a);
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const quotePool = useRef([]);   // ✅ inside component
+  const quoteIndex = useRef(0);   // ✅ inside component
+
   const moodResponse = selectedMood ? getMoodResponse(selectedMood) : null;
+
+  // ── Fetch Quote via Spring Boot backend → ZenQuotes ──
+  const fetchQuote = async () => {
+    setQuoteLoading(true);
+    setQuote(LOADING_QUOTE.q);
+    setQuoteAuthor(LOADING_QUOTE.a);
+
+    // If pool still has quotes, just cycle locally — no API call needed
+    if (quotePool.current.length > 0 && quoteIndex.current < quotePool.current.length) {
+      const next = quotePool.current[quoteIndex.current];
+      quoteIndex.current += 1;
+      setQuote(next.q);
+      setQuoteAuthor(next.a);
+      setQuoteLoading(false);
+      return;
+    }
+
+    // Pool exhausted or empty — fetch fresh batch from backend
+    try {
+      const res = await fetch(`${API}/wellness/quotes`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const parsed = await res.json();
+
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        quotePool.current = parsed.sort(() => Math.random() - 0.5);
+        quoteIndex.current = 0;
+        const next = quotePool.current[quoteIndex.current];
+        quoteIndex.current += 1;
+        setQuote(next.q);
+        setQuoteAuthor(next.a);
+      } else {
+        throw new Error('Empty response');
+      }
+    } catch (err) {
+      console.error('Failed to fetch quotes from backend:', err);
+      const pick = FALLBACK_QUOTES[Math.floor(Math.random() * FALLBACK_QUOTES.length)];
+      setQuote(pick.q);
+      setQuoteAuthor(pick.a);
+    } finally {
+      setQuoteLoading(false);
+    }
+  };
 
   // Auto-dismiss after 2s for Good / Great
   useEffect(() => {
@@ -76,6 +130,7 @@ function StudentDashboard() {
   useEffect(() => {
     fetchAppointments();
     fetchCounselors();
+    fetchQuote();
   }, []);
 
   const fetchAppointments = async () => {
@@ -150,15 +205,24 @@ function StudentDashboard() {
             </div>
           </div>
 
-          {/* ── Wellness tip ── */}
+          {/* ── Wellness Quote ── */}
           <div className="sd-wellness-card">
             <div className="sd-wellness-icon">
               <Heart size={16} fill="#4caf82" color="#4caf82" />
             </div>
-            <div>
-              <div className="sd-wellness-tag">Wellness Tip</div>
-              <div className="sd-wellness-quote">{tip}</div>
+            <div className="sd-wellness-body">
+              <div className="sd-wellness-tag">Wellness Quote</div>
+              <div className="sd-wellness-quote">"{quote}"</div>
+              <div className="sd-wellness-author">— {quoteAuthor}</div>
             </div>
+            <button
+              className="sd-wellness-refresh"
+              onClick={fetchQuote}
+              disabled={quoteLoading}
+              title="Get a new quote"
+            >
+              <RefreshCw size={14} className={quoteLoading ? 'sd-spin' : ''} />
+            </button>
           </div>
 
           {/* ── Two col ── */}
@@ -224,7 +288,6 @@ function StudentDashboard() {
                 ))}
               </div>
 
-              {/* ── Mood response ── */}
               {moodResponse && (
                 <div className={`sd-mood-response sd-mood-response-${moodResponse.type}`}>
                   <div className="sd-mood-response-header">
@@ -252,7 +315,6 @@ function StudentDashboard() {
                 </div>
               )}
 
-              {/* Only show quick actions if no mood selected */}
               {!selectedMood && (
                 <>
                   <div className="sd-mood-divider" />
@@ -285,7 +347,8 @@ function StudentDashboard() {
             ) : (
               <div className="sd-counselor-list">
                 {counselors.map((c) => (
-                  <div key={c.id} className="sd-counselor-row" style={{ cursor: 'pointer' }}  onClick={() => navigate(`/counselor/${c.id}`)}>
+                  <div key={c.id} className="sd-counselor-row" style={{ cursor: 'pointer' }}
+                    onClick={() => navigate(`/counselor/${c.id}`)}>
                     <div className="sd-counselor-avatar" style={{ overflow: 'hidden', padding: 0 }}>
                       {c.profilePhoto
                         ? <img src={c.profilePhoto} alt="avatar"

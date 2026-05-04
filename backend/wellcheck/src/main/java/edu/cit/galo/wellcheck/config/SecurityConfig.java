@@ -49,7 +49,8 @@ public class SecurityConfig {
                                 "/oauth2/**",
                                 "/login/**",
                                 "/slots/counselor/**",
-                                "/counselors/**"
+                                "/counselors/**",
+                                "/wellness/**"
                         ).permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/counselors/**", "/slots/**").hasAnyRole("COUNSELOR", "ADMIN", "STUDENT")
