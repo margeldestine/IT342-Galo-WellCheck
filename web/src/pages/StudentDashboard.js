@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Calendar, Clock, Inbox, Heart, RefreshCw } from 'lucide-react';
@@ -71,26 +71,46 @@ function StudentDashboard() {
   const [quote, setQuote] = useState(LOADING_QUOTE.q);
   const [quoteAuthor, setQuoteAuthor] = useState(LOADING_QUOTE.a);
   const [quoteLoading, setQuoteLoading] = useState(false);
+  const quotePool = useRef([]);   // ✅ inside component
+  const quoteIndex = useRef(0);   // ✅ inside component
 
   const moodResponse = selectedMood ? getMoodResponse(selectedMood) : null;
 
-  // ── Fetch Quote from ZenQuotes ──
+  // ── Fetch Quote via Spring Boot backend → ZenQuotes ──
   const fetchQuote = async () => {
     setQuoteLoading(true);
-    // Show a real wellness quote while loading so it feels seamless
     setQuote(LOADING_QUOTE.q);
     setQuoteAuthor(LOADING_QUOTE.a);
 
+    // If pool still has quotes, just cycle locally — no API call needed
+    if (quotePool.current.length > 0 && quoteIndex.current < quotePool.current.length) {
+      const next = quotePool.current[quoteIndex.current];
+      quoteIndex.current += 1;
+      setQuote(next.q);
+      setQuoteAuthor(next.a);
+      setQuoteLoading(false);
+      return;
+    }
+
+    // Pool exhausted or empty — fetch fresh batch from backend
     try {
-      const proxyUrl = 'https://api.allorigins.win/get?url=';
-      const targetUrl = encodeURIComponent('https://zenquotes.io/api/random');
-      const res = await fetch(`${proxyUrl}${targetUrl}`);
-      const data = await res.json();
-      const parsed = JSON.parse(data.contents);
-      setQuote(parsed[0].q);
-      setQuoteAuthor(parsed[0].a);
+      const res = await fetch(`${API}/wellness/quotes`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const parsed = await res.json();
+
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        quotePool.current = parsed.sort(() => Math.random() - 0.5);
+        quoteIndex.current = 0;
+        const next = quotePool.current[quoteIndex.current];
+        quoteIndex.current += 1;
+        setQuote(next.q);
+        setQuoteAuthor(next.a);
+      } else {
+        throw new Error('Empty response');
+      }
     } catch (err) {
-      console.error('Failed to fetch quote, using fallback:', err);
+      console.error('Failed to fetch quotes from backend:', err);
       const pick = FALLBACK_QUOTES[Math.floor(Math.random() * FALLBACK_QUOTES.length)];
       setQuote(pick.q);
       setQuoteAuthor(pick.a);
@@ -185,7 +205,7 @@ function StudentDashboard() {
             </div>
           </div>
 
-          {/* ── Wellness Quote (ZenQuotes) ── */}
+          {/* ── Wellness Quote ── */}
           <div className="sd-wellness-card">
             <div className="sd-wellness-icon">
               <Heart size={16} fill="#4caf82" color="#4caf82" />
@@ -268,7 +288,6 @@ function StudentDashboard() {
                 ))}
               </div>
 
-              {/* ── Mood response ── */}
               {moodResponse && (
                 <div className={`sd-mood-response sd-mood-response-${moodResponse.type}`}>
                   <div className="sd-mood-response-header">
@@ -296,7 +315,6 @@ function StudentDashboard() {
                 </div>
               )}
 
-              {/* Only show quick actions if no mood selected */}
               {!selectedMood && (
                 <>
                   <div className="sd-mood-divider" />
@@ -329,7 +347,8 @@ function StudentDashboard() {
             ) : (
               <div className="sd-counselor-list">
                 {counselors.map((c) => (
-                  <div key={c.id} className="sd-counselor-row" style={{ cursor: 'pointer' }} onClick={() => navigate(`/counselor/${c.id}`)}>
+                  <div key={c.id} className="sd-counselor-row" style={{ cursor: 'pointer' }}
+                    onClick={() => navigate(`/counselor/${c.id}`)}>
                     <div className="sd-counselor-avatar" style={{ overflow: 'hidden', padding: 0 }}>
                       {c.profilePhoto
                         ? <img src={c.profilePhoto} alt="avatar"
