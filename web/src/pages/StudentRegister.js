@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/StudentRegister.css';
+import logo from '../assets/wellcheck-logo.png';
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -91,7 +92,7 @@ function StudentRegister() {
     <div className="register-wrapper">
       <nav className="navbar">
         <div className="navbar-brand" onClick={() => navigate('/')}>
-          <div className="navbar-logo">♥</div>
+          <img src={logo} alt="WellCheck" style={{ width: '36px', height: '36px' }} />
           <span className="navbar-title">WellCheck</span>
         </div>
         <button className="btn-login" onClick={() => navigate('/login')}>Login</button>

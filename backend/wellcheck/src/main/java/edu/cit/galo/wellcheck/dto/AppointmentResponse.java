@@ -21,16 +21,20 @@ public class AppointmentResponse {
     private String studentSchoolIdPhotoUrl;
     private String status;
     private String note;
+    private String rejectionReason;
     private LocalDateTime createdAt;
+    private String counselorProfilePhoto;
 
     public AppointmentResponse(Long id, Long slotId, LocalDateTime startTime,
                                LocalDateTime endTime, String counselorFirstName,
                                String counselorLastName, String counselorSpecialization,
+                               String counselorProfilePhoto,
                                String studentFirstName, String studentLastName,
                                String studentIdNumber, String studentProgram,
                                String studentYearLevel, String studentGender,
                                LocalDate studentBirthdate, String studentSchoolIdPhotoUrl,
-                               String status, String note, LocalDateTime createdAt) {
+                               String status, String note, String rejectionReason,
+                               LocalDateTime createdAt) {
         this.id = id;
         this.slotId = slotId;
         this.startTime = startTime;
@@ -38,6 +42,7 @@ public class AppointmentResponse {
         this.counselorFirstName = counselorFirstName;
         this.counselorLastName = counselorLastName;
         this.counselorSpecialization = counselorSpecialization;
+        this.counselorProfilePhoto = counselorProfilePhoto;
         this.studentFirstName = studentFirstName;
         this.studentLastName = studentLastName;
         this.studentIdNumber = studentIdNumber;
@@ -48,6 +53,7 @@ public class AppointmentResponse {
         this.studentSchoolIdPhotoUrl = studentSchoolIdPhotoUrl;
         this.status = status;
         this.note = note;
+        this.rejectionReason = rejectionReason;
         this.createdAt = createdAt;
     }
 
@@ -77,14 +83,18 @@ public class AppointmentResponse {
     public void setStudentYearLevel(String studentYearLevel) { this.studentYearLevel = studentYearLevel; }
     public String getStudentGender() { return studentGender; }
     public void setStudentGender(String studentGender) { this.studentGender = studentGender; }
-    public java.time.LocalDate getStudentBirthdate() { return studentBirthdate; }
-    public void setStudentBirthdate(java.time.LocalDate studentBirthdate) { this.studentBirthdate = studentBirthdate; }
+    public LocalDate getStudentBirthdate() { return studentBirthdate; }
+    public void setStudentBirthdate(LocalDate studentBirthdate) { this.studentBirthdate = studentBirthdate; }
     public String getStudentSchoolIdPhotoUrl() { return studentSchoolIdPhotoUrl; }
     public void setStudentSchoolIdPhotoUrl(String studentSchoolIdPhotoUrl) { this.studentSchoolIdPhotoUrl = studentSchoolIdPhotoUrl; }
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public String getNote() { return note; }
     public void setNote(String note) { this.note = note; }
+    public String getRejectionReason() { return rejectionReason; }
+    public void setRejectionReason(String rejectionReason) { this.rejectionReason = rejectionReason; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getCounselorProfilePhoto() { return counselorProfilePhoto; }
+    public void setCounselorProfilePhoto(String counselorProfilePhoto) { this.counselorProfilePhoto = counselorProfilePhoto; }
 }

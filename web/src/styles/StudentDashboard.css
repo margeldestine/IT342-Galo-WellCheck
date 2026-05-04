@@ -1,1376 +1,159 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap');
 
 * { box-sizing: border-box; }
+
+.dashboard-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
 
 .dashboard-wrapper {
   display: flex;
   min-height: calc(100vh - 72px);
   background-color: #f8f7f4;
-  font-family: 'Inter', sans-serif;
 }
 
 .dashboard-main {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
-.dashboard-content {
-  padding: 32px 32px;
+.sd-content {
+  padding: 32px;
   width: 100%;
   max-width: 100%;
 }
 
-.greeting {
-  font-size: 24px;
-  font-weight: 700;
-  color: #1a1a1a;
-  letter-spacing: -0.5px;
-  margin-bottom: 4px;
-}
-
-.greeting-sub {
-  font-size: 14px;
-  color: #888;
+.sd-header {
   margin-bottom: 24px;
 }
 
-.wellness-card {
+.sd-greeting {
+  font-family: 'DM Serif Display', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #1a1a1a;
+  letter-spacing: 0;
+  line-height: 1.15;
+}
+ 
+.sd-greeting-sub {
+  font-size: 14px;
+  color: #888;
+}
+
+.sd-wellness-card {
   background: linear-gradient(135deg, #1F7A5A 0%, #2d9e76 100%);
-  border-radius: 16px;
-  padding: 28px 32px;
-  margin-bottom: 20px;
-  color: white;
-}
-
-.wellness-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.wellness-icon {
-  font-size: 16px;
-}
-
-.wellness-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: #1F7A5A;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  flex: 1;
-}
-
-.wellness-arrow {
-  font-size: 14px;
-  color: #ccc;
-  cursor: pointer;
-}
-
-.wellness-quote {
-  font-size: 15px;
-  color: #444;
-  line-height: 1.6;
-  font-style: italic;
-}
-
-.appointment-card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 28px 32px;
-  border: 1px solid #e5e7eb;
-  margin-bottom: 20px;
-}
-
-.card-section-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 14px;
-}
-
-.appointment-empty {
-  font-size: 14px;
-  color: #aaa;
-  text-align: center;
-  padding: 20px 0;
-}
-
-.quick-actions {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 28px 32px;
-  border: 1px solid #e5e7eb;
-  margin-bottom: 20px;
-}
-
-.actions-row {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.btn-action-primary {
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-action-primary:hover {
-  background-color: #165f45;
-  transform: translateY(-1px);
-}
-
-.btn-action-secondary {
-  background-color: #f5f5f5;
-  color: #444;
-  border: none;
-  border-radius: 10px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  font-family: 'Inter', sans-serif;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-action-secondary:hover {
-  background-color: #ebebeb;
-}
-
-/* ── Counselors ── */
-.counselors-toolbar {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.counselor-search {
-  flex: 1;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  outline: none;
-  transition: all 0.2s ease;
-  background-color: #ffffff;
-}
-
-.counselor-search:focus {
-  border-color: #1F7A5A;
-  box-shadow: 0 0 0 3px rgba(31, 122, 90, 0.08);
-}
-
-.counselor-filter {
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  outline: none;
-  transition: all 0.2s ease;
-  background-color: #ffffff;
-  cursor: pointer;
-  min-width: 200px;
-}
-
-.counselor-filter:focus {
-  border-color: #1F7A5A;
-}
-
-.counselors-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.counselor-card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition: all 0.2s ease;
-}
-
-.counselor-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  border-color: #1F7A5A;
-}
-
-.counselor-card-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.counselor-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background-color: #e6f4ef;
-  color: #1F7A5A;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.counselor-header-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.counselor-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.counselor-specialization {
-  font-size: 12px;
-  font-weight: 500;
-  color: #888;
-}
-
-.counselor-bio {
-  font-size: 13px;
-  color: #666;
-  line-height: 1.6;
-}
-
-.counselor-slots-count {
-  font-size: 13px;
-  color: #888;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.btn-book-slot {
-  width: 100%;
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-  margin-top: auto;
-}
-
-.btn-book-slot:hover {
-  background-color: #165f45;
-}
-
-.empty-msg {
-  font-size: 14px;
-  color: #bbb;
-  text-align: center;
-  padding: 32px 0;
-}
-
-/* ── Booking Success ── */
-.booking-success {
-  background-color: #f0faf5;
-  color: #1F7A5A;
-  border: 1px solid #c6f6d5;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 14px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-/* ── Filter Tabs ── */
-.filter-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.filter-tab {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1.5px solid #e5e7eb;
-  background-color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  color: #888;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.filter-tab:hover {
-  border-color: #1F7A5A;
-  color: #1F7A5A;
-}
-
-.filter-tab.active {
-  background-color: #1F7A5A;
-  border-color: #1F7A5A;
-  color: white;
-}
-
-/* ── Appointments List ── */
-.appointments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.apt-item {
-  background-color: #ffffff;
   border-radius: 16px;
   padding: 20px 24px;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: all 0.2s ease;
-}
-
-.apt-item:hover {
-  border-color: #1F7A5A;
-  box-shadow: 0 2px 12px rgba(31,122,90,0.08);
-}
-
-.apt-left {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.apt-date-badge {
-  width: 52px;
-  height: 52px;
-  background-color: #e6f4ef;
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.apt-month {
-  font-size: 10px;
-  font-weight: 700;
-  color: #1F7A5A;
-  text-transform: uppercase;
-}
-
-.apt-day {
-  font-size: 20px;
-  font-weight: 800;
-  color: #1F7A5A;
-  line-height: 1;
-}
-
-.apt-details {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.apt-counselor {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.apt-specialization {
-  font-size: 12px;
-  color: #888;
-}
-
-.apt-time {
-  font-size: 13px;
-  color: #555;
-  font-weight: 500;
-}
-
-.apt-note {
-  font-size: 12px;
-  color: #888;
-  font-style: italic;
-}
-
-.apt-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.apt-status {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 20px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.status-pending {
-  background-color: #fff8e1;
-  color: #f59e0b;
-}
-
-.status-confirmed {
-  background-color: #e6f4ef;
-  color: #1F7A5A;
-}
-
-.status-rejected {
-  background-color: #fff5f5;
-  color: #e53e3e;
-}
-
-.status-cancelled {
-  background-color: #f3f4f6;
-  color: #888;
-}
-
-.btn-cancel-apt {
-  background-color: #fff5f5;
-  color: #e53e3e;
-  border: 1px solid #fed7d7;
-  border-radius: 8px;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-cancel-apt:hover {
-  background-color: #e53e3e;
-  color: white;
-}
-
-/* ── Modals ── */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  backdrop-filter: blur(2px);
-}
-
-.modal-box {
-  background-color: #ffffff;
-  border-radius: 20px;
-  padding: 32px;
-  width: 100%;
-  max-width: 440px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  animation: modalIn 0.2s ease;
-}
-
-.modal-large {
-  max-width: 560px;
-}
-
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(0.95) translateY(-10px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 20px;
-}
-
-.modal-title {
-  font-size: 18px;
-  font-weight: 800;
-  color: #1a1a1a;
-  letter-spacing: -0.3px;
-}
-
-.modal-subtitle {
-  font-size: 13px;
-  color: #888;
-  margin-top: 4px;
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #888;
-  cursor: pointer;
-  padding: 0;
-  line-height: 1;
-}
-
-.modal-close:hover { color: #1a1a1a; }
-
-.modal-icon {
-  font-size: 40px;
-  text-align: center;
-  margin-bottom: 16px;
-}
-
-.modal-message {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 28px;
-  line-height: 1.6;
-  text-align: center;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.btn-modal-cancel {
-  flex: 1;
-  padding: 12px;
-  background-color: #f3f4f6;
-  color: #444;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-modal-cancel:hover { background-color: #e5e7eb; }
-
-.btn-modal-confirm {
-  flex: 1;
-  padding: 12px;
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-modal-confirm:hover { background-color: #165f45; }
-.btn-modal-confirm:disabled { opacity: 0.7; cursor: not-allowed; }
-
-.btn-modal-delete {
-  flex: 1;
-  padding: 12px;
-  background-color: #e53e3e;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-modal-delete:hover { background-color: #c53030; }
-
-/* ── Slots Modal ── */
-.slots-modal-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-
-.slot-modal-item {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.slot-modal-item:hover {
-  border-color: #1F7A5A;
-  background-color: #f0faf5;
-}
-
-.slot-modal-date-badge {
-  width: 48px;
-  height: 48px;
-  background-color: #e6f4ef;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.slot-modal-month {
-  font-size: 9px;
-  font-weight: 700;
-  color: #1F7A5A;
-  text-transform: uppercase;
-}
-
-.slot-modal-day {
-  font-size: 18px;
-  font-weight: 800;
-  color: #1F7A5A;
-  line-height: 1;
-}
-
-.slot-modal-details {
-  flex: 1;
-}
-
-.slot-modal-time {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.slot-modal-date {
-  font-size: 12px;
-  color: #888;
-  margin-top: 2px;
-}
-
-.btn-select-slot {
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.btn-select-slot:hover { background-color: #165f45; }
-
-/* ── Booking Summary ── */
-.booking-summary {
-  background-color: #f8f7f4;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.booking-summary-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.booking-label {
-  font-size: 13px;
-  color: #888;
-  font-weight: 500;
-}
-
-.booking-value {
-  font-size: 13px;
-  color: #1a1a1a;
-  font-weight: 600;
-  text-align: right;
-}
-
-.booking-note-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.booking-note-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #444;
-}
-
-.booking-note-input {
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  outline: none;
-  resize: none;
-  transition: all 0.2s ease;
-}
-
-.booking-note-input:focus {
-  border-color: #1F7A5A;
-  box-shadow: 0 0 0 3px rgba(31, 122, 90, 0.08);
-}
-
-.booking-error {
-  background-color: #fff5f5;
-  color: #e53e3e;
-  border: 1px solid #fed7d7;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 13px;
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-/* ── Booking Flow ── */
-.booking-flow {
-  max-width: 680px;
-}
-
-.booking-steps {
-  display: flex;
-  align-items: center;
-  margin-bottom: 28px;
-  gap: 0;
-}
-
-.step {
-  font-size: 13px;
-  font-weight: 600;
-  color: #bbb;
-  white-space: nowrap;
-}
-
-.step.active {
-  color: #1F7A5A;
-}
-
-.step.done {
-  color: #888;
-}
-
-.step-divider {
-  flex: 1;
-  height: 1px;
-  background-color: #e5e7eb;
-  margin: 0 12px;
-}
-
-.booking-section-card {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
-  border: 1px solid #e5e7eb;
-}
-
-.booking-section-title {
-  font-size: 22px;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 6px;
-  letter-spacing: -0.5px;
-}
-
-.booking-section-sub {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 24px;
-}
-
-/* ── Profile Info Grid ── */
-.profile-info-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 28px;
-  background-color: #f8f7f4;
-  border-radius: 12px;
-  padding: 20px;
-}
-
-.profile-info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.profile-info-label {
-  font-size: 11px;
-  font-weight: 700;
-  color: #888;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.profile-info-value {
-  font-size: 14px;
-  font-weight: 600;
-  color: #1a1a1a;
-}
-
-/* ── School ID ── */
-.school-id-section {
-  border-top: 1px solid #e5e7eb;
-  padding-top: 24px;
-  margin-bottom: 24px;
-}
-
-.school-id-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 12px;
-}
-
-.school-id-required {
-  font-size: 13px;
-  color: #f59e0b;
-  margin-bottom: 12px;
-  font-weight: 500;
-}
-
-.school-id-preview {
-  width: 100%;
-  max-width: 300px;
-  border-radius: 10px;
-  border: 1px solid #e5e7eb;
-  margin-bottom: 12px;
-  display: block;
-}
-
-.school-id-verified {
-  font-size: 14px;
-  color: #1F7A5A;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.school-id-upload-area {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.btn-upload-id {
-  display: inline-block;
-  background-color: #e6f4ef;
-  color: #1F7A5A;
-  border: 1.5px dashed #1F7A5A;
-  border-radius: 10px;
-  padding: 12px 24px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-  text-align: center;
-  width: fit-content;
-}
-
-.btn-upload-id:hover {
-  background-color: #1F7A5A;
-  color: white;
-}
-
-.upload-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.upload-filename {
-  font-size: 13px;
-  color: #555;
-  font-weight: 500;
-}
-
-.btn-confirm-upload {
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-confirm-upload:hover { background-color: #165f45; }
-.btn-confirm-upload:disabled { opacity: 0.7; cursor: not-allowed; }
-
-.btn-change-photo {
-  font-size: 13px;
-  color: #888;
-  cursor: pointer;
-  text-decoration: underline;
-  font-family: 'Inter', sans-serif;
-}
-
-.btn-reupload {
-  background: none;
-  border: none;
-  font-size: 13px;
-  color: #888;
-  cursor: pointer;
-  text-decoration: underline;
-  font-family: 'Inter', sans-serif;
-}
-
-.upload-error {
-  font-size: 13px;
-  color: #e53e3e;
-  background-color: #fff5f5;
-  border: 1px solid #fed7d7;
-  border-radius: 8px;
-  padding: 8px 12px;
-}
-
-/* ── Booking Flow Actions ── */
-.booking-flow-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid #e5e7eb;
-}
-
-.btn-flow-back {
-  background: none;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #444;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-flow-back:hover { border-color: #888; }
-
-.btn-flow-next {
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 24px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-flow-next:hover { background-color: #165f45; }
-.btn-flow-next:disabled { opacity: 0.5; cursor: not-allowed; }
-
-.btn-flow-submit {
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 28px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-flow-submit:hover { background-color: #165f45; }
-.btn-flow-submit:disabled { opacity: 0.7; cursor: not-allowed; }
-
-/* ── Review Summary ── */
-.review-summary {
-  background-color: #f8f7f4;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.review-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.review-label {
-  font-size: 13px;
-  color: #888;
-  font-weight: 500;
-}
-
-.review-value {
-  font-size: 13px;
-  color: #1a1a1a;
-  font-weight: 600;
-  text-align: right;
-}
-
-/* ── Booking Note ── */
-.booking-note-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
-}
-
-.booking-note-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: #444;
-}
-
-.booking-note-input {
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 14px;
-  font-family: 'Inter', sans-serif;
-  outline: none;
-  resize: none;
-  transition: all 0.2s ease;
-}
-
-.booking-note-input:focus {
-  border-color: #1F7A5A;
-  box-shadow: 0 0 0 3px rgba(31, 122, 90, 0.08);
-}
-
-.booking-error {
-  background-color: #fff5f5;
-  color: #e53e3e;
-  border: 1px solid #fed7d7;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 13px;
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-/* ── Booking Confirmed ── */
-.booking-confirmed {
-  max-width: 500px;
-  margin: 40px auto;
-  background-color: #ffffff;
-  border-radius: 20px;
-  padding: 48px 40px;
-  border: 1px solid #e5e7eb;
-  text-align: center;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
-}
-
-.confirmed-icon {
-  font-size: 56px;
-  margin-bottom: 16px;
-}
-
-.confirmed-title {
-  font-size: 26px;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-  letter-spacing: -0.5px;
-}
-
-.confirmed-sub {
-  font-size: 14px;
-  color: #888;
-  margin-bottom: 28px;
-  line-height: 1.6;
-}
-
-.confirmed-details {
-  background-color: #f8f7f4;
-  border-radius: 12px;
-  padding: 20px;
-  margin-bottom: 28px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.status-pending-text {
-  color: #f59e0b;
-}
-
-.confirmed-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.btn-view-appointments {
-  width: 100%;
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-view-appointments:hover { background-color: #165f45; }
-
-.btn-back-dashboard {
-  width: 100%;
-  background-color: #f3f4f6;
-  color: #444;
-  border: none;
-  border-radius: 10px;
-  padding: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-back-dashboard:hover { background-color: #e5e7eb; }
-
-/* ── Filter Tabs ── */
-.filter-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-}
-
-.filter-tab {
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1.5px solid #e5e7eb;
-  background-color: #ffffff;
-  font-size: 12px;
-  font-weight: 600;
-  color: #888;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.filter-tab:hover { border-color: #1F7A5A; color: #1F7A5A; }
-.filter-tab.active { background-color: #1F7A5A; border-color: #1F7A5A; color: white;}
-
-/* ── Upcoming Appointment ── */
-.upcoming-apt-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  background-color: #fafafa;
-  transition: all 0.2s ease;
-}
-
-.upcoming-apt-left {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.upcoming-apt-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background-color: #e6f4ef;
-  color: #1F7A5A;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  font-weight: 700;
-  flex-shrink: 0;
-}
-
-.upcoming-apt-info {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.upcoming-apt-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.upcoming-apt-spec {
-  font-size: 12px;
-  color: #888;
-}
-
-.upcoming-apt-meta {
-  display: flex;
-  gap: 16px;
-  margin-top: 6px;
-}
-
-.upcoming-apt-meta span {
-  font-size: 13px;
-  color: #555;
-  font-weight: 500;
-}
-
-/* ── Quick Actions ── */
-.actions-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-.btn-action-primary {
-  width: 100%;
-  padding: 14px;
-  background-color: #1F7A5A;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-action-primary:hover { background-color: #165f45; }
-
-.btn-action-secondary {
-  width: 100%;
-  padding: 14px;
-  background-color: #ffffff;
-  color: #1a1a1a;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  font-family: 'Inter', sans-serif;
-  transition: all 0.2s ease;
-}
-
-.btn-action-secondary:hover {
-  border-color: #1F7A5A;
-  color: #1F7A5A;
-} 
-
-/* ── Wellness Card ── */
-.wellness-card {
-  background: linear-gradient(135deg, #1F7A5A 0%, #2d9e76 100%);
-  border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 20px;
-  color: white;
-}
-
-.wellness-header {
   display: flex;
   align-items: flex-start;
   gap: 14px;
+  color: white;
+  margin-bottom: 20px;
 }
 
-.wellness-icon-wrapper {
-  font-size: 24px;
+.sd-wellness-icon {
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255,255,255,0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
 }
 
-.wellness-title {
-  font-size: 13px;
+.sd-wellness-title {
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: rgba(255,255,255,0.8);
+  letter-spacing: 1px;
+  color: rgba(255,255,255,0.75);
   margin-bottom: 6px;
 }
 
-.wellness-quote {
-  font-size: 15px;
+.sd-wellness-quote {
+  font-size: 14px;
   color: rgba(255,255,255,0.95);
   line-height: 1.6;
   font-style: italic;
 }
 
-/* ── Appointment Card ── */
-.appointment-card {
+.sd-card {
   background-color: #ffffff;
   border-radius: 16px;
   padding: 24px;
   border: 1px solid #e5e7eb;
+}
+
+.sd-mb {
   margin-bottom: 20px;
 }
 
-.card-section-title {
+.sd-mb-sm {
+  margin-bottom: 16px;
+}
+
+.sd-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sd-card-title {
   font-size: 15px;
   font-weight: 700;
   color: #1a1a1a;
-  margin-bottom: 16px;
   letter-spacing: -0.2px;
 }
 
-.appointment-empty {
+.sd-btn-view-all {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: #1F7A5A;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.sd-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 24px 0;
-  color: #bbb;
-  font-size: 14px;
+  justify-content: center;
+  gap: 6px;
+  padding: 40px 0;
+  text-align: center;
+  min-height: 180px;
 }
 
-.empty-apt-icon {
-  font-size: 32px;
-  margin-bottom: 4px;
+.sd-empty-icon {
+  margin-bottom: 6px;
 }
 
-.btn-book-now {
+.sd-empty-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: #444;
+}
+
+.sd-empty-sub {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.sd-btn-book {
   background-color: #1F7A5A;
   color: white;
   border: none;
@@ -1384,10 +167,11 @@
   margin-top: 8px;
 }
 
-.btn-book-now:hover { background-color: #165f45; }
+.sd-btn-book:hover {
+  background-color: #165f45;
+}
 
-/* ── Upcoming Appointment ── */
-.upcoming-apt-item {
+.sd-apt-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -1397,13 +181,13 @@
   background-color: #fafafa;
 }
 
-.upcoming-apt-left {
+.sd-apt-left {
   display: flex;
   align-items: center;
   gap: 14px;
 }
 
-.upcoming-apt-avatar {
+.sd-apt-avatar {
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -1417,52 +201,74 @@
   flex-shrink: 0;
 }
 
-.upcoming-apt-info {
+.sd-apt-info {
   display: flex;
   flex-direction: column;
   gap: 3px;
 }
 
-.upcoming-apt-name {
+.sd-apt-name {
   font-size: 15px;
   font-weight: 700;
   color: #1a1a1a;
 }
 
-.upcoming-apt-spec {
+.sd-apt-spec {
   font-size: 12px;
   color: #888;
 }
 
-.upcoming-apt-meta {
+.sd-apt-meta {
   display: flex;
   gap: 16px;
   margin-top: 6px;
 }
 
-.upcoming-apt-meta span {
+.sd-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
   font-size: 13px;
   color: #555;
   font-weight: 500;
 }
 
-/* ── Quick Actions ── */
-.quick-actions {
-  background-color: #ffffff;
-  border-radius: 16px;
-  padding: 24px;
-  border: 1px solid #e5e7eb;
-  margin-bottom: 20px;
+.sd-apt-status {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-.actions-row {
+.sd-status-pending {
+  background-color: #fff8e1;
+  color: #f59e0b;
+}
+
+.sd-status-confirmed {
+  background-color: #e6f4ef;
+  color: #1F7A5A;
+}
+
+.sd-status-rejected {
+  background-color: #fff5f5;
+  color: #e53e3e;
+}
+
+.sd-status-cancelled {
+  background-color: #f3f4f6;
+  color: #888;
+}
+
+.sd-quick-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-top: 12px;
 }
 
-.btn-action-primary {
+.sd-quick-btn-primary {
   width: 100%;
   padding: 14px;
   background-color: #1F7A5A;
@@ -1476,9 +282,11 @@
   transition: all 0.2s ease;
 }
 
-.btn-action-primary:hover { background-color: #165f45; }
+.sd-quick-btn-primary:hover {
+  background-color: #165f45;
+}
 
-.btn-action-secondary {
+.sd-quick-btn-secondary {
   width: 100%;
   padding: 14px;
   background-color: #ffffff;
@@ -1490,10 +298,721 @@
   cursor: pointer;
   font-family: 'Inter', sans-serif;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.btn-action-secondary:hover {
+.sd-quick-btn-secondary:hover {
   border-color: #1F7A5A;
   color: #1F7A5A;
 }
 
+.sd-filter-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.sd-filter-tab {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1.5px solid #e5e7eb;
+  background-color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.sd-filter-tab:hover {
+  border-color: #1F7A5A;
+  color: #1F7A5A;
+}
+
+.sd-filter-tab.active {
+  background-color: #1F7A5A;
+  border-color: #1F7A5A;
+  color: white;
+}
+
+.sd-apt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sd-apt-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.sd-apt-card:hover {
+  border-color: #1F7A5A;
+  box-shadow: 0 2px 12px rgba(31,122,90,0.08);
+}
+
+.sd-apt-card-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sd-date-badge {
+  width: 52px;
+  height: 52px;
+  background-color: #e6f4ef;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sd-date-month {
+  font-size: 10px;
+  font-weight: 700;
+  color: #1F7A5A;
+  text-transform: uppercase;
+}
+
+.sd-date-day {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1F7A5A;
+  line-height: 1;
+}
+
+.sd-apt-card-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sd-btn-cancel {
+  background-color: #fff5f5;
+  color: #e53e3e;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.sd-btn-cancel:hover {
+  background-color: #e53e3e;
+  color: white;
+}
+
+.sd-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.sd-modal {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 32px;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.sd-modal-lg {
+  max-width: 560px;
+}
+
+.sd-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.sd-modal-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a1a1a;
+}
+
+.sd-modal-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #888;
+  cursor: pointer;
+}
+
+.sd-modal-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.sd-btn-modal-cancel {
+  flex: 1;
+  padding: 12px;
+  background-color: #f3f4f6;
+  color: #444;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.sd-btn-modal-confirm {
+  flex: 1;
+  padding: 12px;
+  background-color: #1F7A5A;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.sd-btn-modal-confirm:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.sd-booking-success {
+  background-color: #f0faf5;
+  color: #1F7A5A;
+  border: 1px solid #c6f6d5;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sd-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+.sd-main {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #f5f2ed;
+}
+
+.sd-content {
+  padding: 32px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.sd-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.sd-greeting-sub {
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 4px;
+}
+
+.sd-date-chip {
+  background: #ffffff;
+  border: 1px solid #e5e0d8;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12px;
+  color: #6b6b6b;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+
+.sd-wellness-card {
+  background: #1c3a2f;
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sd-wellness-card::after {
+  content: '';
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(76,175,130,0.08);
+  pointer-events: none;
+}
+
+.sd-wellness-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(76,175,130,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sd-wellness-tag {
+  font-size: 9.5px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+.sd-wellness-quote {
+  font-size: 13.5px;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.5;
+}
+
+.sd-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.sd-card {
+  background: #ffffff;
+  border: 1px solid #e5e0d8;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.sd-card-label {
+  font-size: 10.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: #aaa;
+  margin-bottom: 16px;
+}
+
+.sd-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 24px 0;
+  text-align: center;
+}
+
+.sd-empty-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+}
+
+.sd-empty-sub {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.sd-btn-book {
+  background-color: #1c3a2f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+.sd-btn-book:hover {
+  background-color: #2d5c45;
+}
+
+.sd-apt-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px;
+  border: 1px solid #e5e0d8;
+  border-radius: 10px;
+  background-color: #fafaf8;
+}
+
+.sd-apt-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sd-apt-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #edf7f2;
+  color: #1c3a2f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.sd-apt-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sd-apt-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.sd-apt-spec {
+  font-size: 12px;
+  color: #888;
+}
+
+.sd-apt-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.sd-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #555;
+}
+
+.sd-apt-status {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sd-status-pending { background-color: #fff8e1; color: #f59e0b; }
+.sd-status-confirmed { background-color: #edf7f2; color: #1c3a2f; }
+.sd-status-rejected { background-color: #fff5f5; color: #e53e3e; }
+.sd-status-cancelled { background-color: #f3f4f6; color: #888; }
+
+.sd-quick-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sd-quick-btn-primary {
+  width: 100%;
+  padding: 12px;
+  background-color: #1c3a2f;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.sd-quick-btn-primary:hover {
+  background-color: #2d5c45;
+}
+
+.sd-quick-btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  border: 1.5px solid #e5e0d8;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.sd-quick-btn-secondary:hover {
+  border-color: #1c3a2f;
+  color: #1c3a2f;
+}
+
+.sd-mood-row {
+  display: flex;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.sd-mood-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 6px;
+  border-radius: 10px;
+  border: 1.5px solid #e5e0d8;
+  background: #ffffff;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.15s ease;
+}
+
+
+.sd-mood-btn:hover {
+  border-color: #4caf82;
+  background: #f4faf7;
+}
+
+.sd-mood-btn.selected {
+  border-color: #1c3a2f;
+  background: #edf7f2;
+}
+
+.sd-mood-emoji {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.sd-mood-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.sd-mood-btn.selected .sd-mood-label {
+  color: #1c3a2f;
+  font-weight: 600;
+}
+
+.sd-card-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sd-btn-view-all {
+  font-size: 12px;
+  color: #4caf82;
+  font-weight: 600;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+}
+
+.sd-counselor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.sd-counselor-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0ede8;
+}
+
+.sd-counselor-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sd-counselor-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #2d5c45;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.sd-counselor-info {
+  flex: 1;
+}
+
+.sd-counselor-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.sd-counselor-spec {
+  font-size: 12px;
+  color: #888;
+  margin-top: 2px;
+}
+
+.sd-counselor-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: #4caf82;
+  font-weight: 500;
+}
+
+.sd-available-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4caf82;
+  flex-shrink: 0;
+}
+
+.sd-mood-divider {
+  height: 1px;
+  background: #f0ede8;
+  margin: 16px 0 0 0;
+}
+
+/* ─────────────────────────────────────────
+   APPEND THESE STYLES TO StudentDashboard.css
+   ───────────────────────────────────────── */
+
+/* Mood response box */
+.sd-mood-response {
+  margin-top: 14px;
+  border-radius: 10px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  animation: moodFadeIn 0.25s ease;
+}
+
+@keyframes moodFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Low / Awful */
+.sd-mood-response-low {
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+}
+
+/* Okay */
+.sd-mood-response-okay {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+}
+
+/* Good / Great */
+.sd-mood-response-good {
+  background: #edf7f2;
+  border: 1px solid #bbf7d0;
+}
+
+.sd-mood-response-msg {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+
+.sd-mood-response-sub {
+  font-size: 12.5px;
+  color: #6b6b6b;
+  line-height: 1.5;
+}
+
+.sd-mood-response-btn {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 7px 16px;
+  background: #1c3a2f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.sd-mood-response-btn:hover {
+  background: #2d5c45;
+}
+
+.sd-mood-response-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.sd-mood-response-dismiss {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #aaa;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  flex-shrink: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+.sd-mood-response-dismiss:hover {
+  color: #555;
+}

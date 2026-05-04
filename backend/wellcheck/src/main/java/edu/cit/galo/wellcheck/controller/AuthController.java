@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
 import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/auth")
@@ -111,6 +112,34 @@ public class AuthController {
             return ResponseEntity.ok(authService.getCounselorProfile(email));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/profile/counselor")
+    public ResponseEntity<?> updateCounselorProfile(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody CompleteCounselorProfileRequest request) {
+        try {
+            String token = authHeader.substring(7);
+            String email = authService.getEmailFromToken(token);
+            String response = authService.updateCounselorProfile(email, request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/profile/counselor/photo")
+    public ResponseEntity<?> uploadCounselorPhoto(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestParam("file") MultipartFile file) {
+        try {
+            String token = authHeader.substring(7);
+            String email = authService.getEmailFromToken(token);
+            String response = authService.uploadCounselorPhoto(email, file);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 

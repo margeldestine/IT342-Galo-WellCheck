@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/CompleteCounselorProfile.css';
+import logo from '../assets/wellcheck-logo.png';
+
 
 const API = process.env.REACT_APP_API_URL;
 
@@ -57,8 +59,8 @@ function CompleteCounselorProfile() {
     <div className="cc-wrapper">
       <nav className="cc-navbar">
         <div className="cc-brand" onClick={() => navigate('/')}>
-          <div className="cc-logo">♥</div>
-          <span className="cc-title">WellCheck</span>
+          <img src={logo} alt="WellCheck" style={{ width: '36px', height: '36px' }} />
+          <span className="navbar-title">WellCheck</span>
         </div>
       </nav>
 

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/appointments")
@@ -89,10 +90,12 @@ public class AppointmentController {
     @PutMapping("/{id}/reject")
     public ResponseEntity<?> rejectAppointment(
             @RequestHeader("Authorization") String authHeader,
-            @PathVariable Long id) {
+            @PathVariable Long id,
+            @RequestBody Map<String, String> body) {
         try {
             String email = getEmail(authHeader);
-            AppointmentResponse response = appointmentService.rejectAppointment(email, id);
+            String reason = body.getOrDefault("reason", "");
+            AppointmentResponse response = appointmentService.rejectAppointment(email, id, reason);
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
