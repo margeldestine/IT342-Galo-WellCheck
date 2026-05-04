@@ -47,7 +47,7 @@ function CounselorProfile() {
     availableDays: [],
   });
 
-  // Credentials list: { title, institution, year }
+  // Credentials list: { title, year }
   const [credentials, setCredentials] = useState([]);
   const [newCred, setNewCred] = useState({ title: '', year: '' });
 
@@ -82,6 +82,14 @@ function CounselorProfile() {
         average: res.data.averageRating || 0,
         count: res.data.ratingCount || 0,
       });
+
+      // Sync profile photo and specialization to localStorage so sidebar reflects it
+      const updatedUser = {
+        ...JSON.parse(localStorage.getItem('user') || '{}'),
+        profilePhoto: res.data.profilePhoto || '',
+        specialization: res.data.specialization || '',
+      };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
 
     } catch (err) {
       console.error('Failed to fetch profile:', err);
@@ -170,7 +178,7 @@ function CounselorProfile() {
                   </div>
                 </div>
                 <input ref={fileInputRef} type="file" accept="image/*" style={{ display: 'none' }}
-                 onChange={async (e) => {
+                  onChange={async (e) => {
                     const file = e.target.files[0];
                     if (!file) return;
                     const formData = new FormData();
@@ -180,14 +188,16 @@ function CounselorProfile() {
                         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' }
                       });
                       const publicUrl = res.data;
-                      const updatedUser = { ...JSON.parse(localStorage.getItem('user') || '{}'), profilePhoto: publicUrl };
+                      const updatedUser = {
+                        ...JSON.parse(localStorage.getItem('user') || '{}'),
+                        profilePhoto: publicUrl,
+                      };
                       localStorage.setItem('user', JSON.stringify(updatedUser));
                       fetchProfile();
                     } catch (err) {
                       setErrorMsg('Failed to upload photo.');
                     }
                   }} />
-  
               </div>
               <div className="cpro-identity-body">
                 <div className="cpro-full-name">{firstName} {lastName}</div>
@@ -195,7 +205,6 @@ function CounselorProfile() {
                 {form.specialization && (
                   <div className="cpro-spec-badge">{form.specialization}</div>
                 )}
-                
               </div>
             </div>
 

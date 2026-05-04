@@ -15,7 +15,6 @@ const CounselorSidebar = ({ activeItem, onTabChange, pendingCount }) => {
       setUser(JSON.parse(localStorage.getItem('user') || '{}'));
     };
     window.addEventListener('storage', handleStorage);
-    // Also poll every second to catch same-tab updates
     const interval = setInterval(() => {
       setUser(JSON.parse(localStorage.getItem('user') || '{}'));
     }, 1000);
@@ -63,7 +62,7 @@ const CounselorSidebar = ({ activeItem, onTabChange, pendingCount }) => {
         </div>
         <div>
           <div className="cp-strip-name">{firstName} {lastName}</div>
-          <div className="cp-strip-role">Career Counseling</div>
+          <div className="cp-strip-role">{user.specialization || 'Counselor'}</div>
         </div>
         <div className="cp-online-dot" title="Online"></div>
       </div>

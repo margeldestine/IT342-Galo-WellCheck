@@ -127,11 +127,7 @@ function StudentProfile() {
                 </div>
 
                 <div className="sp-stats">
-                  <div className="sp-stat-row">
-                    <span className="sp-stat-label">Sessions</span>
-                    <span className="sp-stat-val">0 completed</span>
-                  </div>
-  
+                
                   {profile?.birthdate && (
                     <div className="sp-stat-row">
                       <span className="sp-stat-label">Birthdate</span>
