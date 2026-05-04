@@ -27,6 +27,9 @@ public class Appointment {
     @Column(length = 500)
     private String note;
 
+    @Column(length = 1000)
+    private String rejectionReason;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -43,6 +46,8 @@ public class Appointment {
     public void setStatus(AppointmentStatus status) { this.status = status; }
     public String getNote() { return note; }
     public void setNote(String note) { this.note = note; }
+    public String getRejectionReason() { return rejectionReason; }
+    public void setRejectionReason(String rejectionReason) { this.rejectionReason = rejectionReason; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }

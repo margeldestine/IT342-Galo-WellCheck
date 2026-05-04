@@ -2,6 +2,7 @@ package edu.cit.galo.wellcheck.service;
 
 import edu.cit.galo.wellcheck.dto.AuthResponse;
 import edu.cit.galo.wellcheck.dto.CounselorRegisterRequest;
+import edu.cit.galo.wellcheck.dto.CredentialItem;
 import edu.cit.galo.wellcheck.dto.LoginRequest;
 import edu.cit.galo.wellcheck.dto.StudentRegisterRequest;
 import edu.cit.galo.wellcheck.entity.CounselorProfile;
@@ -15,16 +16,34 @@ import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import edu.cit.galo.wellcheck.security.JwtUtil;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
 import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
-import edu.cit.galo.wellcheck.entity.StudentProfile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
+
+    @Value("${supabase.url}")
+    private String supabaseUrl;
+
+    @Value("${supabase.service-role-key}")
+    private String supabaseServiceRoleKey;
+
+    @Value("${supabase.bucket.profile-photos}")
+    private String profilePhotosBucket;
 
     private final UserRepository userRepository;
     private final StudentProfileRepository studentProfileRepository;
@@ -59,7 +78,6 @@ public class AuthService {
             throw new RuntimeException("Student ID number is already registered.");
         }
 
-        // Create user
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -70,7 +88,6 @@ public class AuthService {
         user.setProfileCompleted(false);
         userRepository.save(user);
 
-        // Use factory to create profile (eliminates duplication)
         studentProfileFactory.createAndSaveProfile(user, request);
 
         return "Student registered successfully.";
@@ -85,7 +102,6 @@ public class AuthService {
             throw new RuntimeException("Employee number is already registered.");
         }
 
-        // Create user
         User user = new User();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
@@ -96,7 +112,6 @@ public class AuthService {
         user.setProfileCompleted(false);
         userRepository.save(user);
 
-        // Use factory to create profile (eliminates duplication)
         counselorProfileFactory.createAndSaveProfile(user, request);
 
         return "Counselor registration submitted. Awaiting admin approval.";
@@ -232,5 +247,70 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User not found."));
         return counselorProfileRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Counselor profile not found."));
+    }
+
+    @Transactional
+    public String updateCounselorProfile(String email, CompleteCounselorProfileRequest request) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found."));
+
+        CounselorProfile profile = counselorProfileRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Counselor profile not found."));
+
+        if (request.getSpecialization() != null) profile.setSpecialization(request.getSpecialization());
+        if (request.getBio() != null)            profile.setBio(request.getBio());
+        if (request.getYearsExperience() != null) profile.setYearsExperience(request.getYearsExperience());
+        if (request.getLicenseNumber() != null)  profile.setLicenseNumber(request.getLicenseNumber());
+
+        if (request.getCredentials() != null) {
+            List<String> entries = request.getCredentials().stream()
+                    .map(CredentialItem::toEntry)
+                    .collect(Collectors.toList());
+            profile.setCredentialEntries(entries);
+        }
+
+        if (request.getAvailableDays() != null) profile.setAvailableDays(request.getAvailableDays());
+
+        counselorProfileRepository.save(profile);
+        return "Profile updated successfully.";
+    }
+
+    @Transactional
+    public String uploadCounselorPhoto(String email, MultipartFile file) {
+        try {
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("User not found."));
+            CounselorProfile profile = counselorProfileRepository.findByUserId(user.getId())
+                    .orElseThrow(() -> new RuntimeException("Counselor profile not found."));
+
+            String ext = getExtension(file.getOriginalFilename());
+            String fileName = "counselor-" + user.getId() + "-" + System.currentTimeMillis() + ext;
+
+            String uploadUrl = supabaseUrl + "/storage/v1/object/" + profilePhotosBucket + "/" + fileName;
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + supabaseServiceRoleKey);
+            headers.setContentType(MediaType.parseMediaType(
+                    file.getContentType() != null ? file.getContentType() : "image/jpeg"));
+            headers.set("x-upsert", "true");
+
+            HttpEntity<byte[]> entity = new HttpEntity<>(file.getBytes(), headers);
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.exchange(uploadUrl, HttpMethod.POST, entity, String.class);
+
+            String publicUrl = supabaseUrl + "/storage/v1/object/public/" + profilePhotosBucket + "/" + fileName;
+            profile.setProfilePhoto(publicUrl);
+            profile.setProfilePhotoType("url");
+            counselorProfileRepository.save(profile);
+
+            return publicUrl;
+        } catch (java.io.IOException e) {
+            throw new RuntimeException("Failed to read photo file.");
+        }
+    }
+
+    private String getExtension(String filename) {
+        if (filename == null || !filename.contains(".")) return ".jpg";
+        return filename.substring(filename.lastIndexOf("."));
     }
 }

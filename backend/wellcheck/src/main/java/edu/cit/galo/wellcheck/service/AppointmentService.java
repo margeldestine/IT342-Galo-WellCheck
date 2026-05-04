@@ -125,7 +125,6 @@ public class AppointmentService {
         slotRepository.save(appointment.getSlot());
         appointmentRepository.save(appointment);
 
-        // Notify all observers
         notifyObservers(appointment, oldStatus, "CANCELLED");
 
         return toResponse(appointment);
@@ -144,14 +143,13 @@ public class AppointmentService {
         appointment.setStatus(AppointmentStatus.CONFIRMED);
         appointmentRepository.save(appointment);
 
-        // Notify all observers
         notifyObservers(appointment, oldStatus, "CONFIRMED");
 
         return toResponse(appointment);
     }
 
     @Transactional
-    public AppointmentResponse rejectAppointment(String email, Long appointmentId) {
+    public AppointmentResponse rejectAppointment(String email, Long appointmentId, String reason) {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found."));
 
@@ -161,15 +159,16 @@ public class AppointmentService {
 
         String oldStatus = appointment.getStatus().name();
         appointment.setStatus(AppointmentStatus.REJECTED);
+        appointment.setRejectionReason(reason);
         appointment.getSlot().setStatus(SlotStatus.AVAILABLE);
         slotRepository.save(appointment.getSlot());
         appointmentRepository.save(appointment);
 
-        // Notify all observers
         notifyObservers(appointment, oldStatus, "REJECTED");
 
         return toResponse(appointment);
     }
+
     private void notifyObservers(Appointment appointment, String oldStatus, String newStatus) {
         System.out.println("\n🔔 Notifying " + observers.size() + " observers...");
         for (AppointmentObserver observer : observers) {
@@ -191,6 +190,7 @@ public class AppointmentService {
                 a.getSlot().getCounselor().getUser().getFirstName(),
                 a.getSlot().getCounselor().getUser().getLastName(),
                 a.getSlot().getCounselor().getSpecialization(),
+                a.getSlot().getCounselor().getProfilePhoto(),
                 sp.getUser().getFirstName(),
                 sp.getUser().getLastName(),
                 sp.getStudentIdNumber(),
@@ -201,6 +201,7 @@ public class AppointmentService {
                 sp.getSchoolIdPhotoUrl(),
                 a.getStatus().name(),
                 a.getNote(),
+                a.getRejectionReason(),
                 a.getCreatedAt()
         );
     }

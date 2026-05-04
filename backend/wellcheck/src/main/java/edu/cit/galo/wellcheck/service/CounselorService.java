@@ -1,5 +1,6 @@
 package edu.cit.galo.wellcheck.service;
 
+import edu.cit.galo.wellcheck.dto.CredentialItem;
 import edu.cit.galo.wellcheck.dto.CounselorListItem;
 import edu.cit.galo.wellcheck.entity.CounselorProfile;
 import edu.cit.galo.wellcheck.enums.SlotStatus;
@@ -36,8 +37,28 @@ public class CounselorService {
         return toListItem(counselor);
     }
 
+    public void rateCounselor(Long counselorProfileId, int rating) {
+        CounselorProfile profile = counselorProfileRepository.findById(counselorProfileId)
+                .orElseThrow(() -> new RuntimeException("Counselor not found."));
+
+        double currentTotal = profile.getAverageRating() * profile.getRatingCount();
+        int newCount = profile.getRatingCount() + 1;
+        double newAverage = (currentTotal + rating) / newCount;
+
+        profile.setRatingCount(newCount);
+        // Round to 1 decimal place
+        profile.setAverageRating(Math.round(newAverage * 10.0) / 10.0);
+        counselorProfileRepository.save(profile);
+    }
+
     private CounselorListItem toListItem(CounselorProfile c) {
-        int availableSlots = slotRepository.findByCounselorIdAndStatus(c.getId(), SlotStatus.AVAILABLE).size();
+        int availableSlots = slotRepository
+                .findByCounselorIdAndStatus(c.getId(), SlotStatus.AVAILABLE).size();
+
+        List<CredentialItem> credentials = c.getCredentialEntries().stream()
+                .map(CredentialItem::fromEntry)
+                .collect(Collectors.toList());
+
         return new CounselorListItem(
                 c.getId(),
                 c.getUser().getFirstName(),
@@ -47,7 +68,13 @@ public class CounselorService {
                 c.getSpecialization(),
                 c.getUser().getStatus().name(),
                 c.getBio(),
-                availableSlots
+                availableSlots,
+                c.getYearsExperience(),
+                c.getLicenseNumber(),
+                c.getAverageRating(),
+                c.getRatingCount(),
+                credentials,
+                c.getProfilePhoto()
         );
     }
 }

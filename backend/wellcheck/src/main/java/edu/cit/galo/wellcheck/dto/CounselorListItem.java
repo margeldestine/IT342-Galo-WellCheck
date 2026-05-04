@@ -1,5 +1,7 @@
 package edu.cit.galo.wellcheck.dto;
 
+import java.util.List;
+
 public class CounselorListItem {
 
     private Long id;
@@ -11,8 +13,50 @@ public class CounselorListItem {
     private String status;
     private String bio;
     private int availableSlots;
+    private Integer yearsExperience;
+    private String licenseNumber;
+    private double averageRating;
+    private int ratingCount;
+    private List<CredentialItem> credentials;
+    private String profilePhoto;
 
-    // Constructor with bio and availableSlots (for CounselorService)
+    public CounselorListItem(Long id, String firstName, String lastName,
+                             String email, String employeeNumber,
+                             String specialization, String status,
+                             String bio, int availableSlots,
+                             Integer yearsExperience, String licenseNumber,
+                             double averageRating, int ratingCount,
+                             List<CredentialItem> credentials, String profilePhoto) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.employeeNumber = employeeNumber;
+        this.specialization = specialization;
+        this.status = status;
+        this.bio = bio;
+        this.availableSlots = availableSlots;
+        this.yearsExperience = yearsExperience;
+        this.licenseNumber = licenseNumber;
+        this.averageRating = averageRating;
+        this.ratingCount = ratingCount;
+        this.credentials = credentials;
+        this.profilePhoto = profilePhoto;
+    }
+
+    // Slim constructor (for AdminService — admin-facing, no new fields needed)
+    public CounselorListItem(Long id, String firstName, String lastName,
+                             String email, String employeeNumber,
+                             String specialization, String status) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.employeeNumber = employeeNumber;
+        this.specialization = specialization;
+        this.status = status;
+    }
+
     public CounselorListItem(Long id, String firstName, String lastName,
                              String email, String employeeNumber,
                              String specialization, String status,
@@ -26,21 +70,6 @@ public class CounselorListItem {
         this.status = status;
         this.bio = bio;
         this.availableSlots = availableSlots;
-    }
-
-    // Constructor without bio and availableSlots (for AdminService)
-    public CounselorListItem(Long id, String firstName, String lastName,
-                             String email, String employeeNumber,
-                             String specialization, String status) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.employeeNumber = employeeNumber;
-        this.specialization = specialization;
-        this.status = status;
-        this.bio = null;
-        this.availableSlots = 0;
     }
 
     public Long getId() { return id; }
@@ -61,4 +90,16 @@ public class CounselorListItem {
     public void setBio(String bio) { this.bio = bio; }
     public int getAvailableSlots() { return availableSlots; }
     public void setAvailableSlots(int availableSlots) { this.availableSlots = availableSlots; }
+    public Integer getYearsExperience() { return yearsExperience; }
+    public void setYearsExperience(Integer yearsExperience) { this.yearsExperience = yearsExperience; }
+    public String getLicenseNumber() { return licenseNumber; }
+    public void setLicenseNumber(String licenseNumber) { this.licenseNumber = licenseNumber; }
+    public double getAverageRating() { return averageRating; }
+    public void setAverageRating(double averageRating) { this.averageRating = averageRating; }
+    public int getRatingCount() { return ratingCount; }
+    public void setRatingCount(int ratingCount) { this.ratingCount = ratingCount; }
+    public List<CredentialItem> getCredentials() { return credentials; }
+    public void setCredentials(List<CredentialItem> credentials) { this.credentials = credentials; }
+    public String getProfilePhoto() { return profilePhoto; }
+    public void setProfilePhoto(String profilePhoto) { this.profilePhoto = profilePhoto; }
 }
