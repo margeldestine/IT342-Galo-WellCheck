@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { ArrowLeft, Calendar, Clock, Star, MapPin, BookOpen } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock, Star, BookOpen, Award, Shield } from 'lucide-react';
 import StudentSidebar from '../components/StudentSidebar';
 import '../styles/Counselorview.css';
 
@@ -18,6 +18,12 @@ function CounselorView() {
   const [slotsLoading, setSlotsLoading] = useState(true);
   const [selectedDay, setSelectedDay] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [showAllCreds, setShowAllCreds] = useState(false);
+
+  const [hoveredStar, setHoveredStar] = useState(0);
+  const [userRating, setUserRating] = useState(0);
+  const [ratingSubmitted, setRatingSubmitted] = useState(false);
+  const [ratingLoading, setRatingLoading] = useState(false);
 
   useEffect(() => {
     fetchCounselor();
@@ -50,7 +56,23 @@ function CounselorView() {
     setSlotsLoading(false);
   };
 
-  // Group slots by "Monday|May 6"
+  const handleSubmitRating = async (star) => {
+    setRatingLoading(true);
+    try {
+      await axios.post(
+        `${API}/counselors/${id}/rate`,
+        { rating: star },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      setUserRating(star);
+      setRatingSubmitted(true);
+      fetchCounselor();
+    } catch (err) {
+      alert(err.response?.data || 'Failed to submit rating.');
+    }
+    setRatingLoading(false);
+  };
+
   const slotsByDay = slots.reduce((acc, slot) => {
     const date = new Date(slot.startTime);
     const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
@@ -74,6 +96,11 @@ function CounselorView() {
     localStorage.setItem('selectedCounselor', JSON.stringify(counselor));
     navigate('/book-appointment');
   };
+
+  const ratingAvg = counselor?.averageRating || 0;
+  const ratingCount = counselor?.ratingCount || 0;
+  const credentials = counselor?.credentials || [];
+  const visibleCreds = showAllCreds ? credentials : credentials.slice(0, 3);
 
   if (loading) {
     return (
@@ -109,65 +136,145 @@ function CounselorView() {
 
           <div className="cv-grid">
 
-            {/* ── Left: Profile card ── */}
-            <div className="cv-profile-card">
+            {/* ── LEFT: Compact profile card ─────────────────────── */}
+            <div className="cv-left-col">
+              <div className="cv-profile-card">
+                <div className="cv-card-banner" />
 
-              <div className="cv-avatar-wrap">
-                {counselor.profilePhoto ? (
-                  <img src={counselor.profilePhoto} alt="Profile" className="cv-avatar-img" />
-                ) : (
-                  <div className="cv-avatar-initials">{getInitials(counselor)}</div>
-                )}
-              </div>
+                <div className="cv-avatar-wrap">
+                  {counselor.profilePhoto ? (
+                    <img src={counselor.profilePhoto} alt="Profile" className="cv-avatar-img" />
+                  ) : (
+                    <div className="cv-avatar-initials">{getInitials(counselor)}</div>
+                  )}
+                </div>
 
-              <span className="cv-available-badge">● Available</span>
+                <span className="cv-available-badge">● Available</span>
 
-              <h2 className="cv-name">{counselor.firstName} {counselor.lastName}</h2>
+                <h2 className="cv-name">{counselor.firstName} {counselor.lastName}</h2>
 
-              <div className="cv-meta-pills">
                 {counselor.specialization && (
-                  <span className="cv-pill"><BookOpen size={12} /> {counselor.specialization}</span>
-                )}
-                {counselor.location && (
-                  <span className="cv-pill"><MapPin size={12} /> {counselor.location}</span>
-                )}
-              </div>
-
-              <div className="cv-divider" />
-
-              <div className="cv-stat-row">
-                <div className="cv-stat">
-                  <div className="cv-stat-val">
-                    <Star size={14} fill="#f59e0b" color="#f59e0b" /> 4.9
+                  <div className="cv-spec-pill">
+                    <BookOpen size={11} /> {counselor.specialization}
                   </div>
-                  <div className="cv-stat-lbl">Rating</div>
+                )}
+
+                <div className="cv-divider" />
+
+                {/* Stats row */}
+                <div className="cv-stat-row">
+                  <div className="cv-stat">
+                    <div className="cv-stat-val">
+                      <Star size={14} fill="#f59e0b" color="#f59e0b" />
+                      {ratingAvg.toFixed(1)}
+                    </div>
+                    <div className="cv-stat-lbl">{ratingCount} review{ratingCount !== 1 ? 's' : ''}</div>
+                  </div>
+                  <div className="cv-stat-sep" />
+                  <div className="cv-stat">
+                    <div className="cv-stat-val">
+                      {counselor.yearsExperience ? `${counselor.yearsExperience} yrs` : '—'}
+                    </div>
+                    <div className="cv-stat-lbl">Experience</div>
+                  </div>
                 </div>
-                <div className="cv-stat">
-                  <div className="cv-stat-val">3 yrs</div>
-                  <div className="cv-stat-lbl">Experience</div>
+
+                {counselor.licenseNumber && (
+                  <div className="cv-license-tag">
+                    <Shield size={11} />
+                    PRC: {counselor.licenseNumber}
+                  </div>
+                )}
+
+                <div className="cv-divider" />
+
+                {/* Rating widget */}
+                <div className="cv-rating-widget">
+                  <div className="cv-section-label">Rate this Counselor</div>
+                  {ratingSubmitted ? (
+                    <div className="cv-rating-thanks">  
+                      Thanks for your feedback!
+                    </div>
+                  ) : (
+                    <>
+                      <div className="cv-rate-stars">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <button key={star}
+                            className={`cv-rate-star-btn ${star <= (hoveredStar || userRating) ? 'active' : ''}`}
+                            onMouseEnter={() => setHoveredStar(star)}
+                            onMouseLeave={() => setHoveredStar(0)}
+                            onClick={() => handleSubmitRating(star)}
+                            disabled={ratingLoading}>
+                            <svg viewBox="0 0 24 24"
+                              fill={star <= (hoveredStar || userRating) ? 'currentColor' : 'none'}
+                              stroke="currentColor" strokeWidth="1.5">
+                              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                            </svg>
+                          </button>
+                        ))}
+                      </div>
+                      <div className="cv-rate-hint">
+                        {hoveredStar === 1 ? 'Poor' :
+                         hoveredStar === 2 ? 'Fair' :
+                         hoveredStar === 3 ? 'Good' :
+                         hoveredStar === 4 ? 'Very good' :
+                         hoveredStar === 5 ? 'Excellent!' :
+                         'Tap a star to rate'}
+                      </div>
+                    </>
+                  )}
                 </div>
+
               </div>
+            </div>
 
-              <div className="cv-divider" />
+            {/* ── RIGHT: About + Credentials + Booking ───────────── */}
+            <div className="cv-booking-panel">
 
-              <div className="cv-bio-section">
-                <div className="cv-section-label">About</div>
+              {/* About card */}
+              <div className="cv-panel-card">
+                <div className="cv-panel-section-label">
+                  About {counselor.firstName}
+                </div>
                 <p className="cv-bio">
                   {counselor.bio ||
                     `${counselor.firstName} is a dedicated counselor specializing in ${counselor.specialization}. They provide a safe, non-judgmental space for students to explore their concerns and develop strategies for wellbeing.`}
                 </p>
+
+                {/* Credentials inside about card */}
+                {credentials.length > 0 && (
+                  <>
+                    <div className="cv-inner-divider" />
+                    <div className="cv-panel-section-label" style={{ marginBottom: 12 }}>
+                      <Award size={12} style={{ display: 'inline', marginRight: 5 }} />
+                      Credentials & Education
+                    </div>
+                    <div className="cv-creds-grid">
+                      {visibleCreds.map((cred, i) => (
+                        <div key={i} className="cv-cred-item">
+                          <div className="cv-cred-dot" />
+                          <div className="cv-cred-body">
+                            <div className="cv-cred-title">{cred.title}</div>
+                            {cred.year && <div className="cv-cred-year">{cred.year}</div>}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    {credentials.length > 3 && (
+                      <button className="cv-show-more-btn"
+                        onClick={() => setShowAllCreds(v => !v)}>
+                        {showAllCreds ? 'Show less' : `+${credentials.length - 3} more`}
+                      </button>
+                    )}
+                  </>
+                )}
               </div>
-            </div>
 
-            {/* ── Right: Booking panel ── */}
-            <div className="cv-booking-panel">
-
-              {/* Day selector */}
+              {/* Select a Day */}
               <div className="cv-panel-card">
                 <div className="cv-panel-section-label">
-                  <Calendar size={13} /> Select a Day
+                  <Calendar size={13} /> Book an Appointment
                 </div>
-
                 {slotsLoading ? (
                   <p className="cv-no-slots">Loading available slots…</p>
                 ) : availableDayKeys.length === 0 ? (
@@ -177,11 +284,9 @@ function CounselorView() {
                     {availableDayKeys.map((key) => {
                       const [dayName, monthDay] = key.split('|');
                       return (
-                        <button
-                          key={key}
+                        <button key={key}
                           className={`cv-day-btn ${selectedDay === key ? 'selected' : ''}`}
-                          onClick={() => { setSelectedDay(key); setSelectedSlot(null); }}
-                        >
+                          onClick={() => { setSelectedDay(key); setSelectedSlot(null); }}>
                           <span className="cv-day-name">{dayName.slice(0, 3)}</span>
                           <span className="cv-day-date">{monthDay}</span>
                         </button>
@@ -200,11 +305,9 @@ function CounselorView() {
                   </div>
                   <div className="cv-slot-grid">
                     {slotsByDay[selectedDay].map((slot) => (
-                      <button
-                        key={slot.id}
+                      <button key={slot.id}
                         className={`cv-slot-btn ${selectedSlot === slot.id ? 'selected' : ''}`}
-                        onClick={() => { setSelectedSlot(slot.id); handleSlotClick(slot); }}
-                      >
+                        onClick={() => { setSelectedSlot(slot.id); handleSlotClick(slot); }}>
                         {formatTime(slot.startTime)}
                       </button>
                     ))}

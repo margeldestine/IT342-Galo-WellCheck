@@ -158,6 +158,19 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
+/* Cards with a rejection reason need top-aligned items since they're taller */
+.ma-card-has-reason {
+  align-items: flex-start;
+}
+
+.ma-card-has-reason .ma-date {
+  margin-top: 2px;
+}
+
+.ma-card-has-reason .ma-actions {
+  margin-top: 2px;
+}
+
 /* Date block */
 .ma-date {
   width: 52px;
@@ -212,6 +225,32 @@
   margin-top: 4px;
 }
 
+/* ─── REJECTION REASON ─── */
+.ma-rejection-reason {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #b91c1c;
+  line-height: 1.5;
+  max-width: 480px;
+}
+
+.ma-rejection-reason svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+  color: #ef4444;
+}
+
+.ma-rejection-reason strong {
+  font-weight: 600;
+}
+
 /* Actions */
 .ma-actions {
   display: flex;
@@ -232,8 +271,8 @@
 
 .ma-badge-pending   { background: #fef3c7; color: #92400e; }
 .ma-badge-confirmed { background: #edf7f2; color: #15803d; }
-.ma-badge-rejected  { background: #f3f4f6; color: #6b7280; }
-.ma-badge-cancelled { background: #fee2e2; color: #b91c1c; }
+.ma-badge-rejected  { background: #fee2e2; color: #b91c1c; }
+.ma-badge-cancelled { background: #f3f4f6; color: #6b7280; }
 
 /* Cancel button */
 .ma-btn-cancel {

@@ -119,7 +119,7 @@ function MyAppointments() {
           ) : (
             <div className="ma-list">
               {filtered.map(apt => (
-                <div key={apt.id} className="ma-card">
+                <div key={apt.id} className={`ma-card ${apt.status === 'REJECTED' && apt.rejectionReason ? 'ma-card-has-reason' : ''}`}>
 
                   {/* Date badge */}
                   <div className="ma-date">
@@ -141,6 +141,19 @@ function MyAppointments() {
                       </svg>
                       {formatTime(apt.startTime)}
                     </div>
+
+                    {/* Rejection reason — shown only for rejected appointments */}
+                    {apt.status === 'REJECTED' && apt.rejectionReason && (
+                      <div className="ma-rejection-reason">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" strokeWidth="2">
+                          <circle cx="12" cy="12" r="9"/>
+                          <line x1="12" y1="8" x2="12" y2="12"/>
+                          <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                        <span><strong>Reason: </strong>{apt.rejectionReason}</span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Right: badge + cancel */}

@@ -133,9 +133,15 @@ function BrowseCounselors() {
                   onClick={() => navigate(`/counselor/${counselor.id}`)}
                 >
                   <div className="bc-card-top">
-                    <div className="bc-avatar">
-                      {counselor.firstName.charAt(0)}{counselor.lastName.charAt(0)}
+                    
+                    <div className="bc-avatar" style={{ overflow: 'hidden', padding: 0 }}>
+                      {counselor.profilePhoto
+                        ? <img src={counselor.profilePhoto} alt="avatar"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                        : `${counselor.firstName.charAt(0)}${counselor.lastName.charAt(0)}`
+                      }
                     </div>
+
                     <div className="bc-info">
                       <div className="bc-name">{counselor.firstName} {counselor.lastName}</div>
                       <div className="bc-spec">{counselor.specialization}</div>

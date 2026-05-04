@@ -178,8 +178,12 @@ function StudentDashboard() {
               ) : (
                 <div className="sd-apt-item">
                   <div className="sd-apt-left">
-                    <div className="sd-apt-avatar">
-                      {upcoming.counselorFirstName?.charAt(0)}{upcoming.counselorLastName?.charAt(0)}
+                    <div className="sd-apt-avatar" style={{ overflow: 'hidden', padding: 0 }}>
+                      {upcoming.counselorProfilePhoto
+                        ? <img src={upcoming.counselorProfilePhoto} alt="avatar"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                        : `${upcoming.counselorFirstName?.charAt(0) || ''}${upcoming.counselorLastName?.charAt(0) || ''}`
+                      }
                     </div>
                     <div className="sd-apt-info">
                       <div className="sd-apt-name">
@@ -281,9 +285,13 @@ function StudentDashboard() {
             ) : (
               <div className="sd-counselor-list">
                 {counselors.map((c) => (
-                  <div key={c.id} className="sd-counselor-row" style={{ cursor: 'pointer' }} onClick={() => navigate(`/counselor/${c.id}`)}>
-                    <div className="sd-counselor-avatar">
-                      {c.firstName?.charAt(0)}{c.lastName?.charAt(0)}
+                  <div key={c.id} className="sd-counselor-row" style={{ cursor: 'pointer' }}  onClick={() => navigate(`/counselor/${c.id}`)}>
+                    <div className="sd-counselor-avatar" style={{ overflow: 'hidden', padding: 0 }}>
+                      {c.profilePhoto
+                        ? <img src={c.profilePhoto} alt="avatar"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }} />
+                        : `${c.firstName?.charAt(0) || ''}${c.lastName?.charAt(0) || ''}`
+                      }
                     </div>
                     <div className="sd-counselor-info">
                       <div className="sd-counselor-name">{c.firstName} {c.lastName}</div>
