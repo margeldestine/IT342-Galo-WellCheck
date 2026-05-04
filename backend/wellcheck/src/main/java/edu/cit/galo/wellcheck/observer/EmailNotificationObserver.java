@@ -1,50 +1,84 @@
 package edu.cit.galo.wellcheck.observer;
 
 import edu.cit.galo.wellcheck.entity.Appointment;
+import edu.cit.galo.wellcheck.service.EmailService;
 import org.springframework.stereotype.Component;
 
-/**
- * Observer that handles email notifications when appointment status changes.
- * Currently logs to console - will be replaced with actual SMTP implementation.
- */
+import java.time.format.DateTimeFormatter;
+
 @Component
 public class EmailNotificationObserver implements AppointmentObserver {
 
+    private final EmailService emailService;
+
+    public EmailNotificationObserver(EmailService emailService) {
+        this.emailService = emailService;
+    }
+
     @Override
     public void onStatusChanged(Appointment appointment, String oldStatus, String newStatus) {
-        String studentEmail = appointment.getStudent().getUser().getEmail();
-        String studentName = appointment.getStudent().getUser().getFirstName() + " " +
-                appointment.getStudent().getUser().getLastName();
-        String counselorName = appointment.getSlot().getCounselor().getUser().getFirstName() + " " +
-                appointment.getSlot().getCounselor().getUser().getLastName();
+        String studentEmail  = appointment.getStudent().getUser().getEmail();
+        String studentName   = appointment.getStudent().getUser().getFirstName();
+        String counselorName = "Dr. " + appointment.getSlot().getCounselor().getUser().getFirstName()
+                + " " + appointment.getSlot().getCounselor().getUser().getLastName();
 
-        switch (newStatus) {
-            case "CONFIRMED":
-                System.out.println("\n📧 [EMAIL NOTIFICATION]");
-                System.out.println("   To: " + studentEmail);
-                System.out.println("   Subject: Appointment Confirmed");
-                System.out.println("   Message: Hi " + studentName + ", your appointment with " +
-                        counselorName + " has been confirmed.");
-                System.out.println("   [SMTP implementation pending]\n");
-                break;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy 'at' h:mm a");
+        String dateTime = appointment.getSlot().getStartTime().format(formatter);
 
-            case "REJECTED":
-                System.out.println("\n📧 [EMAIL NOTIFICATION]");
-                System.out.println("   To: " + studentEmail);
-                System.out.println("   Subject: Appointment Rejected");
-                System.out.println("   Message: Hi " + studentName + ", unfortunately your appointment " +
-                        "request has been declined.");
-                System.out.println("   [SMTP implementation pending]\n");
-                break;
+        if ("CONFIRMED".equals(newStatus)) {
+            String subject = "Your Appointment is Confirmed – WellCheck";
+            String body = String.format(
+                    "Hi %s,\n\n" +
+                            "Great news! Your counseling appointment has been confirmed.\n\n" +
+                            "─────────────────────────────\n" +
+                            "  APPOINTMENT DETAILS\n" +
+                            "─────────────────────────────\n" +
+                            "  Counselor : %s\n" +
+                            "  Date & Time: %s\n" +
+                            "─────────────────────────────\n\n" +
+                            "A few reminders before your session:\n" +
+                            "  • Please be present at least 5 minutes early.\n" +
+                            "  • If you need to cancel, please do so as soon as possible\n" +
+                            "    so the slot can be opened for others.\n" +
+                            "  • You can manage your appointments anytime at WellCheck.\n\n" +
+                            "We're here for you. Take care of yourself.\n\n" +
+                            "Warm regards,\n" +
+                            "The WellCheck Team\n" +
+                            "─────────────────────────────\n" +
+                            "This is an automated message. Please do not reply to this email.",
+                    studentName, counselorName, dateTime
+            );
+            emailService.sendEmail(studentEmail, subject, body);
 
-            case "CANCELLED":
-                String counselorEmail = appointment.getSlot().getCounselor().getUser().getEmail();
-                System.out.println("\n📧 [EMAIL NOTIFICATION]");
-                System.out.println("   To: " + counselorEmail);
-                System.out.println("   Subject: Appointment Cancelled");
-                System.out.println("   Message: Student " + studentName + " has cancelled their appointment.");
-                System.out.println("   [SMTP implementation pending]\n");
-                break;
+        } else if ("REJECTED".equals(newStatus)) {
+            String reason = appointment.getRejectionReason() != null
+                    && !appointment.getRejectionReason().isBlank()
+                    ? appointment.getRejectionReason()
+                    : "No specific reason was provided.";
+
+            String subject = "Update on Your Appointment Request – WellCheck";
+            String body = String.format(
+                    "Hi %s,\n\n" +
+                            "Thank you for reaching out through WellCheck. We want to let you\n" +
+                            "know that your appointment request could not be approved at this time.\n\n" +
+                            "─────────────────────────────\n" +
+                            "  APPOINTMENT DETAILS\n" +
+                            "─────────────────────────────\n" +
+                            "  Counselor    : %s\n" +
+                            "  Requested Time: %s\n" +
+                            "  Reason        : %s\n" +
+                            "─────────────────────────────\n\n" +
+                            "This doesn't mean you can't get support. Here's what you can do:\n" +
+                            "  • Browse available counselors and book a different slot.\n" +
+                            "  • Try selecting a different date or time that works for you.\n\n" +
+                            "Remember, seeking help is a sign of strength. We're always here.\n\n" +
+                            "Warm regards,\n" +
+                            "The WellCheck Team\n" +
+                            "─────────────────────────────\n" +
+                            "This is an automated message. Please do not reply to this email.",
+                    studentName, counselorName, dateTime, reason
+            );
+            emailService.sendEmail(studentEmail, subject, body);
         }
     }
 }
