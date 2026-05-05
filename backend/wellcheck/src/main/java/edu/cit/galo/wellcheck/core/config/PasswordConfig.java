@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.config;
+package edu.cit.galo.wellcheck.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

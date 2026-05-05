@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.security;
+package edu.cit.galo.wellcheck.core.security;
 
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import jakarta.servlet.FilterChain;

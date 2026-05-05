@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.config;
+package edu.cit.galo.wellcheck.core.config;
 
 import edu.cit.galo.wellcheck.domain.entities.User;
 import edu.cit.galo.wellcheck.repository.UserRepository;

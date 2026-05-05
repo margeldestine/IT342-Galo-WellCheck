@@ -2,7 +2,7 @@ package edu.cit.galo.wellcheck.controller;
 
 import edu.cit.galo.wellcheck.dto.AppointmentRequest;
 import edu.cit.galo.wellcheck.dto.AppointmentResponse;
-import edu.cit.galo.wellcheck.security.JwtUtil;
+import edu.cit.galo.wellcheck.core.security.JwtUtil;
 import edu.cit.galo.wellcheck.service.AppointmentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -15,7 +15,7 @@ import edu.cit.galo.wellcheck.factory.StudentProfileFactory;
 import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
-import edu.cit.galo.wellcheck.security.JwtUtil;
+import edu.cit.galo.wellcheck.core.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

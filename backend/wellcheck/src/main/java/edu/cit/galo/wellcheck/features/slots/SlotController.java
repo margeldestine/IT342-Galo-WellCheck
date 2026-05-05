@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.features.slots;
 
-import edu.cit.galo.wellcheck.security.JwtUtil;
+import edu.cit.galo.wellcheck.core.security.JwtUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

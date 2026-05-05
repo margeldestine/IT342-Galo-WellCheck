@@ -2,7 +2,7 @@ package edu.cit.galo.wellcheck.controller;
 
 import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
-import edu.cit.galo.wellcheck.security.JwtUtil;
+import edu.cit.galo.wellcheck.core.security.JwtUtil;
 import edu.cit.galo.wellcheck.service.FileUploadService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

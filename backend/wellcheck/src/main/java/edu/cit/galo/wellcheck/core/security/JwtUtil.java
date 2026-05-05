@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.security;
+package edu.cit.galo.wellcheck.core.security;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
