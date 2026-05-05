@@ -1,7 +1,7 @@
 package edu.cit.galo.wellcheck.service;
 
 import edu.cit.galo.wellcheck.dto.AdminDashboardStats;
-import edu.cit.galo.wellcheck.dto.CounselorListItem;
+import edu.cit.galo.wellcheck.features.counselors.CounselorListItem;
 import edu.cit.galo.wellcheck.dto.StudentListItem;
 import edu.cit.galo.wellcheck.features.appointments.AppointmentResponse;
 import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
@@ -9,8 +9,8 @@ import edu.cit.galo.wellcheck.domain.entities.User;
 import edu.cit.galo.wellcheck.domain.enums.UserRole;
 import edu.cit.galo.wellcheck.domain.enums.UserStatus;
 import edu.cit.galo.wellcheck.features.appointments.AppointmentRepository;
-import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
-import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
+import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;
+import edu.cit.galo.wellcheck.features.students.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

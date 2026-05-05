@@ -6,11 +6,11 @@ import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
 import edu.cit.galo.wellcheck.domain.enums.AppointmentStatus;
 import edu.cit.galo.wellcheck.domain.enums.SlotStatus;
 import edu.cit.galo.wellcheck.features.slots.SlotRepository;
-import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
+import edu.cit.galo.wellcheck.features.students.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
+import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;

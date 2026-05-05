@@ -1,9 +1,9 @@
 package edu.cit.galo.wellcheck.factory;
 
-import edu.cit.galo.wellcheck.dto.CounselorRegisterRequest;
+import edu.cit.galo.wellcheck.features.counselors.CounselorRegisterRequest;
 import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
 import edu.cit.galo.wellcheck.domain.entities.User;
-import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
+import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;
 import org.springframework.stereotype.Component;
 
 /**

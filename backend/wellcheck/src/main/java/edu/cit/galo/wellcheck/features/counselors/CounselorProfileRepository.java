@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.repository;
+package edu.cit.galo.wellcheck.features.counselors;
 
 import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
 import edu.cit.galo.wellcheck.domain.enums.UserStatus;

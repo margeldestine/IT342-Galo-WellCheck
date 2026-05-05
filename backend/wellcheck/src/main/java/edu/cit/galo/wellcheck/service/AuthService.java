@@ -1,19 +1,19 @@
 package edu.cit.galo.wellcheck.service;
 
 import edu.cit.galo.wellcheck.dto.AuthResponse;
-import edu.cit.galo.wellcheck.dto.CounselorRegisterRequest;
+import edu.cit.galo.wellcheck.features.counselors.CounselorRegisterRequest;
 import edu.cit.galo.wellcheck.dto.CredentialItem;
 import edu.cit.galo.wellcheck.dto.LoginRequest;
-import edu.cit.galo.wellcheck.dto.StudentRegisterRequest;
+import edu.cit.galo.wellcheck.features.students.StudentRegisterRequest;
 import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
 import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
 import edu.cit.galo.wellcheck.domain.entities.User;
 import edu.cit.galo.wellcheck.domain.enums.UserRole;
 import edu.cit.galo.wellcheck.domain.enums.UserStatus;
 import edu.cit.galo.wellcheck.factory.CounselorProfileFactory;
-import edu.cit.galo.wellcheck.factory.StudentProfileFactory;
-import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
-import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
+import edu.cit.galo.wellcheck.features.students.StudentProfileFactory;
+import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;
+import edu.cit.galo.wellcheck.features.students.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import edu.cit.galo.wellcheck.core.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
-import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
+import edu.cit.galo.wellcheck.features.counselors.CompleteProfileRequest;
 import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
 
 import java.util.List;

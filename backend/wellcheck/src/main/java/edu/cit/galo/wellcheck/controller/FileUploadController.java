@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.controller;
 
-import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
+import edu.cit.galo.wellcheck.features.students.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import edu.cit.galo.wellcheck.core.security.JwtUtil;
 import edu.cit.galo.wellcheck.service.FileUploadService;

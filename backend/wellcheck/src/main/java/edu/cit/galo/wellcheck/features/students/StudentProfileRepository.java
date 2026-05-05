@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.repository;
+package edu.cit.galo.wellcheck.features.students;
 
 import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
 import org.springframework.data.jpa.repository.JpaRepository;

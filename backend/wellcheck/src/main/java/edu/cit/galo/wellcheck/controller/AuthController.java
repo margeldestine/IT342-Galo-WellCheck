@@ -1,15 +1,15 @@
 package edu.cit.galo.wellcheck.controller;
 
 import edu.cit.galo.wellcheck.dto.AuthResponse;
-import edu.cit.galo.wellcheck.dto.CounselorRegisterRequest;
+import edu.cit.galo.wellcheck.features.counselors.CounselorRegisterRequest;
 import edu.cit.galo.wellcheck.dto.LoginRequest;
-import edu.cit.galo.wellcheck.dto.StudentRegisterRequest;
+import edu.cit.galo.wellcheck.features.students.StudentRegisterRequest;
 import edu.cit.galo.wellcheck.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
+import edu.cit.galo.wellcheck.features.counselors.CompleteProfileRequest;
 import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
 import org.springframework.web.multipart.MultipartFile;
 

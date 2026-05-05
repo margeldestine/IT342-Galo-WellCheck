@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.dto;
+package edu.cit.galo.wellcheck.features.students;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
