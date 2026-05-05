@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.dto;
+package edu.cit.galo.wellcheck.features.counselors;
 
 public class RatingRequest {
     private int rating;

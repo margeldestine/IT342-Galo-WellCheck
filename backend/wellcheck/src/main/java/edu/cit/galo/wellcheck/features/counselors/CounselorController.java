@@ -1,6 +1,5 @@
 package edu.cit.galo.wellcheck.features.counselors;
 
-import edu.cit.galo.wellcheck.dto.RatingRequest;
 import edu.cit.galo.wellcheck.core.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

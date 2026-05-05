@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.factory;
+package edu.cit.galo.wellcheck.domain.interfaces;
 
 import edu.cit.galo.wellcheck.domain.entities.User;
 

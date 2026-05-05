@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.service;
+package edu.cit.galo.wellcheck.core.infrastructure;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

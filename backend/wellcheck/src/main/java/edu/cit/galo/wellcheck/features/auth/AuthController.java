@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import edu.cit.galo.wellcheck.features.counselors.CompleteProfileRequest;
-import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
+import edu.cit.galo.wellcheck.features.counselors.CompleteCounselorProfileRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController

@@ -7,7 +7,7 @@ import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
 import edu.cit.galo.wellcheck.domain.entities.User;
 import edu.cit.galo.wellcheck.domain.enums.UserRole;
 import edu.cit.galo.wellcheck.domain.enums.UserStatus;
-import edu.cit.galo.wellcheck.factory.CounselorProfileFactory;
+import edu.cit.galo.wellcheck.features.counselors.CounselorProfileFactory;
 import edu.cit.galo.wellcheck.features.students.StudentProfileFactory;
 import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.features.students.StudentProfileRepository;
@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import edu.cit.galo.wellcheck.features.counselors.CompleteProfileRequest;
-import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
+import edu.cit.galo.wellcheck.features.counselors.CompleteCounselorProfileRequest;
 
 import java.util.List;
 import java.util.Optional;

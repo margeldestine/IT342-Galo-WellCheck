@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.features.students;
 
-import edu.cit.galo.wellcheck.factory.ProfileFactory;
+import edu.cit.galo.wellcheck.domain.interfaces.ProfileFactory;
 import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
 import edu.cit.galo.wellcheck.domain.entities.User;
 import org.springframework.stereotype.Component;

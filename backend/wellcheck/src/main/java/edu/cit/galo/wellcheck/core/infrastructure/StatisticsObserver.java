@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.observer;
+package edu.cit.galo.wellcheck.core.infrastructure;
 
 import edu.cit.galo.wellcheck.domain.entities.Appointment;
 import edu.cit.galo.wellcheck.features.appointments.AppointmentObserver;

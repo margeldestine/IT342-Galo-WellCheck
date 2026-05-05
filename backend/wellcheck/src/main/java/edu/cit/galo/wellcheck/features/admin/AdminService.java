@@ -1,7 +1,7 @@
 package edu.cit.galo.wellcheck.features.admin;
 
 import edu.cit.galo.wellcheck.features.counselors.CounselorListItem;
-import edu.cit.galo.wellcheck.dto.StudentListItem;
+import edu.cit.galo.wellcheck.features.students.StudentListItem;
 import edu.cit.galo.wellcheck.features.appointments.AppointmentResponse;
 import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
 import edu.cit.galo.wellcheck.domain.entities.User;
