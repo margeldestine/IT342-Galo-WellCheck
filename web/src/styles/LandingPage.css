@@ -1,19 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
-* {
+.lp-wrapper {
+  box-sizing: border-box;
+  background-color: #f8f7f4;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  color: #1a1a1a;
+}
+
+.lp-wrapper *, .lp-wrapper *::before, .lp-wrapper *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.landing-wrapper {
-  background-color: #f8f7f4;
-  min-height: 100vh;
-  font-family: 'Inter', sans-serif;
-}
-
 /* Navbar */
-.navbar {
+.lp-navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,20 +28,20 @@
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
-.navbar-brand {
+.lp-navbar-brand {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.navbar-title {
+.lp-navbar-title {
   font-weight: 700;
   font-size: 18px;
   color: #1a1a1a;
   letter-spacing: -0.3px;
 }
 
-.btn-login {
+.lp-btn-login {
   background-color: #1a1a1a;
   color: white;
   border: none;
@@ -52,13 +54,13 @@
   transition: all 0.2s ease;
 }
 
-.btn-login:hover {
+.lp-btn-login:hover {
   background-color: #333;
   transform: translateY(-1px);
 }
 
 /* Hero */
-.hero {
+.lp-hero {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -68,11 +70,11 @@
   gap: 60px;
 }
 
-.hero-left {
+.lp-hero-left {
   max-width: 560px;
 }
 
-.hero-badge {
+.lp-hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -85,14 +87,14 @@
   margin-bottom: 24px;
 }
 
-.hero-badge-dot {
+.lp-hero-badge-dot {
   width: 6px;
   height: 6px;
   background-color: #1F7A5A;
   border-radius: 50%;
 }
 
-.hero-title {
+.lp-hero-title {
   font-size: 52px;
   font-weight: 800;
   line-height: 1.1;
@@ -101,11 +103,11 @@
   letter-spacing: -1.5px;
 }
 
-.hero-title span {
+.lp-hero-title span {
   color: #1F7A5A;
 }
 
-.hero-subtitle {
+.lp-hero-subtitle {
   color: #666;
   font-size: 16px;
   line-height: 1.75;
@@ -113,14 +115,14 @@
   font-weight: 400;
 }
 
-.hero-buttons {
+.lp-hero-buttons {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
   margin-bottom: 48px;
 }
 
-.btn-primary {
+.lp-btn-primary {
   background-color: #1F7A5A;
   color: white;
   border: none;
@@ -131,18 +133,18 @@
   font-weight: 600;
   font-family: 'Inter', sans-serif;
   transition: all 0.2s ease;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-.btn-primary:hover {
+.lp-btn-primary:hover {
   background-color: #165f45;
   transform: translateY(-1px);
   box-shadow: 0 4px 16px rgba(31, 122, 90, 0.3);
 }
 
-.btn-secondary {
+.lp-btn-secondary {
   background-color: white;
   color: #1a1a1a;
   border: 1.5px solid #e0e0e0;
@@ -155,38 +157,38 @@
   transition: all 0.2s ease;
 }
 
-.btn-secondary:hover {
+.lp-btn-secondary:hover {
   border-color: #1F7A5A;
   color: #1F7A5A;
   transform: translateY(-1px);
 }
 
 /* Hero stats */
-.hero-stats {
+.lp-hero-stats {
   display: flex;
   gap: 32px;
 }
 
-.hero-stat {
+.lp-hero-stat {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-.hero-stat-value {
+.lp-hero-stat-value {
   font-size: 22px;
   font-weight: 700;
   color: #1a1a1a;
 }
 
-.hero-stat-label {
+.lp-hero-stat-label {
   font-size: 12px;
   color: #999;
   font-weight: 400;
 }
 
 /* Hero right */
-.hero-right {
+.lp-hero-right {
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -194,7 +196,7 @@
   width: 340px;
 }
 
-.feature-card {
+.lp-feature-card {
   background-color: white;
   border-radius: 16px;
   padding: 24px;
@@ -203,11 +205,11 @@
   transition: transform 0.2s ease;
 }
 
-.feature-card:hover {
+.lp-feature-card:hover {
   transform: translateY(-2px);
 }
 
-.feature-card-icon {
+.lp-feature-card-icon {
   width: 40px;
   height: 40px;
   border-radius: 10px;
@@ -219,43 +221,43 @@
   margin-bottom: 12px;
 }
 
-.feature-card h3 {
+.lp-feature-card h3 {
   font-size: 15px;
   font-weight: 600;
   color: #1a1a1a;
   margin-bottom: 6px;
 }
 
-.feature-card p {
+.lp-feature-card p {
   font-size: 13px;
   color: #888;
   line-height: 1.6;
 }
 
-.feature-card-accent {
+.lp-feature-card-accent {
   background-color: #1F7A5A;
 }
 
-.feature-card-accent .feature-card-icon {
+.lp-feature-card-accent .lp-feature-card-icon {
   background-color: rgba(255,255,255,0.2);
 }
 
-.feature-card-accent h3 {
+.lp-feature-card-accent h3 {
   color: white;
 }
 
-.feature-card-accent p {
+.lp-feature-card-accent p {
   color: rgba(255,255,255,0.75);
 }
 
 /* How it works section */
-.how-it-works {
+.lp-how-it-works {
   background-color: white;
   padding: 80px 60px;
   border-top: 1px solid #f0f0f0;
 }
 
-.section-label {
+.lp-section-label {
   text-align: center;
   font-size: 13px;
   font-weight: 600;
@@ -265,7 +267,7 @@
   margin-bottom: 12px;
 }
 
-.section-title {
+.lp-section-title {
   text-align: center;
   font-size: 34px;
   font-weight: 800;
@@ -274,7 +276,7 @@
   margin-bottom: 56px;
 }
 
-.steps-grid {
+.lp-steps-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
@@ -282,12 +284,12 @@
   margin: 0 auto;
 }
 
-.step-card {
+.lp-step-card {
   text-align: center;
   padding: 24px;
 }
 
-.step-number {
+.lp-step-number {
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -301,27 +303,27 @@
   margin: 0 auto 16px;
 }
 
-.step-card h3 {
+.lp-step-card h3 {
   font-size: 16px;
   font-weight: 600;
   color: #1a1a1a;
   margin-bottom: 8px;
 }
 
-.step-card p {
+.lp-step-card p {
   font-size: 14px;
   color: #888;
   line-height: 1.6;
 }
 
 /* Footer CTA */
-.footer-cta {
+.lp-footer-cta {
   background-color: #1a1a1a;
   padding: 80px 60px;
   text-align: center;
 }
 
-.footer-cta h2 {
+.lp-footer-cta h2 {
   font-size: 36px;
   font-weight: 800;
   color: white;
@@ -329,25 +331,24 @@
   margin-bottom: 12px;
 }
 
-.footer-cta p {
+.lp-footer-cta p {
   font-size: 16px;
   color: rgba(255,255,255,0.6);
   margin-bottom: 32px;
 }
 
-.footer-cta .btn-primary {
-  display: inline-flex;
+.lp-footer-cta .lp-btn-primary {
   margin: 0 auto;
 }
 
-.footer-bottom {
+.lp-footer-bottom {
   background-color: #1a1a1a;
   padding: 20px 60px;
   border-top: 1px solid rgba(255,255,255,0.08);
   text-align: center;
 }
 
-.footer-bottom p {
+.lp-footer-bottom p {
   font-size: 13px;
   color: rgba(255,255,255,0.35);
 }

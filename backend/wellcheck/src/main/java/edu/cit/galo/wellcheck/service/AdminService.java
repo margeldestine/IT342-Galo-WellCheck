@@ -3,11 +3,13 @@ package edu.cit.galo.wellcheck.service;
 import edu.cit.galo.wellcheck.dto.AdminDashboardStats;
 import edu.cit.galo.wellcheck.dto.CounselorListItem;
 import edu.cit.galo.wellcheck.dto.StudentListItem;
+import edu.cit.galo.wellcheck.dto.AppointmentResponse;
 import edu.cit.galo.wellcheck.entity.CounselorProfile;
 import edu.cit.galo.wellcheck.entity.StudentProfile;
 import edu.cit.galo.wellcheck.entity.User;
 import edu.cit.galo.wellcheck.enums.UserRole;
 import edu.cit.galo.wellcheck.enums.UserStatus;
+import edu.cit.galo.wellcheck.repository.AppointmentRepository;
 import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
@@ -23,20 +25,23 @@ public class AdminService {
     private final UserRepository userRepository;
     private final CounselorProfileRepository counselorProfileRepository;
     private final StudentProfileRepository studentProfileRepository;
+    private final AppointmentRepository appointmentRepository;
 
     public AdminService(UserRepository userRepository,
                         CounselorProfileRepository counselorProfileRepository,
-                        StudentProfileRepository studentProfileRepository) {
+                        StudentProfileRepository studentProfileRepository,
+                        AppointmentRepository appointmentRepository) {
         this.userRepository = userRepository;
         this.counselorProfileRepository = counselorProfileRepository;
         this.studentProfileRepository = studentProfileRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     public AdminDashboardStats getDashboardStats() {
         long totalStudents = userRepository.countByRole(UserRole.STUDENT);
         long totalCounselors = userRepository.countByRoleAndStatus(UserRole.COUNSELOR, UserStatus.ACTIVE);
         long pendingApprovals = userRepository.countByRoleAndStatus(UserRole.COUNSELOR, UserStatus.PENDING);
-        long totalAppointments = 0; // will update when appointments are built
+        long totalAppointments = appointmentRepository.count();
 
         return new AdminDashboardStats(totalStudents, totalCounselors, pendingApprovals, totalAppointments);
     }
@@ -94,6 +99,36 @@ public class AdminService {
                         profile.getUser().getStatus().name(),
                         profile.getUser().getCreatedAt()
                 ))
+                .collect(Collectors.toList());
+    }
+
+    public List<AppointmentResponse> getAllAppointments() {
+        return appointmentRepository.findAll().stream()
+                .map(a -> {
+                    StudentProfile sp = a.getStudent();
+                    return new AppointmentResponse(
+                            a.getId(),
+                            a.getSlot().getId(),
+                            a.getSlot().getStartTime(),
+                            a.getSlot().getEndTime(),
+                            a.getSlot().getCounselor().getUser().getFirstName(),
+                            a.getSlot().getCounselor().getUser().getLastName(),
+                            a.getSlot().getCounselor().getSpecialization(),
+                            a.getSlot().getCounselor().getProfilePhoto(),
+                            sp.getUser().getFirstName(),
+                            sp.getUser().getLastName(),
+                            sp.getStudentIdNumber(),
+                            sp.getProgram(),
+                            sp.getYearLevel(),
+                            sp.getGender(),
+                            sp.getBirthdate(),
+                            sp.getSchoolIdPhotoUrl(),
+                            a.getStatus().name(),
+                            a.getNote(),
+                            a.getRejectionReason(),
+                            a.getCreatedAt()
+                    );
+                })
                 .collect(Collectors.toList());
     }
 }
