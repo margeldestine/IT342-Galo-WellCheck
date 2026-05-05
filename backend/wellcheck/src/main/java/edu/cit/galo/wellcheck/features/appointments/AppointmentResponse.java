@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.dto;
+package edu.cit.galo.wellcheck.features.appointments;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
