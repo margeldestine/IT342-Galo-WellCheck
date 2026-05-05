@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import StudentSidebar from '../components/StudentSidebar';
-import '../styles/StudentProfile.css';
+import StudentSidebar from '../../components/StudentSidebar';
+import './StudentProfile.css';
 
 const API = process.env.REACT_APP_API_URL;
 
