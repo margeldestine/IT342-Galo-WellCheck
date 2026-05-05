@@ -1,8 +1,8 @@
 package edu.cit.galo.wellcheck.features.slots;
 
-import edu.cit.galo.wellcheck.entity.CounselorProfile;
-import edu.cit.galo.wellcheck.entity.Slot;
-import edu.cit.galo.wellcheck.enums.SlotStatus;
+import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
+import edu.cit.galo.wellcheck.domain.entities.Slot;
+import edu.cit.galo.wellcheck.domain.enums.SlotStatus;
 import edu.cit.galo.wellcheck.repository.AppointmentRepository;
 import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;

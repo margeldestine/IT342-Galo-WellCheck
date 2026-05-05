@@ -2,11 +2,11 @@ package edu.cit.galo.wellcheck.service;
 
 import edu.cit.galo.wellcheck.dto.AppointmentRequest;
 import edu.cit.galo.wellcheck.dto.AppointmentResponse;
-import edu.cit.galo.wellcheck.entity.Appointment;
-import edu.cit.galo.wellcheck.entity.Slot;
-import edu.cit.galo.wellcheck.entity.StudentProfile;
-import edu.cit.galo.wellcheck.enums.AppointmentStatus;
-import edu.cit.galo.wellcheck.enums.SlotStatus;
+import edu.cit.galo.wellcheck.domain.entities.Appointment;
+import edu.cit.galo.wellcheck.domain.entities.Slot;
+import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
+import edu.cit.galo.wellcheck.domain.enums.AppointmentStatus;
+import edu.cit.galo.wellcheck.domain.enums.SlotStatus;
 import edu.cit.galo.wellcheck.observer.AppointmentObserver;
 import edu.cit.galo.wellcheck.repository.AppointmentRepository;
 import edu.cit.galo.wellcheck.features.slots.SlotRepository;

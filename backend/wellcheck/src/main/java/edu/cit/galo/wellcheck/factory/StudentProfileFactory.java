@@ -1,8 +1,8 @@
 package edu.cit.galo.wellcheck.factory;
 
 import edu.cit.galo.wellcheck.dto.StudentRegisterRequest;
-import edu.cit.galo.wellcheck.entity.StudentProfile;
-import edu.cit.galo.wellcheck.entity.User;
+import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
+import edu.cit.galo.wellcheck.domain.entities.User;
 import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
 import org.springframework.stereotype.Component;
 

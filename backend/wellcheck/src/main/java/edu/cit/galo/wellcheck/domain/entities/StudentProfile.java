@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.entity;
+package edu.cit.galo.wellcheck.domain.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;

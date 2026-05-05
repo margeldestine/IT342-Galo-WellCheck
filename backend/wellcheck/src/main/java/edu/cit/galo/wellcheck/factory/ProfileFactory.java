@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.factory;
 
-import edu.cit.galo.wellcheck.entity.User;
+import edu.cit.galo.wellcheck.domain.entities.User;
 
 /**
  * Factory interface for creating user profiles

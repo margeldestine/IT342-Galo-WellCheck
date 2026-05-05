@@ -1,6 +1,6 @@
-package edu.cit.galo.wellcheck.entity;
+package edu.cit.galo.wellcheck.domain.entities;
 
-import edu.cit.galo.wellcheck.enums.SlotStatus;
+import edu.cit.galo.wellcheck.domain.enums.SlotStatus;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.observer;
 
-import edu.cit.galo.wellcheck.entity.Appointment;
+import edu.cit.galo.wellcheck.domain.entities.Appointment;
 import edu.cit.galo.wellcheck.service.EmailService;
 import org.springframework.stereotype.Component;
 

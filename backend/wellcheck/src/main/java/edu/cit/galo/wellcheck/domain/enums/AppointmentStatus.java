@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.enums;
+package edu.cit.galo.wellcheck.domain.enums;
 
 public enum AppointmentStatus {
     PENDING,

@@ -1,7 +1,7 @@
-package edu.cit.galo.wellcheck.entity;
+package edu.cit.galo.wellcheck.domain.entities;
 
-import edu.cit.galo.wellcheck.enums.UserRole;
-import edu.cit.galo.wellcheck.enums.UserStatus;
+import edu.cit.galo.wellcheck.domain.enums.UserRole;
+import edu.cit.galo.wellcheck.domain.enums.UserStatus;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
