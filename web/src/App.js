@@ -1,15 +1,18 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import Login from './features/auth/Login';
+import AuthCallback from './features/auth/AuthCallback';
+import StudentRegister from './features/auth/StudentRegister';
+import CounselorRegister from './features/auth/CounselorRegister';
+import CompleteProfile from './features/auth/CompleteProfile';
+import CompleteCounselorProfile from './features/auth/CompleteCounselorProfile';
+
+import PrivateRoute from './components/PrivateRoute';
+
 import LandingPage from './pages/LandingPage';
-import Login from './pages/Login';
-import StudentRegister from './pages/StudentRegister';
-import CounselorRegister from './pages/CounselorRegister';
 import StudentDashboard from './pages/StudentDashboard';
 import CounselorDashboard from './pages/CounselorDashboard';
 import AdminDashboard from './pages/AdminDashboard';
-import PrivateRoute from './components/PrivateRoute';
-import AuthCallback from './pages/AuthCallback';
-import CompleteProfile from './pages/CompleteProfile';
-import CompleteCounselorProfile from './pages/CompleteCounselorProfile';
 import Pending from './pages/Pending';
 import BookAppointment from './pages/BookAppointment';
 import StudentProfile from './pages/StudentProfile';
@@ -18,8 +21,6 @@ import BrowseCounselors from './pages/BrowseCounselors';
 import MyAppointments from './pages/MyAppointments';
 import Counselorview from './pages/Counselorview';
 import AppointmentHistory from './pages/AppointmentHistory';
-
-
 
 function App() {
   return (
@@ -41,8 +42,6 @@ function App() {
         <Route path="/my-appointments" element={<MyAppointments />} />
         <Route path="/counselor/:id" element={<Counselorview />} />
         <Route path="/counselor/appointments/history" element={<AppointmentHistory />} />
-
-
 
         {/* Protected routes */}
         <Route path="/dashboard" element={
@@ -69,4 +68,3 @@ function App() {
 }
 
 export default App;
-

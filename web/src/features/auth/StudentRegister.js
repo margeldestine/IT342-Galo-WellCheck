@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/CounselorRegister.css';
-import logo from '../assets/wellcheck-logo.png';
+import './StudentRegister.css'; 
+import logo from '../../assets/wellcheck-logo.png'; 
 
 const API = process.env.REACT_APP_API_URL;
 
-function CounselorRegister() {
+function StudentRegister() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -14,11 +14,13 @@ function CounselorRegister() {
   const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
+    studentIdNumber: '',
     firstName: '',
     lastName: '',
-    employeeNumber: '',
-    specialization: '',
-    bio: '',
+    program: '',
+    yearLevel: '',
+    gender: '',
+    birthdate: '',
     email: '',
     password: '',
   });
@@ -27,23 +29,25 @@ function CounselorRegister() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const validateEmployeeNumber = (empNum) => {
-    const pattern = /^EMP-\d{4}-\d{5}$/;
-    return pattern.test(empNum);
+  const validateStudentId = (id) => {
+    const pattern1 = /^\d{4}-\d{5}$/;
+    const pattern2 = /^\d{2}-\d{4}-\d{3}$/;
+    return pattern1.test(id) || pattern2.test(id);
   };
 
   const handleSubmit = async () => {
     setError('');
     setSuccess('');
 
-    if (!form.firstName || !form.lastName || !form.employeeNumber ||
-        !form.specialization || !form.bio || !form.email || !form.password) {
+     if (!form.studentIdNumber || !form.firstName || !form.lastName || 
+        !form.program || !form.yearLevel || !form.gender || 
+        !form.birthdate || !form.email || !form.password) {
       setError('Please fill in all fields.');
       return;
     }
 
-    if (!validateEmployeeNumber(form.employeeNumber)) {
-      setError('Employee number must follow the format EMP-0000-00000.');
+    if (!validateStudentId(form.studentIdNumber)) {
+      setError('Student ID must follow the format 0000-00000 or 00-0000-000.');
       return;
     }
 
@@ -54,28 +58,18 @@ function CounselorRegister() {
 
     setLoading(true);
     try {
-      await axios.post(`${API}/auth/register/counselor`, form);
-      setSuccess('Registration submitted! Your account is pending admin approval.');
-
-      localStorage.setItem('user', JSON.stringify({
-        firstName: form.firstName,
-        lastName: form.lastName,
-        email: form.email,
-        role: 'COUNSELOR'
-      }));
-
-      setTimeout(() => {
-        window.location.href = '/pending';
-      }, 2000);
+      await axios.post(`${API}/auth/register/student`, form);
+      setSuccess('Account created successfully! Redirecting to login...');
+      setTimeout(() => navigate('/login'), 2000);
     } catch (err) {
       setError(err.response?.data || 'Registration failed. Please try again.');
     }
     setLoading(false);
   };
 
-  const handleGoogleSignUp = () => {
-    window.location.href = `${API}/oauth2/authorization/google?role=COUNSELOR`;
-  };
+ const handleGoogleSignUp = () => {
+  window.location.href = `${API}/oauth2/authorization/google?role=STUDENT`;
+};
 
   const EyeIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -105,13 +99,25 @@ function CounselorRegister() {
       </nav>
 
       <div className="register-card">
-        <h2>Create Counselor Account</h2>
-        <p className="subtitle">Register to manage student appointments and availability.</p>
+        <h2>Create Student Account</h2>
+        <p className="subtitle">Register to book counseling appointments securely.</p>
 
         {error && <div className="error-msg">{error}</div>}
         {success && <div className="success-msg">{success}</div>}
 
-        <div className="section-divider"><span>PERSONAL INFORMATION</span></div>
+        <div className="section-divider">
+          <span>PERSONAL INFORMATION</span>
+        </div>
+
+        <div className="form-group">
+          <label>Student ID Number</label>
+          <input
+            name="studentIdNumber"
+            placeholder="2023-12345 or 23-2425-001"
+            value={form.studentIdNumber}
+            onChange={handleChange}
+          />
+        </div>
 
         <div className="form-row">
           <div className="form-group">
@@ -124,54 +130,65 @@ function CounselorRegister() {
           </div>
         </div>
 
-        <div className="section-divider"><span>PROFESSIONAL INFORMATION</span></div>
-
         <div className="form-group">
-          <label>Employee Number</label>
-          <input
-            name="employeeNumber"
-            placeholder="EMP-2024-12345"
-            value={form.employeeNumber}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Specialization</label>
+          <label>Enrolled Program</label>
           <div className="select-wrapper">
-            <select name="specialization" value={form.specialization} onChange={handleChange}>
-              <option value="">Select Specialization</option>
-              <option value="Mental Health">Mental Health</option>
-              <option value="Career Counseling">Career Counseling</option>
-              <option value="Academic Counseling">Academic Counseling</option>
-              <option value="Family Counseling">Family Counseling</option>
-              <option value="Crisis Intervention">Crisis Intervention</option>
+            <select name="program" value={form.program} onChange={handleChange}>
+              <option value="">Select Your Program</option>
+              <option value="BSIT">BSIT</option>
+              <option value="BSCS">BSCS</option>
+              <option value="BSIS">BSIS</option>
+              <option value="BSA">BSA</option>
+              <option value="BSBA">BSBA</option>
+              <option value="BSN">BSN</option>
             </select>
           </div>
         </div>
 
+        <div className="form-row">
+          <div className="form-group">
+            <label>Year Level</label>
+            <div className="select-wrapper">
+              <select name="yearLevel" value={form.yearLevel} onChange={handleChange}>
+                <option value="">Select</option>
+                <option value="1">1st Year</option>
+                <option value="2">2nd Year</option>
+                <option value="3">3rd Year</option>
+                <option value="4">4th Year</option>
+              </select>
+            </div>
+          </div>
+          <div className="form-group">
+            <label>Gender</label>
+            <div className="select-wrapper">
+              <select name="gender" value={form.gender} onChange={handleChange}>
+                <option value="">Select</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
         <div className="form-group">
-          <label>Short Bio / Description</label>
-          <textarea
-            name="bio"
-            placeholder="Tell students about your background and approach..."
-            value={form.bio}
+          <label>Birthdate</label>
+          <input 
+            type="date" 
+            name="birthdate" 
+            value={form.birthdate} 
             onChange={handleChange}
-            rows={4}
+            max={new Date().toISOString().split('T')[0]}
           />
         </div>
 
-        <div className="section-divider"><span>ACCOUNT CREDENTIALS</span></div>
+        <div className="section-divider">
+          <span>ACCOUNT CREDENTIALS</span>
+        </div>
 
         <div className="form-group">
           <label>Email Address</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="johndoe@gmail.com"
-            value={form.email}
-            onChange={handleChange}
-          />
+          <input type="email" name="email" placeholder="johndoe@gmail.com" value={form.email} onChange={handleChange} />
         </div>
 
         <div className="form-group">
@@ -191,7 +208,7 @@ function CounselorRegister() {
         </div>
 
         <button className="btn-register" onClick={handleSubmit} disabled={loading}>
-          {loading ? 'Submitting...' : 'Submit Registration'}
+          {loading ? 'Creating Account...' : 'Create Account'}
         </button>
 
         <div className="divider"><span>or</span></div>
@@ -214,4 +231,4 @@ function CounselorRegister() {
   );
 }
 
-export default CounselorRegister;
+export default StudentRegister;

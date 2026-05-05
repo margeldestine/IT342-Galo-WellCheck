@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/Login.css';
-import logo from '../assets/wellcheck-logo.png';
-
+import './Login.css'; 
+import logo from '../../assets/wellcheck-logo.png'; 
 const API = process.env.REACT_APP_API_URL;
 
 function Login() {
