@@ -5,7 +5,7 @@ import edu.cit.galo.wellcheck.domain.entities.Slot;
 import edu.cit.galo.wellcheck.domain.enums.SlotStatus;
 import edu.cit.galo.wellcheck.features.appointments.AppointmentRepository;
 import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;
-import edu.cit.galo.wellcheck.repository.UserRepository;
+import edu.cit.galo.wellcheck.features.auth.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,7 +1,5 @@
-package edu.cit.galo.wellcheck.controller;
+package edu.cit.galo.wellcheck.features.admin;
 
-import edu.cit.galo.wellcheck.dto.AdminDashboardStats;
-import edu.cit.galo.wellcheck.service.AdminService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

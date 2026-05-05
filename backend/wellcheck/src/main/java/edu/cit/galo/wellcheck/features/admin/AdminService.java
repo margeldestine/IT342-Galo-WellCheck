@@ -1,6 +1,5 @@
-package edu.cit.galo.wellcheck.service;
+package edu.cit.galo.wellcheck.features.admin;
 
-import edu.cit.galo.wellcheck.dto.AdminDashboardStats;
 import edu.cit.galo.wellcheck.features.counselors.CounselorListItem;
 import edu.cit.galo.wellcheck.dto.StudentListItem;
 import edu.cit.galo.wellcheck.features.appointments.AppointmentResponse;
@@ -11,7 +10,7 @@ import edu.cit.galo.wellcheck.domain.enums.UserStatus;
 import edu.cit.galo.wellcheck.features.appointments.AppointmentRepository;
 import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.features.students.StudentProfileRepository;
-import edu.cit.galo.wellcheck.repository.UserRepository;
+import edu.cit.galo.wellcheck.features.auth.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

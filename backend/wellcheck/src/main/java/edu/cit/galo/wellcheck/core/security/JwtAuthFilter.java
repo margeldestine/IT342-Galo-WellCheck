@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.core.security;
 
-import edu.cit.galo.wellcheck.repository.UserRepository;
+import edu.cit.galo.wellcheck.features.auth.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

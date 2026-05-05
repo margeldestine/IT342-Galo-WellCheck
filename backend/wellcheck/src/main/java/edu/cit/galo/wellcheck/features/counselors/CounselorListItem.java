@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.features.counselors;
 
-import edu.cit.galo.wellcheck.dto.CredentialItem;
+import edu.cit.galo.wellcheck.features.auth.CredentialItem;
 
 import java.util.List;
 

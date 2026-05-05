@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.features.counselors;
 
-import edu.cit.galo.wellcheck.dto.CredentialItem;
+import edu.cit.galo.wellcheck.features.auth.CredentialItem;
 import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
 import edu.cit.galo.wellcheck.domain.enums.SlotStatus;
 import edu.cit.galo.wellcheck.domain.enums.UserStatus;

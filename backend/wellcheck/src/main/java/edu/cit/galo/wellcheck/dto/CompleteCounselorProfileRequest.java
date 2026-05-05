@@ -1,5 +1,7 @@
 package edu.cit.galo.wellcheck.dto;
 
+import edu.cit.galo.wellcheck.features.auth.CredentialItem;
+
 import java.util.List;
 
 public class CompleteCounselorProfileRequest {

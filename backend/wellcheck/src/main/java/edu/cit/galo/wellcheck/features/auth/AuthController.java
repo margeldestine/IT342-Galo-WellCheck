@@ -1,10 +1,7 @@
-package edu.cit.galo.wellcheck.controller;
+package edu.cit.galo.wellcheck.features.auth;
 
-import edu.cit.galo.wellcheck.dto.AuthResponse;
 import edu.cit.galo.wellcheck.features.counselors.CounselorRegisterRequest;
-import edu.cit.galo.wellcheck.dto.LoginRequest;
 import edu.cit.galo.wellcheck.features.students.StudentRegisterRequest;
-import edu.cit.galo.wellcheck.service.AuthService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

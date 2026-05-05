@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.repository;
+package edu.cit.galo.wellcheck.features.auth;
 
 import edu.cit.galo.wellcheck.domain.entities.User;
 import edu.cit.galo.wellcheck.domain.enums.UserRole;

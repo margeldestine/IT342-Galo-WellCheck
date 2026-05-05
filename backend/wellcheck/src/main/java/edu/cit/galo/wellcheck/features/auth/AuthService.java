@@ -1,9 +1,6 @@
-package edu.cit.galo.wellcheck.service;
+package edu.cit.galo.wellcheck.features.auth;
 
-import edu.cit.galo.wellcheck.dto.AuthResponse;
 import edu.cit.galo.wellcheck.features.counselors.CounselorRegisterRequest;
-import edu.cit.galo.wellcheck.dto.CredentialItem;
-import edu.cit.galo.wellcheck.dto.LoginRequest;
 import edu.cit.galo.wellcheck.features.students.StudentRegisterRequest;
 import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
 import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
@@ -14,7 +11,6 @@ import edu.cit.galo.wellcheck.factory.CounselorProfileFactory;
 import edu.cit.galo.wellcheck.features.students.StudentProfileFactory;
 import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;
 import edu.cit.galo.wellcheck.features.students.StudentProfileRepository;
-import edu.cit.galo.wellcheck.repository.UserRepository;
 import edu.cit.galo.wellcheck.core.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
