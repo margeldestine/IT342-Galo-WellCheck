@@ -51,6 +51,16 @@ public class SlotService {
         CounselorProfile counselor = counselorProfileRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("Counselor profile not found."));
 
+        List<Slot> existingSlots = slotRepository.findByCounselorId(counselor.getId());
+        for (Slot existing : existingSlots) {
+            if (existing.getStatus() == SlotStatus.UNAVAILABLE) continue;
+            boolean overlaps = request.getStartTime().isBefore(existing.getEndTime())
+                    && request.getEndTime().isAfter(existing.getStartTime());
+            if (overlaps) {
+                throw new RuntimeException("This slot overlaps with an existing slot.");
+            }
+        }
+
         Slot slot = new Slot();
         slot.setCounselor(counselor);
         slot.setStartTime(request.getStartTime());
@@ -108,6 +118,17 @@ public class SlotService {
             throw new RuntimeException("End time must be after start time.");
         }
 
+        List<Slot> existingSlots = slotRepository.findByCounselorId(counselor.getId());
+        for (Slot existing : existingSlots) {
+            if (existing.getId().equals(slotId)) continue;
+            if (existing.getStatus() == SlotStatus.UNAVAILABLE) continue;
+            boolean overlaps = request.getStartTime().isBefore(existing.getEndTime())
+                    && request.getEndTime().isAfter(existing.getStartTime());
+            if (overlaps) {
+                throw new RuntimeException("This slot overlaps with an existing slot.");
+            }
+        }
+
         slot.setStartTime(request.getStartTime());
         slot.setEndTime(request.getEndTime());
 
@@ -132,11 +153,9 @@ public class SlotService {
 
         Map<String, Object> result = new HashMap<>();
 
-        // Check if slot has any appointments
         long appointmentCount = appointmentRepository.countBySlotId(slotId);
 
         if (appointmentCount > 0) {
-            // Mark as unavailable instead of deleting
             slot.setStatus(SlotStatus.UNAVAILABLE);
             slotRepository.save(slot);
 
@@ -144,7 +163,6 @@ public class SlotService {
             result.put("message", "Slot marked as unavailable (has " + appointmentCount + " appointment(s))");
             result.put("appointmentCount", appointmentCount);
         } else {
-            // No appointments, safe to delete
             slotRepository.delete(slot);
 
             result.put("action", "deleted");

@@ -31,6 +31,7 @@ import edu.cit.galo.wellcheck.dto.CompleteProfileRequest;
 import edu.cit.galo.wellcheck.dto.CompleteCounselorProfileRequest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -131,13 +132,23 @@ public class AuthService {
 
         String token = jwtUtil.generateToken(user.getEmail(), user.getRole().name());
 
+        String profilePhoto = null;
+        String specialization = null;
+        if (user.getRole() == UserRole.COUNSELOR) {
+            Optional<CounselorProfile> cp = counselorProfileRepository.findByUserId(user.getId());
+            profilePhoto = cp.map(CounselorProfile::getProfilePhoto).orElse(null);
+            specialization = cp.map(CounselorProfile::getSpecialization).orElse(null);
+        }
+
         return new AuthResponse(
                 token,
                 user.getRole().name(),
                 user.getStatus().name(),
                 user.getEmail(),
                 user.getFirstName(),
-                user.getLastName()
+                user.getLastName(),
+                profilePhoto,
+                specialization
         );
     }
 
@@ -149,13 +160,23 @@ public class AuthService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found."));
 
+        String profilePhoto = null;
+        String specialization = null;
+        if (user.getRole() == UserRole.COUNSELOR) {
+            Optional<CounselorProfile> cp = counselorProfileRepository.findByUserId(user.getId());
+            profilePhoto = cp.map(CounselorProfile::getProfilePhoto).orElse(null);
+            specialization = cp.map(CounselorProfile::getSpecialization).orElse(null);
+        }
+
         return new AuthResponse(
                 null,
                 user.getRole().name(),
                 user.getStatus().name(),
                 user.getEmail(),
                 user.getFirstName(),
-                user.getLastName()
+                user.getLastName(),
+                profilePhoto,
+                specialization
         );
     }
 

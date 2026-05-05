@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
 
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,6 +56,17 @@ public class AppointmentService {
         Slot slot = slotRepository.findById(request.getSlotId())
                 .orElseThrow(() -> new RuntimeException("Slot not found."));
 
+        LocalDateTime slotStart = slot.getStartTime();
+
+        if (slotStart.isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Cannot book a slot that has already passed.");
+        }
+
+        DayOfWeek day = slotStart.getDayOfWeek();
+        if (day == DayOfWeek.SATURDAY || day == DayOfWeek.SUNDAY) {
+            throw new RuntimeException("Appointments cannot be booked on weekends.");
+        }
+
         if (slot.getStatus() != SlotStatus.AVAILABLE) {
             throw new RuntimeException("This slot is no longer available.");
         }
@@ -62,6 +75,25 @@ public class AppointmentService {
                 .existsBySlotIdAndStatusNot(request.getSlotId(), AppointmentStatus.CANCELLED);
         if (alreadyBooked) {
             throw new RuntimeException("This slot has already been booked.");
+        }
+
+        List<Appointment> studentAppointments = appointmentRepository
+                .findByStudentId(student.getId());
+
+        for (Appointment existing : studentAppointments) {
+            if (existing.getStatus() == AppointmentStatus.CANCELLED) continue;
+
+            LocalDateTime existStart = existing.getSlot().getStartTime();
+            LocalDateTime existEnd   = existing.getSlot().getEndTime();
+            LocalDateTime newStart   = slot.getStartTime();
+            LocalDateTime newEnd     = slot.getEndTime();
+
+            boolean overlaps = newStart.isBefore(existEnd) && newEnd.isAfter(existStart);
+            if (overlaps) {
+                throw new RuntimeException(
+                        "This schedule overlaps with an existing appointment you already have."
+                );
+            }
         }
 
         slot.setStatus(SlotStatus.BOOKED);
@@ -74,6 +106,9 @@ public class AppointmentService {
         appointment.setNote(request.getNote());
 
         Appointment saved = appointmentRepository.save(appointment);
+
+        notifyObservers(saved, "NEW", "PENDING");
+
         return toResponse(saved);
     }
 
@@ -135,6 +170,9 @@ public class AppointmentService {
         Appointment appointment = appointmentRepository.findById(appointmentId)
                 .orElseThrow(() -> new RuntimeException("Appointment not found."));
 
+        if (appointment.getStatus() != AppointmentStatus.CONFIRMED) {
+        }
+
         if (appointment.getStatus() != AppointmentStatus.PENDING) {
             throw new RuntimeException("Only PENDING appointments can be approved.");
         }
@@ -170,12 +208,12 @@ public class AppointmentService {
     }
 
     private void notifyObservers(Appointment appointment, String oldStatus, String newStatus) {
-        System.out.println("\n🔔 Notifying " + observers.size() + " observers...");
+        System.out.println("\nNotifying " + observers.size() + " observers...");
         for (AppointmentObserver observer : observers) {
             try {
                 observer.onStatusChanged(appointment, oldStatus, newStatus);
             } catch (Exception e) {
-                System.err.println("❌ Observer " + observer.getClass().getSimpleName() + " failed: " + e.getMessage());
+                System.err.println("Observer " + observer.getClass().getSimpleName() + " failed: " + e.getMessage());
             }
         }
     }
