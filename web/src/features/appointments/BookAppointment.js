@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, CheckCircle, AlertTriangle } from 'lucide-react';
-import StudentSidebar from '../components/StudentSidebar';
-import '../styles/BookAppointment.css';
+import StudentSidebar from '../../components/StudentSidebar'; 
+import './BookAppointment.css'; 
+import logo from '../../assets/wellcheck-logo.png'; 
 
 const API = process.env.REACT_APP_API_URL;
 

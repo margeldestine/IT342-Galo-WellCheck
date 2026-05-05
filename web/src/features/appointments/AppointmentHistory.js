@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import CounselorSidebar from '../components/CounselorSidebar';
-import '../styles/AppointmentHistory.css';
+import CounselorSidebar from '../../components/CounselorSidebar';
+import './AppointmentHistory.css';
 
 const API = process.env.REACT_APP_API_URL;
 
