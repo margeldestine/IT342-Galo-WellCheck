@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import '../styles/AdminDashboard.css';
+import './AdminDashboard.css'; 
 
 const API = process.env.REACT_APP_API_URL;
 

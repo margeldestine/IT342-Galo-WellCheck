@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Calendar, Clock, Inbox, Heart, RefreshCw } from 'lucide-react';
-import StudentSidebar from '../components/StudentSidebar';
-import '../styles/StudentDashboard.css';
+import StudentSidebar from '../../components/StudentSidebar'; 
+import './StudentDashboard.css'; 
 
 const API = process.env.REACT_APP_API_URL;
 

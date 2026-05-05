@@ -12,13 +12,13 @@ import AppointmentHistory from './features/appointments/AppointmentHistory';
 import BrowseCounselors from './features/counselors/BrowseCounselors';
 import CounselorProfile from './features/counselors/CounselorProfile';
 import Counselorview from './features/counselors/Counselorview';
+import StudentDashboard from './features/dashboards/StudentDashboard';
+import CounselorDashboard from './features/dashboards/CounselorDashboard';
+import AdminDashboard from './features/dashboards/AdminDashboard';
 
 import PrivateRoute from './components/PrivateRoute';
 
 import LandingPage from './pages/LandingPage';
-import StudentDashboard from './pages/StudentDashboard';
-import CounselorDashboard from './pages/CounselorDashboard';
-import AdminDashboard from './pages/AdminDashboard';
 import Pending from './pages/Pending';
 import StudentProfile from './pages/StudentProfile';
 
