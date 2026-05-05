@@ -1,9 +1,8 @@
-package edu.cit.galo.wellcheck.controller;
+package edu.cit.galo.wellcheck.features.files;
 
 import edu.cit.galo.wellcheck.features.students.StudentProfileRepository;
 import edu.cit.galo.wellcheck.features.auth.UserRepository;
 import edu.cit.galo.wellcheck.core.security.JwtUtil;
-import edu.cit.galo.wellcheck.service.FileUploadService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
