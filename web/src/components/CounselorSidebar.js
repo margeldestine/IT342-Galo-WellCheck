@@ -9,7 +9,6 @@ const CounselorSidebar = ({ activeItem, onTabChange, pendingCount }) => {
   const lastName = user.lastName || '';
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
 
-  // Re-read from localStorage whenever storage changes (e.g. after photo upload)
   useEffect(() => {
     const handleStorage = () => {
       setUser(JSON.parse(localStorage.getItem('user') || '{}'));

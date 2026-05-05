@@ -105,7 +105,7 @@ function StudentProfile() {
             {/* No school ID banner */}
             {!profile?.schoolIdPhotoUrl && (
               <div className="sp-banner">
-                ℹ️ Upload your School ID to complete your profile and unlock all features.
+                ℹ️ Upload your School ID to complete your profile.
               </div>
             )}
 

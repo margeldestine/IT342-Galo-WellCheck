@@ -212,7 +212,7 @@ function CounselorDashboard() {
 
       setSlotFormError('');
       fetchSlots();
-    } catch (err) { alert(err.response?.data || 'Something went wrong.'); }
+      } catch (err) { setSlotFormError(err.response?.data || 'Something went wrong.'); }
   };
 
   const handleEditSlot = (slot) => {

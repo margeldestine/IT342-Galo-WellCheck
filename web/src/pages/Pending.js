@@ -24,7 +24,7 @@ function Pending() {
       </nav>
 
       <div className="pending-card">
-        <div className="pending-icon">⏳</div>
+        <div className="pending-icon"></div>
         <h2 className="pending-heading">Account Pending Approval</h2>
         <p className="pending-subtitle">
           Hi {firstName}! Your counselor account has been submitted successfully.

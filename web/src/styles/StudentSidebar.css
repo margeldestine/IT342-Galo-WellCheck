@@ -1,17 +1,19 @@
-.student-sidebar {
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+.ss-sidebar {
   width: 220px;
   background-color: #1c3a2f;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  position: relative;
   overflow: hidden;
   height: 100vh;
   position: sticky;
   top: 0;
+  font-family: 'Inter', sans-serif;
 }
 
-.student-sidebar::before {
+.ss-sidebar::before {
   content: '';
   position: absolute;
   top: -60px;
@@ -23,7 +25,7 @@
   pointer-events: none;
 }
 
-.sidebar-logo {
+.ss-logo {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -31,32 +33,32 @@
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 
-.logo-words {
+.ss-logo-words {
   display: flex;
   flex-direction: column;
 }
 
-.logo-name {
+.ss-logo-name {
   font-size: 15px;
   font-weight: 600;
   color: #fff;
   letter-spacing: -0.2px;
 }
 
-.logo-tagline {
+.ss-logo-tagline {
   font-size: 10px;
   color: rgba(255,255,255,0.35);
   margin-top: 1px;
 }
 
-.sidebar-nav {
+.ss-nav {
   padding: 12px 0;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 
-.nav-link {
+.ss-nav-link {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -74,30 +76,30 @@
   font-family: 'Inter', sans-serif;
 }
 
-.nav-link:hover {
+.ss-nav-link:hover {
   color: rgba(255,255,255,0.8);
   background: rgba(255,255,255,0.04);
 }
 
-.nav-link.active {
+.ss-nav-link.active {
   color: #fff;
   border-left-color: #4caf82;
   background: rgba(76,175,130,0.1);
   font-weight: 500;
 }
 
-.sidebar-user {
+.ss-user {
   padding: 16px 20px;
   border-top: 1px solid rgba(255,255,255,0.07);
 }
 
-.user-card {
+.ss-user-card {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.user-avatar {
+.ss-user-avatar {
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -112,12 +114,12 @@
   border: 2px solid rgba(76,175,130,0.4);
 }
 
-.user-info {
+.ss-user-info {
   flex: 1;
   min-width: 0;
 }
 
-.user-name {
+.ss-user-name {
   font-size: 12.5px;
   font-weight: 500;
   color: #fff;
@@ -126,13 +128,13 @@
   text-overflow: ellipsis;
 }
 
-.user-meta {
+.ss-user-meta {
   font-size: 10.5px;
   color: rgba(255,255,255,0.35);
   margin-top: 1px;
 }
 
-.logout-btn {
+.ss-logout-btn {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -149,7 +151,7 @@
   transition: color 0.15s, border-color 0.15s, background 0.15s;
 }
 
-.logout-btn:hover {
+.ss-logout-btn:hover {
   color: rgba(255,100,100,0.8);
   border-color: rgba(255,100,100,0.3);
   background: rgba(255,100,100,0.05);

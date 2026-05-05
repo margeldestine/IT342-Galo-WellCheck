@@ -222,7 +222,9 @@ function BookAppointment() {
                 <div className="ba-review-section">
                   <div className="ba-review-section-label">Note</div>
                   <div className="ba-review-box">
-                    <p className="ba-review-note-text">{bookingNote}</p>
+                    <div className="ba-review-row">
+                      <span className="ba-review-value" style={{ textAlign: 'left' }}>{bookingNote}</span>
+                    </div>
                   </div>
                 </div>
               )}
