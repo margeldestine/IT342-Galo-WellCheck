@@ -1,9 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.WellCheck" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:fontFamily">@font/inter</item>
+        <item name="fontFamily">@font/inter</item>
+        <item name="colorPrimary">#1F7A5A</item>
+        <item name="colorPrimaryVariant">#1c3a2f</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
     </style>
-
     <style name="Theme.WellCheck" parent="Base.Theme.WellCheck" />
 </resources>

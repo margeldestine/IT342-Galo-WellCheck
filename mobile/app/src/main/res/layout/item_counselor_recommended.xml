@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:gravity="center_vertical">
+
+    <!-- Avatar -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardBackgroundColor="@color/green_dark"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="KS"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/inter_bold"/>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Details -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginStart="16dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kean Salogue"
+            android:textColor="@color/text_dark"
+            android:textSize="14sp"
+            android:fontFamily="@font/inter_bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Career Counseling"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="3 slots available"
+            android:textColor="#2E8555"
+            android:textSize="11sp"
+            android:fontFamily="@font/inter_bold"/>
+    </LinearLayout>
+
+    <!-- Book Button -->
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book"
+        android:textAllCaps="false"
+        app:cornerRadius="8dp"
+        android:minHeight="0dp"
+        android:minWidth="0dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:fontFamily="@font/inter_bold"
+        android:textSize="12sp"
+        app:backgroundTint="@color/green_dark"/>
+</LinearLayout>

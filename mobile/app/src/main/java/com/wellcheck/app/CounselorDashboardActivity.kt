@@ -20,16 +20,6 @@ class CounselorDashboardActivity : AppCompatActivity() {
         val lastName = prefs.getString("lastName", "") ?: ""
         val fullName = "$firstName $lastName".trim().ifEmpty { "Counselor" }
 
-        // Greeting
-        val greeting = getGreeting()
-        binding.tvGreeting.text = "$greeting, $firstName!"
-        binding.tvGreetingSub.text = "Here is your counseling overview."
-
-        // Topbar
-        binding.tvUserName.text = fullName
-        val initial = firstName.firstOrNull()?.uppercaseChar()?.toString() ?: "C"
-        binding.tvAvatar.text = initial
-
         // Logout
         binding.btnLogout.setOnClickListener {
             prefs.edit().clear().apply()

@@ -120,6 +120,28 @@ class RegisterStudentActivity : AppCompatActivity() {
         binding.tvSignIn.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+
+        binding.btnTogglePassword.setOnClickListener {
+            val isVisible = binding.etPassword.inputType == android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            binding.etPassword.inputType = if (isVisible)
+                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            else
+                android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            binding.etPassword.setSelection(binding.etPassword.text.length)
+        }
+
+        var passwordVisible = false
+        binding.btnTogglePassword.setOnClickListener {
+            passwordVisible = !passwordVisible
+            binding.etPassword.inputType = if (passwordVisible)
+                android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            else
+                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            binding.btnTogglePassword.setImageResource(
+                if (passwordVisible) R.drawable.ic_eye_off else R.drawable.ic_eye
+            )
+            binding.etPassword.setSelection(binding.etPassword.text.length)
+        }
     }
 
     private fun showDatePicker() {

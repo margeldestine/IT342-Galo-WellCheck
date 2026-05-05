@@ -43,9 +43,28 @@ class LoginActivity : AppCompatActivity() {
             login(email, password)
         }
 
-        binding.tvSignUp.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+        var passwordVisible = false
+        binding.btnTogglePassword.setOnClickListener {
+            passwordVisible = !passwordVisible
+            binding.etPassword.inputType = if (passwordVisible)
+                android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            else
+                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD
+            binding.btnTogglePassword.setImageResource(
+                if (passwordVisible) R.drawable.ic_eye_off else R.drawable.ic_eye
+            )
+            binding.etPassword.setSelection(binding.etPassword.text.length)
         }
+
+        binding.tvSignUp.setOnClickListener {
+            startActivity(Intent(this, RegisterStudentActivity::class.java))
+        }
+
+        binding.btnGoogle.setOnClickListener {
+            // Google OAuth — same as web: open browser to /oauth2/authorization/google
+        }
+
+
     }
 
     private fun login(email: String, password: String) {

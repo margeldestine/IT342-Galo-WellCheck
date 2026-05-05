@@ -33,6 +33,10 @@ class MainActivity : AppCompatActivity() {
         binding.btnLogin.setOnClickListener {
             startActivity(Intent(this, LoginActivity::class.java))
         }
+
+        binding.btnFooterCta.setOnClickListener {
+            startActivity(Intent(this, RegisterStudentActivity::class.java))
+        }
     }
 
     private fun navigateByRole(role: String) {
