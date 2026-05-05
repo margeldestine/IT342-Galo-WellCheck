@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.controller;
+package edu.cit.galo.wellcheck.features.wellness;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
