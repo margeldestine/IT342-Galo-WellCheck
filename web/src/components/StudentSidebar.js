@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Users, Calendar, User, LogOut } from 'lucide-react';
 import logo from '../assets/wellcheck-logo.png';
-import '../styles/StudentSidebar.css';
+import './StudentSidebar.css';
 
 const StudentSidebar = ({ activeItem, onTabChange }) => {
   const navigate = useNavigate();

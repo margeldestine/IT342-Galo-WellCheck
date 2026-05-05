@@ -16,12 +16,10 @@ import StudentDashboard from './features/dashboards/StudentDashboard';
 import CounselorDashboard from './features/dashboards/CounselorDashboard';
 import AdminDashboard from './features/dashboards/AdminDashboard';
 import StudentProfile from './features/profile/StudentProfile';
+import Pending from './features/auth/Pending';
+import LandingPage from './features/landing/LandingPage';
 
 import PrivateRoute from './components/PrivateRoute';
-
-import LandingPage from './pages/LandingPage';
-import Pending from './pages/Pending';
-
 
 function App() {
   return (

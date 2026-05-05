@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import '../styles/LandingPage.css';
-import logo from '../assets/wellcheck-logo.png';
+import './LandingPage.css';
+import logo from '../../assets/wellcheck-logo.png';
 
 function LandingPage() {
   const navigate = useNavigate();

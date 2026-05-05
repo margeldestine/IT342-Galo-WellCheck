@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import '../styles/Pending.css';
-import logo from '../assets/wellcheck-logo.png';
+import './Pending.css';
+import logo from '../../assets/wellcheck-logo.png';
 
 
 function Pending() {
