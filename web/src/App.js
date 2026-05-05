@@ -9,6 +9,9 @@ import CompleteCounselorProfile from './features/auth/CompleteCounselorProfile';
 import BookAppointment from './features/appointments/BookAppointment';
 import MyAppointments from './features/appointments/MyAppointments';
 import AppointmentHistory from './features/appointments/AppointmentHistory';
+import BrowseCounselors from './features/counselors/BrowseCounselors';
+import CounselorProfile from './features/counselors/CounselorProfile';
+import Counselorview from './features/counselors/Counselorview';
 
 import PrivateRoute from './components/PrivateRoute';
 
@@ -18,9 +21,7 @@ import CounselorDashboard from './pages/CounselorDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 import Pending from './pages/Pending';
 import StudentProfile from './pages/StudentProfile';
-import CounselorProfile from './pages/CounselorProfile';
-import BrowseCounselors from './pages/BrowseCounselors';
-import Counselorview from './pages/Counselorview';
+
 
 function App() {
   return (

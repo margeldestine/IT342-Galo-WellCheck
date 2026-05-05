@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ArrowLeft, Calendar, Clock, Star, BookOpen, Award, Shield } from 'lucide-react';
-import StudentSidebar from '../components/StudentSidebar';
-import '../styles/Counselorview.css';
+import StudentSidebar from '../../components/StudentSidebar'; 
+import './Counselorview.css'; 
 
 const API = process.env.REACT_APP_API_URL;
 
