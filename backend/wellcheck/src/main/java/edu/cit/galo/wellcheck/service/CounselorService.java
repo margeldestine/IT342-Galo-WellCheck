@@ -6,7 +6,7 @@ import edu.cit.galo.wellcheck.entity.CounselorProfile;
 import edu.cit.galo.wellcheck.enums.SlotStatus;
 import edu.cit.galo.wellcheck.enums.UserStatus;
 import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
-import edu.cit.galo.wellcheck.repository.SlotRepository;
+import edu.cit.galo.wellcheck.features.slots.SlotRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

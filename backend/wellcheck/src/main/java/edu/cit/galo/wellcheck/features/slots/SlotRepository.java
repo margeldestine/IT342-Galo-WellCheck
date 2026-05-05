@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.repository;
+package edu.cit.galo.wellcheck.features.slots;
 
 import edu.cit.galo.wellcheck.entity.Slot;
 import edu.cit.galo.wellcheck.enums.SlotStatus;

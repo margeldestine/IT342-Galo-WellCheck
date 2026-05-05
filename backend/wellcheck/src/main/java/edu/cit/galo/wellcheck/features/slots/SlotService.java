@@ -1,13 +1,10 @@
-package edu.cit.galo.wellcheck.service;
+package edu.cit.galo.wellcheck.features.slots;
 
-import edu.cit.galo.wellcheck.dto.SlotRequest;
-import edu.cit.galo.wellcheck.dto.SlotResponse;
 import edu.cit.galo.wellcheck.entity.CounselorProfile;
 import edu.cit.galo.wellcheck.entity.Slot;
 import edu.cit.galo.wellcheck.enums.SlotStatus;
 import edu.cit.galo.wellcheck.repository.AppointmentRepository;
 import edu.cit.galo.wellcheck.repository.CounselorProfileRepository;
-import edu.cit.galo.wellcheck.repository.SlotRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

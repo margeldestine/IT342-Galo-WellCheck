@@ -9,7 +9,7 @@ import edu.cit.galo.wellcheck.enums.AppointmentStatus;
 import edu.cit.galo.wellcheck.enums.SlotStatus;
 import edu.cit.galo.wellcheck.observer.AppointmentObserver;
 import edu.cit.galo.wellcheck.repository.AppointmentRepository;
-import edu.cit.galo.wellcheck.repository.SlotRepository;
+import edu.cit.galo.wellcheck.features.slots.SlotRepository;
 import edu.cit.galo.wellcheck.repository.StudentProfileRepository;
 import edu.cit.galo.wellcheck.repository.UserRepository;
 import org.springframework.stereotype.Service;
