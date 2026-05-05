@@ -1,4 +1,4 @@
-package com.wellcheck.app
+package com.wellcheck.app.features.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,9 +6,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.wellcheck.app.features.dashboards.CounselorDashboardActivity
+import com.wellcheck.app.R
+import com.wellcheck.app.features.dashboards.StudentDashboardActivity
 import com.wellcheck.app.databinding.ActivityLoginBinding
-import com.wellcheck.app.network.LoginRequest
-import com.wellcheck.app.network.RetrofitClient
+import com.wellcheck.app.data.network.LoginRequest
+import com.wellcheck.app.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {

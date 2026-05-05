@@ -1,4 +1,4 @@
-package com.wellcheck.app.network
+package com.wellcheck.app.data.network
 
 import okhttp3.ResponseBody
 import retrofit2.Response

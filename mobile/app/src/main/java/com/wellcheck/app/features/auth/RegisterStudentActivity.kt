@@ -1,4 +1,4 @@
-package com.wellcheck.app
+package com.wellcheck.app.features.auth
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.wellcheck.app.R
 import com.wellcheck.app.databinding.ActivityRegisterStudentBinding
-import com.wellcheck.app.network.RetrofitClient
-import com.wellcheck.app.network.StudentRegisterRequest
+import com.wellcheck.app.data.network.RetrofitClient
+import com.wellcheck.app.data.network.StudentRegisterRequest
 import kotlinx.coroutines.launch
 import java.util.Calendar
 
@@ -104,7 +105,8 @@ class RegisterStudentActivity : AppCompatActivity() {
             }
 
             hideError()
-            register(StudentRegisterRequest(
+            register(
+                StudentRegisterRequest(
                 studentIdNumber = studentId,
                 firstName = firstName,
                 lastName = lastName,
@@ -114,7 +116,8 @@ class RegisterStudentActivity : AppCompatActivity() {
                 birthdate = selectedBirthdate,
                 email = email,
                 password = password
-            ))
+            )
+            )
         }
 
         binding.tvSignIn.setOnClickListener {

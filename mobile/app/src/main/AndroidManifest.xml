@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wellcheck.app">
 
-    <!-- REQUIRED: internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,7 +13,6 @@
         android:theme="@style/Theme.WellCheck"
         android:usesCleartextTraffic="true">
 
-        <!-- Landing screen (entry point) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -23,12 +22,22 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".LoginActivity" android:exported="false" />
-        <activity android:name=".RegisterStudentActivity" android:exported="false" />
-        <activity android:name=".RegisterCounselorActivity" android:exported="false" />
+        <activity
+            android:name=".features.auth.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".features.auth.RegisterStudentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".features.auth.RegisterCounselorActivity"
+            android:exported="false" />
 
-        <activity android:name=".StudentDashboardActivity" android:exported="false" />
-        <activity android:name=".CounselorDashboardActivity" android:exported="false" />
+        <activity
+            android:name=".features.dashboards.StudentDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".features.dashboards.CounselorDashboardActivity"
+            android:exported="false" />
 
     </application>
 

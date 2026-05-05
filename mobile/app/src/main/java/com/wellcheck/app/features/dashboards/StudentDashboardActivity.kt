@@ -1,8 +1,9 @@
-package com.wellcheck.app
+package com.wellcheck.app.features.dashboards
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.wellcheck.app.MainActivity
 import com.wellcheck.app.databinding.ActivityStudentDashboardBinding
 import java.util.Calendar
 

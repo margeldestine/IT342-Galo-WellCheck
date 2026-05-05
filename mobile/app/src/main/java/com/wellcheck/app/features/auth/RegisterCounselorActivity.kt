@@ -1,4 +1,4 @@
-package com.wellcheck.app
+package com.wellcheck.app.features.auth
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.wellcheck.app.databinding.ActivityRegisterCounselorBinding
-import com.wellcheck.app.network.CounselorRegisterRequest
-import com.wellcheck.app.network.RetrofitClient
+import com.wellcheck.app.data.network.CounselorRegisterRequest
+import com.wellcheck.app.data.network.RetrofitClient
 import kotlinx.coroutines.launch
 
 class RegisterCounselorActivity : AppCompatActivity() {
@@ -75,7 +75,8 @@ class RegisterCounselorActivity : AppCompatActivity() {
             }
 
             hideError()
-            register(CounselorRegisterRequest(
+            register(
+                CounselorRegisterRequest(
                 firstName = firstName,
                 lastName = lastName,
                 employeeNumber = employeeId,
@@ -83,7 +84,8 @@ class RegisterCounselorActivity : AppCompatActivity() {
                 bio = bio,
                 email = email,
                 password = password
-            ))
+            )
+            )
         }
 
         binding.tvSignIn.setOnClickListener {

@@ -4,6 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.wellcheck.app.databinding.ActivityMainBinding
+import com.wellcheck.app.features.auth.LoginActivity
+import com.wellcheck.app.features.auth.RegisterCounselorActivity
+import com.wellcheck.app.features.auth.RegisterStudentActivity
+import com.wellcheck.app.features.dashboards.CounselorDashboardActivity
+import com.wellcheck.app.features.dashboards.StudentDashboardActivity
 
 class MainActivity : AppCompatActivity() {
 
