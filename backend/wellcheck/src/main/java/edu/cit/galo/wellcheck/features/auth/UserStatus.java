@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.domain.enums;
+package edu.cit.galo.wellcheck.features.auth;
 
 public enum UserStatus {
     ACTIVE,

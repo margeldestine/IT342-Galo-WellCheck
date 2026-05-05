@@ -1,4 +1,4 @@
-package edu.cit.galo.wellcheck.domain.enums;
+package edu.cit.galo.wellcheck.features.slots;
 
 public enum SlotStatus {
     AVAILABLE,

@@ -1,5 +1,6 @@
-package edu.cit.galo.wellcheck.domain.entities;
+package edu.cit.galo.wellcheck.features.students;
 
+import edu.cit.galo.wellcheck.features.auth.User;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 

@@ -2,11 +2,8 @@ package edu.cit.galo.wellcheck.features.auth;
 
 import edu.cit.galo.wellcheck.features.counselors.CounselorRegisterRequest;
 import edu.cit.galo.wellcheck.features.students.StudentRegisterRequest;
-import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
-import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
-import edu.cit.galo.wellcheck.domain.entities.User;
-import edu.cit.galo.wellcheck.domain.enums.UserRole;
-import edu.cit.galo.wellcheck.domain.enums.UserStatus;
+import edu.cit.galo.wellcheck.features.counselors.CounselorProfile;
+import edu.cit.galo.wellcheck.features.students.StudentProfile;
 import edu.cit.galo.wellcheck.features.counselors.CounselorProfileFactory;
 import edu.cit.galo.wellcheck.features.students.StudentProfileFactory;
 import edu.cit.galo.wellcheck.features.counselors.CounselorProfileRepository;

@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.core.infrastructure;
 
-import edu.cit.galo.wellcheck.domain.entities.Appointment;
+import edu.cit.galo.wellcheck.features.appointments.Appointment;
 import edu.cit.galo.wellcheck.features.appointments.AppointmentObserver;
 import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;

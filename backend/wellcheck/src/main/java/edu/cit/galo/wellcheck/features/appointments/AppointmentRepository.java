@@ -1,7 +1,5 @@
 package edu.cit.galo.wellcheck.features.appointments;
 
-import edu.cit.galo.wellcheck.domain.entities.Appointment;
-import edu.cit.galo.wellcheck.domain.enums.AppointmentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

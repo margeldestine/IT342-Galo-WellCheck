@@ -1,7 +1,6 @@
 package edu.cit.galo.wellcheck.features.counselors;
 
-import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
-import edu.cit.galo.wellcheck.domain.enums.UserStatus;
+import edu.cit.galo.wellcheck.features.auth.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

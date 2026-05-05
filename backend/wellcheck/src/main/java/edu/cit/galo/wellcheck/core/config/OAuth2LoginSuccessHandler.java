@@ -1,6 +1,6 @@
 package edu.cit.galo.wellcheck.core.config;
 
-import edu.cit.galo.wellcheck.domain.entities.User;
+import edu.cit.galo.wellcheck.features.auth.User;
 import edu.cit.galo.wellcheck.features.auth.UserRepository;
 import edu.cit.galo.wellcheck.features.auth.AuthService;
 import jakarta.servlet.ServletException;

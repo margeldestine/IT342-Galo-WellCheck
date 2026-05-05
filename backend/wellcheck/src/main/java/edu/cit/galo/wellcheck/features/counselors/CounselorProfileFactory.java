@@ -1,8 +1,7 @@
 package edu.cit.galo.wellcheck.features.counselors;
 
-import edu.cit.galo.wellcheck.domain.interfaces.ProfileFactory;
-import edu.cit.galo.wellcheck.domain.entities.CounselorProfile;
-import edu.cit.galo.wellcheck.domain.entities.User;
+import edu.cit.galo.wellcheck.features.auth.ProfileFactory;
+import edu.cit.galo.wellcheck.features.auth.User;
 import org.springframework.stereotype.Component;
 
 /**

@@ -1,7 +1,5 @@
 package edu.cit.galo.wellcheck.features.slots;
 
-import edu.cit.galo.wellcheck.domain.entities.Slot;
-import edu.cit.galo.wellcheck.domain.enums.SlotStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

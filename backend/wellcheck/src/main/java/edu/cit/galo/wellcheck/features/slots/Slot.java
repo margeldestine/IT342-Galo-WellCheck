@@ -1,6 +1,6 @@
-package edu.cit.galo.wellcheck.domain.entities;
+package edu.cit.galo.wellcheck.features.slots;
 
-import edu.cit.galo.wellcheck.domain.enums.SlotStatus;
+import edu.cit.galo.wellcheck.features.counselors.CounselorProfile;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 

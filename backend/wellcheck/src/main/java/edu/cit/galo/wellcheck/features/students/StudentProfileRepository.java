@@ -1,6 +1,5 @@
 package edu.cit.galo.wellcheck.features.students;
 
-import edu.cit.galo.wellcheck.domain.entities.StudentProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

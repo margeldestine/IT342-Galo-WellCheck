@@ -1,6 +1,7 @@
-package edu.cit.galo.wellcheck.domain.entities;
+package edu.cit.galo.wellcheck.features.appointments;
 
-import edu.cit.galo.wellcheck.domain.enums.AppointmentStatus;
+import edu.cit.galo.wellcheck.features.slots.Slot;
+import edu.cit.galo.wellcheck.features.students.StudentProfile;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
