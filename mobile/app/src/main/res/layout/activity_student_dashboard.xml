@@ -8,389 +8,389 @@
     android:background="@color/background">
 
     <!-- Top Header Section (Dark Green) -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/headerSection"
-        android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/headerSection"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/green_dark"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="32dp"
+    android:paddingBottom="24dp"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <TextView
+        android:id="@+id/tvPortalLabel"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/green_dark"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="32dp"
-        android:paddingBottom="24dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:fontFamily="@font/inter"
+        android:text="Student Portal"
+        android:textColor="@color/white"
+        android:alpha="0.7"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvWelcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/inter_bold"
+        android:text="Good morning, Margel."
+        android:textColor="@color/white"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvPortalLabel" />
+
+    <!-- Date Pill -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:cardBackgroundColor="#2A4335"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvWelcome">
 
         <TextView
-            android:id="@+id/tvPortalLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
             android:fontFamily="@font/inter"
-            android:text="Student Portal"
+            android:text="Wednesday, May 6, 2026"
             android:textColor="@color/white"
-            android:alpha="0.7"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:alpha="0.9"
+            android:textSize="12sp" />
+    </androidx.cardview.widget.CardView>
+
+    <!-- Profile Avatar -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:cardBackgroundColor="#E6F4EA"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:strokeColor="#4CAF50"
+        app:strokeWidth="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvWelcome"
+        app:layout_constraintBottom_toBottomOf="@id/tvWelcome">
 
         <TextView
-            android:id="@+id/tvWelcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:fontFamily="@font/inter_bold"
-            android:text="Good morning, Margel."
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvPortalLabel" />
+            android:text="MD"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+    </androidx.cardview.widget.CardView>
 
-        <!-- Date Pill -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:cardBackgroundColor="#2A4335"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvWelcome">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="6dp"
-                android:fontFamily="@font/inter"
-                android:text="Wednesday, May 6, 2026"
-                android:textColor="@color/white"
-                android:alpha="0.9"
-                android:textSize="12sp" />
-        </androidx.cardview.widget.CardView>
-
-        <!-- Profile Avatar -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:cardBackgroundColor="#E6F4EA"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:strokeColor="#4CAF50"
-            app:strokeWidth="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/tvWelcome"
-            app:layout_constraintBottom_toBottomOf="@id/tvWelcome">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:fontFamily="@font/inter_bold"
-                android:text="MD"
-                android:textColor="#000000"
-                android:textSize="16sp" />
-        </androidx.cardview.widget.CardView>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- Scrollable Main Content -->
-    <ScrollView
+<ScrollView
+android:layout_width="match_parent"
+android:layout_height="0dp"
+android:clipToPadding="false"
+android:paddingBottom="24dp"
+app:layout_constraintTop_toBottomOf="@id/headerSection"
+app:layout_constraintBottom_toTopOf="@id/bottomNav">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="25dp">
+
+    <!-- Dashboard Label Pill -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#E2EFE7"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp">
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Wellness Tip Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:clipToPadding="false"
-        android:paddingBottom="24dp"
-        app:layout_constraintTop_toBottomOf="@id/headerSection"
-        app:layout_constraintBottom_toTopOf="@id/bottomNav">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/green_dark"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingTop="25dp">
-
-            <!-- Dashboard Label Pill -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="#E2EFE7"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp">
-
-            </androidx.cardview.widget.CardView>
-
-            <!-- Wellness Tip Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardBackgroundColor="@color/green_dark"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_bold"
-                        android:text="WELLNESS TIP"
-                        android:textColor="#A4C2AE"
-                        android:textSize="10sp"
-                        android:letterSpacing="0.1"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:fontFamily="@font/inter_bold"
-                        android:text="Take a 5-minute break every hour."
-                        android:textColor="@color/white"
-                        android:textSize="18sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/inter"
-                        android:text="Small pauses improve focus and reduce stress."
-                        android:textColor="@color/white"
-                        android:alpha="0.8"
-                        android:textSize="13sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
+            android:padding="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="UPCOMING APPOINTMENTS"
-                android:textColor="@color/text_gray"
-                android:textSize="11sp"
-                android:letterSpacing="0.05"/>
+                android:text="WELLNESS TIP"
+                android:textColor="#A4C2AE"
+                android:textSize="10sp"
+                android:letterSpacing="0.1"/>
 
-            <!-- Upcoming Appointments Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <!-- Appointment Item 1 -->
-                    <include layout="@layout/item_appointment_pending" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="@color/border" />
-
-                    <!-- Appointment Item 2 -->
-                    <include layout="@layout/item_appointment_confirmed" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Recommended Counselors Label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="RECOMMENDED COUNSELORS"
-                android:textColor="@color/text_gray"
-                android:textSize="11sp"
-                android:letterSpacing="0.05"/>
+                android:text="Take a 5-minute break every hour."
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
-            <!-- Recommended Counselors Card -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <!-- Counselor Item 1 -->
-                    <include layout="@layout/item_counselor_recommended" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginHorizontal="16dp"
-                        android:background="@color/border" />
-
-                    <!-- Counselor Item 2 -->
-                    <include layout="@layout/item_counselor_recommended" />
-
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- NEW: Logout Button directly below the Recommended Counselors card -->
-            <LinearLayout
-                android:id="@+id/btnLogout"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="24dp"
-                android:background="?attr/selectableItemBackground"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="12dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="↪"
-                    android:textColor="#E53E3E"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/inter_bold"
-                    android:text="Log Out"
-                    android:textColor="#E53E3E"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/inter"
+                android:text="Small pauses improve focus and reduce stress."
+                android:textColor="@color/white"
+                android:alpha="0.8"
+                android:textSize="13sp" />
         </LinearLayout>
-    </ScrollView>
+    </androidx.cardview.widget.CardView>
 
-    <!-- Bottom Navigation Bar -->
-    <LinearLayout
-        android:id="@+id/bottomNav"
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/inter_bold"
+        android:text="UPCOMING APPOINTMENTS"
+        android:textColor="@color/text_gray"
+        android:textSize="11sp"
+        android:letterSpacing="0.05"/>
+
+    <!-- Upcoming Appointments Card -->
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:background="@color/white"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="1dp">
 
-        <!-- Home (Active) -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_home"
-                app:tint="@color/green_dark" />
+            <!-- Appointment Item 1 -->
+            <include layout="@layout/item_appointment_pending" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/inter_bold"
-                android:text="Home"
-                android:textColor="@color/green_dark"
-                android:textSize="10sp" />
-
-            <!-- Active Indicator Dot -->
             <View
-                android:layout_width="4dp"
-                android:layout_height="4dp"
-                android:layout_marginTop="2dp"
-                android:background="@drawable/shape_circle"
-                android:backgroundTint="@color/green_dark"/>
-        </LinearLayout>
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@color/border" />
 
-        <!-- Counselors (Inactive) -->
+            <!-- Appointment Item 2 -->
+            <include layout="@layout/item_appointment_confirmed" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Recommended Counselors Label -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/inter_bold"
+        android:text="RECOMMENDED COUNSELORS"
+        android:textColor="@color/text_gray"
+        android:textSize="11sp"
+        android:letterSpacing="0.05"/>
+
+    <!-- Recommended Counselors Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="1dp">
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_counselor"
-                app:tint="@color/text_gray" />
+            <!-- Counselor Item 1 -->
+            <include layout="@layout/item_counselor_recommended" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/inter"
-                android:text="Counselors"
-                android:textColor="@color/text_gray"
-                android:textSize="10sp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="16dp"
+                android:background="@color/border" />
+
+            <!-- Counselor Item 2 -->
+            <include layout="@layout/item_counselor_recommended" />
+
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        <!-- Appointments (Inactive) -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+    <!-- NEW: Logout Button directly below the Recommended Counselors card -->
+    <LinearLayout
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_calendar"
-                app:tint="@color/text_gray" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="↪"
+            android:textColor="#E53E3E"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/inter"
-                android:text="Appointments"
-                android:textColor="@color/text_gray"
-                android:textSize="10sp" />
-        </LinearLayout>
-
-        <!-- Profile (Inactive) -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_profile"
-                app:tint="@color/text_gray" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="@font/inter"
-                android:text="Profile"
-                android:textColor="@color/text_gray"
-                android:textSize="10sp" />
-        </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Log Out"
+            android:textColor="#E53E3E"
+            android:textSize="14sp" />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+</ScrollView>
+
+    <!-- Bottom Navigation Bar -->
+<LinearLayout
+android:id="@+id/bottomNav"
+android:layout_width="match_parent"
+android:layout_height="72dp"
+android:background="@color/white"
+android:elevation="8dp"
+android:orientation="horizontal"
+app:layout_constraintBottom_toBottomOf="parent">
+
+<!-- Home (Active) -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_home"
+        app:tint="@color/green_dark" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter_bold"
+        android:text="Home"
+        android:textColor="@color/green_dark"
+        android:textSize="10sp" />
+
+    <!-- Active Indicator Dot -->
+    <View
+        android:layout_width="4dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/shape_circle"
+        android:backgroundTint="@color/green_dark"/>
+</LinearLayout>
+
+<!-- Counselors (Inactive) -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_counselor"
+        app:tint="@color/text_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter"
+        android:text="Counselors"
+        android:textColor="@color/text_gray"
+        android:textSize="10sp" />
+</LinearLayout>
+
+<!-- Appointments (Inactive) -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_calendar"
+        app:tint="@color/text_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter"
+        android:text="Appointments"
+        android:textColor="@color/text_gray"
+        android:textSize="10sp" />
+</LinearLayout>
+
+<!-- Profile (Inactive) -->
+<LinearLayout
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_profile"
+        app:tint="@color/text_gray" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/inter"
+        android:text="Profile"
+        android:textColor="@color/text_gray"
+        android:textSize="10sp" />
+</LinearLayout>
+</LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

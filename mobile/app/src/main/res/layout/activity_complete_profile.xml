@@ -55,7 +55,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Create Student Account"
+                android:text="Complete Your Profile"
                 android:textSize="24sp"
                 android:fontFamily="@font/inter"
                 android:textStyle="bold"
@@ -65,9 +65,10 @@
 
             <!-- Subtitle -->
             <TextView
+                android:id="@+id/tvSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Register to book counseling appointments securely."
+                android:text="Please fill in your student details to continue."
                 android:textSize="13sp"
                 android:fontFamily="@font/inter"
                 android:textColor="@color/subtitle_gray"
@@ -88,14 +89,13 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone" />
 
-            <!-- Section: Personal Information -->
+            <!-- Section Divider -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="4dp">
+                android:layout_marginBottom="16dp">
 
                 <View
                     android:layout_width="0dp"
@@ -106,7 +106,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  PERSONAL INFORMATION  "
+                    android:text="  STUDENT INFORMATION  "
                     android:textSize="11sp"
                     android:fontFamily="@font/inter"
                     android:textStyle="bold"
@@ -136,7 +136,7 @@
                 android:id="@+id/etStudentId"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:hint="2023-12345 or 23-2425-001"
+                android:hint="2019-7865"
                 android:inputType="text"
                 android:background="@drawable/bg_input"
                 android:paddingStart="16dp"
@@ -146,81 +146,6 @@
                 android:textColor="@color/text_dark"
                 android:textColorHint="@color/hint_gray"
                 android:layout_marginBottom="16dp" />
-
-            <!-- First + Last Name Row -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="First Name"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/inter"
-                        android:textStyle="bold"
-                        android:textColor="@color/label_gray"
-                        android:layout_marginBottom="6dp" />
-
-                    <EditText
-                        android:id="@+id/etFirstName"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:hint="John"
-                        android:inputType="textPersonName"
-                        android:background="@drawable/bg_input"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/inter"
-                        android:textColor="@color/text_dark"
-                        android:textColorHint="@color/hint_gray" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Last Name"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/inter"
-                        android:textStyle="bold"
-                        android:textColor="@color/label_gray"
-                        android:layout_marginBottom="6dp" />
-
-                    <EditText
-                        android:id="@+id/etLastName"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:hint="Doe"
-                        android:inputType="textPersonName"
-                        android:background="@drawable/bg_input"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:textSize="14sp"
-                        android:fontFamily="@font/inter"
-                        android:textColor="@color/text_dark"
-                        android:textColorHint="@color/hint_gray" />
-
-                </LinearLayout>
-
-            </LinearLayout>
 
             <!-- Program -->
             <TextView
@@ -355,108 +280,7 @@
                 android:cursorVisible="false"
                 android:drawableEnd="@drawable/ic_calendar"
                 android:drawableTint="@color/hint_gray"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Section: Account Credentials -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="8dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/border" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="  ACCOUNT CREDENTIALS  "
-                    android:textSize="11sp"
-                    android:fontFamily="@font/inter"
-                    android:textStyle="bold"
-                    android:textColor="@color/green_primary"
-                    android:letterSpacing="0.1" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/border" />
-
-            </LinearLayout>
-
-            <!-- Email -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Email Address"
-                android:textSize="13sp"
-                android:fontFamily="@font/inter"
-                android:textStyle="bold"
-                android:textColor="@color/label_gray"
-                android:layout_marginBottom="6dp" />
-
-            <EditText
-                android:id="@+id/etEmail"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:hint="johndoe@gmail.com"
-                android:inputType="textEmailAddress"
-                android:background="@drawable/bg_input"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textSize="14sp"
-                android:fontFamily="@font/inter"
-                android:textColor="@color/text_dark"
-                android:textColorHint="@color/hint_gray"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Password -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Password"
-                android:textSize="13sp"
-                android:fontFamily="@font/inter"
-                android:textStyle="bold"
-                android:textColor="@color/label_gray"
-                android:layout_marginBottom="6dp" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_marginBottom="24dp">
-
-                <EditText
-                    android:id="@+id/etPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:hint="Minimum 8 characters"
-                    android:inputType="textPassword"
-                    android:background="@drawable/bg_input"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="52dp"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/inter"
-                    android:textColor="@color/text_dark"
-                    android:textColorHint="@color/hint_gray" />
-
-                <ImageButton
-                    android:id="@+id/btnTogglePassword"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="end|center_vertical"
-                    android:src="@drawable/ic_eye"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:tint="@color/hint_gray"
-                    android:contentDescription="Toggle password visibility" />
-
-            </FrameLayout>
+                android:layout_marginBottom="24dp" />
 
             <!-- Progress Bar -->
             <ProgressBar
@@ -468,98 +292,19 @@
                 android:layout_marginBottom="8dp"
                 android:visibility="gone" />
 
-            <!-- Create Account Button -->
+            <!-- Complete Profile Button -->
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCreateAccount"
+                android:id="@+id/btnCompleteProfile"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:text="Create Account"
+                android:text="Complete Profile"
                 android:textSize="15sp"
                 android:fontFamily="@font/inter"
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:backgroundTint="@color/green_primary"
                 android:stateListAnimator="@null"
-                app:cornerRadius="10dp"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Divider -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginBottom="16dp">
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/border" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="or"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/inter"
-                    android:textColor="@color/hint_gray"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="1"
-                    android:background="@color/border" />
-
-            </LinearLayout>
-
-            <!-- Google Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnGoogle"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="Sign up with Google"
-                android:textSize="14sp"
-                android:fontFamily="@font/inter"
-                android:textColor="@color/text_dark"
-                android:backgroundTint="@color/white"
-                android:stateListAnimator="@null"
-                app:icon="@drawable/ic_google"
-                app:iconGravity="textStart"
-                app:iconTint="@null"
-                app:strokeColor="@color/border"
-                app:strokeWidth="1.5dp"
-                app:cornerRadius="10dp"
-                android:layout_marginBottom="20dp" />
-
-            <!-- Sign In Link -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Already have an account? "
-                    android:textSize="13sp"
-                    android:fontFamily="@font/inter"
-                    android:textColor="@color/subtitle_gray" />
-
-                <TextView
-                    android:id="@+id/tvSignIn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Sign In"
-                    android:textSize="13sp"
-                    android:fontFamily="@font/inter"
-                    android:textStyle="bold"
-                    android:textColor="@color/green_primary" />
-
-            </LinearLayout>
+                app:cornerRadius="10dp" />
 
         </LinearLayout>
 

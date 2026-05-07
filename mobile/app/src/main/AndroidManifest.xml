@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- REQUIRED: internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,7 +12,6 @@
         android:theme="@style/Theme.WellCheck"
         android:usesCleartextTraffic="true">
 
-        <!-- Landing screen (entry point) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -26,9 +24,24 @@
         <activity android:name=".LoginActivity" android:exported="false" />
         <activity android:name=".RegisterStudentActivity" android:exported="false" />
         <activity android:name=".RegisterCounselorActivity" android:exported="false" />
-
         <activity android:name=".StudentDashboardActivity" android:exported="false" />
         <activity android:name=".CounselorDashboardActivity" android:exported="false" />
+        <activity android:name=".CompleteProfileActivity" android:exported="false" />
+
+        <!-- Catches the OAuth deep link: wellcheck://callback?token=...-->
+        <activity
+            android:name=".OAuthCallbackActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:scheme="wellcheck"
+                    android:host="callback" />
+            </intent-filter>
+        </activity>
 
     </application>
 

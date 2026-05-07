@@ -10,6 +10,7 @@ import com.wellcheck.app.databinding.ActivityLoginBinding
 import com.wellcheck.app.network.LoginRequest
 import com.wellcheck.app.network.RetrofitClient
 import kotlinx.coroutines.launch
+import com.wellcheck.app.network.NetworkConfig
 
 class LoginActivity : AppCompatActivity() {
 
@@ -61,7 +62,24 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnGoogle.setOnClickListener {
-            // Google OAuth — same as web: open browser to /oauth2/authorization/google
+            val url = "${NetworkConfig.OAUTH_BASE_URL}/oauth2/authorization/google" +
+                    "?redirect_uri=wellcheck://callback"
+
+            val headers = android.os.Bundle().apply {
+                putString("ngrok-skip-browser-warning", "true" +
+                        "&ngrok-skip-browser-warning=true")
+            }
+
+            val intent = androidx.browser.customtabs.CustomTabsIntent.Builder()
+                .setShowTitle(false)
+                .build()
+
+            intent.intent.putExtra(
+                android.provider.Browser.EXTRA_HEADERS,
+                headers
+            )
+
+            intent.launchUrl(this, android.net.Uri.parse(url))
         }
 
 
@@ -89,6 +107,8 @@ class LoginActivity : AppCompatActivity() {
                         .putString("email", user?.email)
                         .putString("firstName", user?.firstName ?: "")
                         .putString("lastName", user?.lastName ?: "")
+                        .putString("profilePhoto", user?.profilePhoto ?: "")
+                        .putString("specialization", user?.specialization ?: "")
                         .apply()
 
                     val firstName = user?.firstName ?: ""
