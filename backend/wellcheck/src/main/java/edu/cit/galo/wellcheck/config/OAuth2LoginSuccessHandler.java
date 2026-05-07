@@ -36,8 +36,26 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         Authentication authentication) throws IOException, ServletException {
         Object principal = authentication.getPrincipal();
 
+        // Parse state: format is <original_state>:<role>:<redirectUri or empty>
+        String state = request.getParameter("state");
+        String role = "STUDENT";
+        String baseRedirect = frontendUrl + "/auth/callback";
+
+        if (state != null && state.contains(":")) {
+            String[] parts = state.split(":", 3);
+            // parts[0] = original state
+            // parts[1] = role
+            // parts[2] = redirectUri (may be empty)
+            if (parts.length >= 2) {
+                role = parts[1];
+            }
+            if (parts.length >= 3 && !parts[2].isBlank()) {
+                baseRedirect = parts[2]; // use mobile redirect_uri
+            }
+        }
+
         if (!(principal instanceof OAuth2User oauth2User)) {
-            response.sendRedirect(frontendUrl + "/auth/callback?error=" + urlEncode("Invalid OAuth2 principal"));
+            response.sendRedirect(baseRedirect + "?error=" + urlEncode("Invalid OAuth2 principal"));
             return;
         }
 
@@ -46,19 +64,13 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             String normalizedEmail = rawEmail.trim().toLowerCase();
             boolean isNewUser = !userRepository.existsByEmail(normalizedEmail);
 
-            String role;
             String status = "ACTIVE";
 
+            // For existing users, override role and status from DB
             if (!isNewUser) {
                 Optional<User> existingUser = userRepository.findByEmail(normalizedEmail);
                 role = existingUser.map(u -> u.getRole().name()).orElse("STUDENT");
                 status = existingUser.map(u -> u.getStatus().name()).orElse("ACTIVE");
-            } else {
-                String state = request.getParameter("state");
-                role = "STUDENT";
-                if (state != null && state.contains(":")) {
-                    role = state.substring(state.lastIndexOf(":") + 1);
-                }
             }
 
             String token = authService.authenticateWithGoogleOAuth2User(oauth2User);
@@ -66,8 +78,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             String firstName = urlEncode(oauth2User.getAttribute("given_name"));
             String lastName = urlEncode(oauth2User.getAttribute("family_name"));
 
-            response.sendRedirect(frontendUrl
-                    + "/auth/callback"
+            response.sendRedirect(baseRedirect
                     + "?token=" + urlEncode(token)
                     + "&email=" + email
                     + "&firstName=" + firstName
@@ -77,7 +88,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                     + "&status=" + status);
 
         } catch (Exception e) {
-            response.sendRedirect(frontendUrl + "/auth/callback?error=" + urlEncode(e.getMessage()));
+            response.sendRedirect(baseRedirect + "?error=" + urlEncode(e.getMessage()));
         }
     }
 

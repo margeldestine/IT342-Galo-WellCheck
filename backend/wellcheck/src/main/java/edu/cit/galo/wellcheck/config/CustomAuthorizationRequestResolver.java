@@ -32,8 +32,13 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
         String role = request.getParameter("role");
         if (role == null || role.isBlank()) role = "STUDENT";
 
+        String redirectUri = request.getParameter("redirect_uri");
+        // Encode redirect_uri into state so it survives the full Google round trip
+        // Format: <original_state>:<role>:<redirectUri or empty>
+        String encodedRedirect = (redirectUri != null && !redirectUri.isBlank()) ? redirectUri : "";
+
         return OAuth2AuthorizationRequest.from(authRequest)
-                .state(authRequest.getState() + ":" + role)
+                .state(authRequest.getState() + ":" + role + ":" + encodedRedirect)
                 .build();
     }
 }
