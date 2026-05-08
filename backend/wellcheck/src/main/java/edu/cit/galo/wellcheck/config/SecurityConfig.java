@@ -22,13 +22,16 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final ClientRegistrationRepository clientRegistrationRepository;
+    private final StateBasedAuthorizationRequestRepository stateRepository; // ← INJECT NEW REPO
 
     public SecurityConfig(JwtAuthFilter jwtAuthFilter,
                           OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler,
-                          ClientRegistrationRepository clientRegistrationRepository) {
+                          ClientRegistrationRepository clientRegistrationRepository,
+                          StateBasedAuthorizationRequestRepository stateRepository) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
         this.clientRegistrationRepository = clientRegistrationRepository;
+        this.stateRepository = stateRepository;
     }
 
     @Bean
@@ -37,7 +40,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/register/student",
@@ -65,6 +68,7 @@ public class SecurityConfig {
                                                 "/oauth2/authorization"
                                         )
                                 )
+                                .authorizationRequestRepository(stateRepository) // ← USE STATE REPO
                         )
                         .successHandler(oAuth2LoginSuccessHandler)
                         .failureHandler((request, response, exception) -> {
