@@ -77,21 +77,12 @@ class RegisterStudentActivity : AppCompatActivity() {
 
         binding.btnGoogle.setOnClickListener {
             val url = "${NetworkConfig.OAUTH_BASE_URL}/oauth2/authorization/google" +
-                    "?redirect_uri=wellcheck://callback"
-
-            val headers = android.os.Bundle().apply {
-                putString("ngrok-skip-browser-warning", "true" +
-                        "&ngrok-skip-browser-warning=true")
-            }
+                    "?redirect_uri=wellcheck://callback" +
+                    "&prompt=select_account"
 
             val intent = androidx.browser.customtabs.CustomTabsIntent.Builder()
                 .setShowTitle(false)
                 .build()
-
-            intent.intent.putExtra(
-                android.provider.Browser.EXTRA_HEADERS,
-                headers
-            )
 
             intent.launchUrl(this, android.net.Uri.parse(url))
         }
