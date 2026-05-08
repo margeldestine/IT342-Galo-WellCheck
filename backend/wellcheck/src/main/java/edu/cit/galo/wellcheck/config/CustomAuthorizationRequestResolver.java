@@ -6,6 +6,9 @@ import org.springframework.security.oauth2.client.web.DefaultOAuth2Authorization
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRequestResolver {
 
     private final DefaultOAuth2AuthorizationRequestResolver defaultResolver;
@@ -33,12 +36,18 @@ public class CustomAuthorizationRequestResolver implements OAuth2AuthorizationRe
         if (role == null || role.isBlank()) role = "STUDENT";
 
         String redirectUri = request.getParameter("redirect_uri");
-        // Encode redirect_uri into state so it survives the full Google round trip
-        // Format: <original_state>:<role>:<redirectUri or empty>
         String encodedRedirect = (redirectUri != null && !redirectUri.isBlank()) ? redirectUri : "";
+
+        // Pass prompt parameter through to Google
+        String prompt = request.getParameter("prompt");
+        Map<String, Object> extraParams = new HashMap<>(authRequest.getAdditionalParameters());
+        if (prompt != null && !prompt.isBlank()) {
+            extraParams.put("prompt", prompt);
+        }
 
         return OAuth2AuthorizationRequest.from(authRequest)
                 .state(authRequest.getState() + ":" + role + ":" + encodedRedirect)
+                .additionalParameters(extraParams)
                 .build();
     }
 }
