@@ -26,24 +26,24 @@ class RegisterStudentActivity : AppCompatActivity() {
         binding = ActivityRegisterStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupSpinners() // Added: Initializes dropdown data
+        setupSpinners()
         setupBirthdate()
         setupPasswordToggle()
         setupClickListeners()
     }
 
     private fun setupSpinners() {
-        // 1. Program Spinner
+
         val programs = resources.getStringArray(R.array.programs)
         val programAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, programs)
         binding.spinnerProgram.adapter = programAdapter
 
-        // 2. Year Level Spinner
+
         val yearLevels = resources.getStringArray(R.array.year_levels)
         val yearAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, yearLevels)
         binding.spinnerYearLevel.adapter = yearAdapter
 
-        // 3. Gender Spinner
+
         val genders = resources.getStringArray(R.array.genders)
         val genderAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, genders)
         binding.spinnerGender.adapter = genderAdapter

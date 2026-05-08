@@ -61,6 +61,13 @@ data class ApiError(
     val details: Any?
 )
 
+
+data class CompleteCounselorProfileRequest(
+    val employeeNumber: String,
+    val specialization: String,
+    val bio: String
+)
+
 // ── Endpoints ──
 interface ApiService {
 
@@ -77,5 +84,11 @@ interface ApiService {
     suspend fun completeProfile(
         @Header("Authorization") token: String,
         @Body request: CompleteProfileRequest
+    ): Response<ResponseBody>
+
+    @POST("auth/complete-counselor-profile")
+    suspend fun completeCounselorProfile(
+        @Header("Authorization") token: String,
+        @Body request: CompleteCounselorProfileRequest
     ): Response<ResponseBody>
 }

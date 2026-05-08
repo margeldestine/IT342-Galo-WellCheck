@@ -84,13 +84,24 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val user = response.body()
 
+                    android.util.Log.d("LOGIN_DEBUG", "status=${user?.status} role=${user?.role} email=${user?.email}")
+
                     if (user?.status == "PENDING") {
-                        showError("Your account is pending admin approval.")
-                        setLoading(false)
+
+                        getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
+                            .edit()
+                            .putString("firstName", user.firstName ?: "")
+                            .putString("email", user.email ?: "")
+                            .apply()
+
+                        runOnUiThread {
+                            startActivity(Intent(this@LoginActivity, PendingApprovalActivity::class.java))
+                            finishAffinity()
+                        }
                         return@launch
                     }
 
-                    // Save to SharedPreferences
+
                     val prefs = getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
                     prefs.edit()
                         .putString("token", user?.accessToken)
@@ -114,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
                         ).show()
                     }
 
-                    // Navigate based on role
+
                     when (user?.role) {
                         "STUDENT" -> startActivity(
                             Intent(this@LoginActivity, StudentDashboardActivity::class.java)

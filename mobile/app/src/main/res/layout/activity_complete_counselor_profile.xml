@@ -68,7 +68,7 @@
                 android:id="@+id/tvSubtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please fill in your student details to continue."
+                android:text="Please fill in your counselor details to continue."
                 android:textSize="13sp"
                 android:fontFamily="@font/inter"
                 android:textColor="@color/subtitle_gray"
@@ -106,7 +106,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  STUDENT INFORMATION  "
+                    android:text="  COUNSELOR INFORMATION  "
                     android:textSize="11sp"
                     android:fontFamily="@font/inter"
                     android:textStyle="bold"
@@ -121,11 +121,11 @@
 
             </LinearLayout>
 
-            <!-- Student ID -->
+            <!-- Employee Number -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Student ID Number"
+                android:text="Employee Number"
                 android:textSize="13sp"
                 android:fontFamily="@font/inter"
                 android:textStyle="bold"
@@ -133,10 +133,10 @@
                 android:layout_marginBottom="6dp" />
 
             <EditText
-                android:id="@+id/etStudentId"
+                android:id="@+id/etEmployeeNumber"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:hint="2023-12345 or 23-2425-001"
+                android:hint="EMP-2024-12345"
                 android:inputType="text"
                 android:background="@drawable/bg_input"
                 android:paddingStart="16dp"
@@ -147,11 +147,11 @@
                 android:textColorHint="@color/hint_gray"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Program -->
+            <!-- Specialization -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enrolled Program"
+                android:text="Specialization"
                 android:textSize="13sp"
                 android:fontFamily="@font/inter"
                 android:textStyle="bold"
@@ -165,98 +165,21 @@
                 android:layout_marginBottom="16dp">
 
                 <Spinner
-                    android:id="@+id/spinnerProgram"
+                    android:id="@+id/spinnerSpecialization"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@null"
                     android:paddingStart="16dp"
                     android:paddingEnd="16dp"
-                    android:entries="@array/programs" />
+                    android:entries="@array/specializations" />
 
             </FrameLayout>
 
-            <!-- Year Level + Gender Row -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Year Level"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/inter"
-                        android:textStyle="bold"
-                        android:textColor="@color/label_gray"
-                        android:layout_marginBottom="6dp" />
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:background="@drawable/bg_input">
-
-                        <Spinner
-                            android:id="@+id/spinnerYearLevel"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:paddingStart="16dp"
-                            android:entries="@array/year_levels" />
-
-                    </FrameLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginStart="8dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Gender"
-                        android:textSize="13sp"
-                        android:fontFamily="@font/inter"
-                        android:textStyle="bold"
-                        android:textColor="@color/label_gray"
-                        android:layout_marginBottom="6dp" />
-
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:background="@drawable/bg_input">
-
-                        <Spinner
-                            android:id="@+id/spinnerGender"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@null"
-                            android:paddingStart="16dp"
-                            android:entries="@array/genders" />
-
-                    </FrameLayout>
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <!-- Birthdate -->
+            <!-- Short Bio -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Birthdate"
+                android:text="Short Bio / Description"
                 android:textSize="13sp"
                 android:fontFamily="@font/inter"
                 android:textStyle="bold"
@@ -264,22 +187,22 @@
                 android:layout_marginBottom="6dp" />
 
             <EditText
-                android:id="@+id/etBirthdate"
+                android:id="@+id/etShortBio"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:hint="Select your birthdate"
+                android:layout_height="120dp"
+                android:hint="Tell students about your background and approach..."
+                android:inputType="textMultiLine"
+                android:gravity="top|start"
+                android:lines="4"
+                android:maxLines="6"
                 android:background="@drawable/bg_input"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:paddingTop="12dp"
                 android:textSize="14sp"
                 android:fontFamily="@font/inter"
                 android:textColor="@color/text_dark"
                 android:textColorHint="@color/hint_gray"
-                android:focusable="false"
-                android:clickable="true"
-                android:cursorVisible="false"
-                android:drawableEnd="@drawable/ic_calendar"
-                android:drawableTint="@color/hint_gray"
                 android:layout_marginBottom="24dp" />
 
             <!-- Progress Bar -->

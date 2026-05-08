@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.wellcheck.app.databinding.ActivityRegisterCounselorBinding
 import com.wellcheck.app.network.CounselorRegisterRequest
+import com.wellcheck.app.network.NetworkConfig
 import com.wellcheck.app.network.RetrofitClient
 import kotlinx.coroutines.launch
 
@@ -48,14 +49,27 @@ class RegisterCounselorActivity : AppCompatActivity() {
         binding.btnSubmit.setOnClickListener {
             validateAndRegister()
         }
+
+        binding.btnGoogle.setOnClickListener {
+            val url = "${NetworkConfig.OAUTH_BASE_URL}/oauth2/authorization/google" +
+                    "?redirect_uri=wellcheck://callback" +
+                    "&prompt=select_account" +
+                    "&role=COUNSELOR"
+
+            val intent = androidx.browser.customtabs.CustomTabsIntent.Builder()
+                .setShowTitle(false)
+                .build()
+
+            intent.launchUrl(this@RegisterCounselorActivity, android.net.Uri.parse(url))
+        }
     }
 
     private fun validateAndRegister() {
         val firstName = binding.etFirstName.text.toString().trim()
         val lastName = binding.etLastName.text.toString().trim()
-        val employeeId = binding.etEmployeeId.text.toString().trim()
+        val employeeNumber = binding.etEmployeeNumber.text.toString().trim()
         val specialization = binding.spinnerSpecialization.selectedItem.toString()
-        val bio = binding.etBio.text.toString().trim()
+        val bio = binding.etShortBio.text.toString().trim()
         val email = binding.etEmail.text.toString().trim()
         val password = binding.etPassword.text.toString().trim()
 
@@ -64,7 +78,7 @@ class RegisterCounselorActivity : AppCompatActivity() {
                 showError("First name is required.")
             lastName.isEmpty() ->
                 showError("Last name is required.")
-            employeeId.isEmpty() ->
+            employeeNumber.isEmpty() ->
                 showError("Employee number is required.")
             specialization == "Select Specialization" ->
                 showError("Please select your specialization.")
@@ -82,7 +96,7 @@ class RegisterCounselorActivity : AppCompatActivity() {
                     CounselorRegisterRequest(
                         firstName = firstName,
                         lastName = lastName,
-                        employeeNumber = employeeId,
+                        employeeNumber = employeeNumber,
                         specialization = specialization,
                         bio = bio,
                         email = email,
@@ -99,14 +113,21 @@ class RegisterCounselorActivity : AppCompatActivity() {
             try {
                 val response = RetrofitClient.instance.registerCounselor(request)
                 if (response.isSuccessful) {
+
+                    getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
+                        .edit()
+                        .putString("firstName", binding.etFirstName.text.toString().trim())
+                        .putString("email", binding.etEmail.text.toString().trim())
+                        .apply()
+
                     runOnUiThread {
                         Toast.makeText(
                             this@RegisterCounselorActivity,
                             "Registration submitted! Awaiting admin approval.",
                             Toast.LENGTH_LONG
                         ).show()
-                        showSuccess("Registration submitted! Your account is pending admin approval.")
-                        binding.btnSubmit.isEnabled = false
+                        startActivity(Intent(this@RegisterCounselorActivity, PendingApprovalActivity::class.java))
+                        finishAffinity()
                     }
                 } else {
                     val errorBody = response.errorBody()?.string()
@@ -131,22 +152,12 @@ class RegisterCounselorActivity : AppCompatActivity() {
         runOnUiThread {
             binding.tvError.text = msg
             binding.tvError.visibility = View.VISIBLE
-            binding.tvSuccess.visibility = View.GONE
-        }
-    }
-
-    private fun showSuccess(msg: String) {
-        runOnUiThread {
-            binding.tvSuccess.text = msg
-            binding.tvSuccess.visibility = View.VISIBLE
-            binding.tvError.visibility = View.GONE
         }
     }
 
     private fun hideError() {
         runOnUiThread {
             binding.tvError.visibility = View.GONE
-            binding.tvSuccess.visibility = View.GONE
         }
     }
 }

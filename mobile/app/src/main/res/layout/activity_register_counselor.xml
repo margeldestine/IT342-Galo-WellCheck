@@ -15,7 +15,7 @@
         android:paddingTop="48dp"
         android:paddingBottom="48dp">
 
-        <!-- Logo — consistent with Login + Student Register -->
+        <!-- Logo -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Register to manage student appointments and availability."
+                android:text="Register as a counselor. Your account will require admin approval."
                 android:textSize="13sp"
                 android:fontFamily="@font/inter"
                 android:textColor="@color/subtitle_gray"
@@ -88,28 +88,14 @@
                 android:layout_marginBottom="16dp"
                 android:visibility="gone" />
 
-            <!-- Success Banner -->
-            <TextView
-                android:id="@+id/tvSuccess"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_success"
-                android:textColor="@color/success_green"
-                android:textSize="13sp"
-                android:fontFamily="@font/inter"
-                android:padding="12dp"
-                android:gravity="center"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone" />
-
             <!-- Section: Personal Information -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="4dp">
 
                 <View
                     android:layout_width="0dp"
@@ -163,7 +149,7 @@
                         android:id="@+id/etFirstName"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:hint="John"
+                        android:hint="Juan"
                         android:inputType="textPersonName"
                         android:background="@drawable/bg_input"
                         android:paddingStart="16dp"
@@ -196,7 +182,7 @@
                         android:id="@+id/etLastName"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:hint="Doe"
+                        android:hint="Dela Cruz"
                         android:inputType="textPersonName"
                         android:background="@drawable/bg_input"
                         android:paddingStart="16dp"
@@ -210,14 +196,14 @@
 
             </LinearLayout>
 
-            <!-- Section: Professional Information -->
+            <!-- Section: Counselor Information -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="4dp">
 
                 <View
                     android:layout_width="0dp"
@@ -228,7 +214,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="  PROFESSIONAL INFORMATION  "
+                    android:text="  COUNSELOR INFORMATION  "
                     android:textSize="11sp"
                     android:fontFamily="@font/inter"
                     android:textStyle="bold"
@@ -255,7 +241,7 @@
                 android:layout_marginBottom="6dp" />
 
             <EditText
-                android:id="@+id/etEmployeeId"
+                android:id="@+id/etEmployeeNumber"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:hint="EMP-2024-12345"
@@ -297,7 +283,7 @@
 
             </FrameLayout>
 
-            <!-- Bio -->
+            <!-- Short Bio -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -309,12 +295,14 @@
                 android:layout_marginBottom="6dp" />
 
             <EditText
-                android:id="@+id/etBio"
+                android:id="@+id/etShortBio"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="120dp"
                 android:hint="Tell students about your background and approach..."
                 android:inputType="textMultiLine"
-                android:gravity="top"
+                android:gravity="top|start"
+                android:lines="4"
+                android:maxLines="6"
                 android:background="@drawable/bg_input"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
@@ -331,8 +319,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                android:layout_marginTop="8dp">
 
                 <View
                     android:layout_width="0dp"
@@ -421,6 +409,7 @@
                     android:layout_gravity="end|center_vertical"
                     android:src="@drawable/ic_eye"
                     android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="@color/hint_gray"
                     android:contentDescription="Toggle password visibility" />
 
             </FrameLayout>
@@ -447,6 +436,57 @@
                 android:textColor="@color/white"
                 android:backgroundTint="@color/green_primary"
                 android:stateListAnimator="@null"
+                app:cornerRadius="10dp"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Divider -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/border" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="or"
+                    android:textSize="13sp"
+                    android:fontFamily="@font/inter"
+                    android:textColor="@color/hint_gray"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1"
+                    android:background="@color/border" />
+
+            </LinearLayout>
+
+            <!-- Google Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGoogle"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Sign up with Google"
+                android:textSize="14sp"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/text_dark"
+                android:backgroundTint="@color/white"
+                android:stateListAnimator="@null"
+                app:icon="@drawable/ic_google"
+                app:iconGravity="textStart"
+                app:iconTint="@null"
+                app:strokeColor="@color/border"
+                app:strokeWidth="1.5dp"
                 app:cornerRadius="10dp"
                 android:layout_marginBottom="20dp" />
 

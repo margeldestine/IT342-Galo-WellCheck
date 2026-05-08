@@ -20,7 +20,7 @@ class StudentDashboardActivity : AppCompatActivity() {
         val lastName = prefs.getString("lastName", "") ?: ""
         val fullName = "$firstName $lastName".trim().ifEmpty { "Student" }
 
-        // Logout
+
         binding.btnLogout.setOnClickListener {
             prefs.edit().clear().apply()
             startActivity(Intent(this, MainActivity::class.java))
