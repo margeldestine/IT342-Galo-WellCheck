@@ -146,8 +146,17 @@ function BrowseCounselors() {
                       <div className="bc-name">{counselor.firstName} {counselor.lastName}</div>
                       <div className="bc-spec">{counselor.specialization}</div>
                     </div>
-                    <span className="bc-available-dot-wrap">
-                      <span className="bc-available-dot" /> Available
+                    
+                    {/* UPDATED LOGIC: Dynamic Available/Unavailable Status */}
+                    <span 
+                      className="bc-available-dot-wrap" 
+                      style={{ color: counselor.availableSlots > 0 ? '#10B981' : '#888888' }}
+                    >
+                      <span 
+                        className="bc-available-dot" 
+                        style={{ backgroundColor: counselor.availableSlots > 0 ? '#10B981' : '#888888' }}
+                      /> 
+                      {counselor.availableSlots > 0 ? 'Available' : 'Unavailable'}
                     </span>
                   </div>
 

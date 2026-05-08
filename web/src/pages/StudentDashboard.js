@@ -151,7 +151,9 @@ function StudentDashboard() {
       const res = await axios.get(`${API}/counselors`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      setCounselors(res.data.slice(0, 3));
+      // Filter out unavailable counselors before selecting the top 3
+      const availableOnly = res.data.filter(c => c.availableSlots > 0);
+      setCounselors(availableOnly.slice(0, 3));
     } catch (err) {
       console.error('Failed to fetch counselors:', err);
     }
