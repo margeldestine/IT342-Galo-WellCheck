@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- item_counselor.xml — used in layoutCounselors dynamically -->
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="14dp">
+
+    <!-- Divider line above each row except the first (set visibility in code) -->
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/border"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Avatar photo -->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivCounselorPhoto"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/bg_avatar_circle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Initials fallback -->
+    <TextView
+        android:id="@+id/tvCounselorInitials"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:background="@drawable/bg_avatar_circle"
+        android:fontFamily="@font/inter_bold"
+        android:gravity="center"
+        android:textColor="@color/green_dark"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <!-- Name + specialty -->
+    <LinearLayout
+        android:id="@+id/layoutInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvAvailabilityStatus"
+        app:layout_constraintStart_toEndOf="@id/ivCounselorPhoto"
+        app:layout_constraintTop_toBottomOf="@id/divider">
+
+        <TextView
+            android:id="@+id/tvCounselorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_bold"
+            android:text="Counselor Name"
+            android:textColor="@color/text_dark"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvCounselorSpec"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:alpha="0.6"
+            android:fontFamily="@font/inter"
+            android:text="Specialization"
+            android:textColor="@color/text_gray"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- "● Available" badge — matches web green dot + text -->
+    <TextView
+        android:id="@+id/tvAvailabilityStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:text="● Available"
+        android:textColor="@color/green_dark"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F6F1"> <!-- Off-white/cream background matching the web -->
+    android:background="#F5F6F1">
 
     <!-- Top Header Section -->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +16,6 @@
         android:paddingBottom="48dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Left Content -->
         <TextView
             android:id="@+id/tvPortalLabel"
             android:layout_width="wrap_content"
@@ -38,7 +36,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             android:fontFamily="serif"
-            android:text="Good evening, Maverick."
+            android:text="Good morning, Counselor."
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -72,20 +70,22 @@
             app:layout_constraintTop_toTopOf="@id/tvWelcome">
 
             <TextView
+                android:id="@+id/tvDateDay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="serif"
-                android:text="5"
+                android:text="1"
                 android:textColor="#FFFFFF"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvDateMonth"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:alpha="0.7"
                 android:fontFamily="sans-serif-medium"
-                android:text="MAY 2026"
+                android:text="JAN 2026"
                 android:textColor="#FFFFFF"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -102,7 +102,6 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintTop_toBottomOf="@id/headerSection">
 
-        <!-- Everything inside this LinearLayout will scroll -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -137,13 +136,11 @@
                             android:orientation="vertical"
                             android:padding="16dp">
 
-                            <!-- Icon Box -->
                             <FrameLayout
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:background="@drawable/shape_rounded_box"
                                 android:backgroundTint="#FFF7E6">
-
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -154,6 +151,7 @@
                             </FrameLayout>
 
                             <TextView
+                                android:id="@+id/tvPendingCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
@@ -193,7 +191,6 @@
                                 android:layout_height="32dp"
                                 android:background="@drawable/shape_rounded_box"
                                 android:backgroundTint="#EAF6EE">
-
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -205,11 +202,12 @@
                             </FrameLayout>
 
                             <TextView
+                                android:id="@+id/tvConfirmedCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="1"
+                                android:text="0"
                                 android:textColor="#1A1A1A"
                                 android:textSize="28sp" />
 
@@ -243,7 +241,6 @@
                                 android:layout_height="32dp"
                                 android:background="@drawable/shape_rounded_box"
                                 android:backgroundTint="#EAF4F4">
-
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -254,11 +251,12 @@
                             </FrameLayout>
 
                             <TextView
+                                android:id="@+id/tvTotalStudentsCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="16dp"
                                 android:fontFamily="sans-serif-medium"
-                                android:text="3"
+                                android:text="0"
                                 android:textColor="#1A1A1A"
                                 android:textSize="28sp" />
 
@@ -286,6 +284,7 @@
 
                 <!-- Create Slot -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardCreateSlot"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
@@ -364,6 +363,7 @@
 
                 <!-- Review Requests -->
                 <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardReviewRequests"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
@@ -416,6 +416,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tvPendingSub"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
@@ -456,6 +457,7 @@
 
             <!-- Empty State Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutEmptyPending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -489,7 +491,16 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Fixed: Moved Logout Button inside the scrolling LinearLayout -->
+            <!-- Dynamic List for Pending Requests -->
+            <LinearLayout
+                android:id="@+id/layoutPendingList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:orientation="vertical"
+                android:visibility="gone" />
+
+            <!-- Logout Button -->
             <LinearLayout
                 android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
@@ -530,7 +541,7 @@
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="68dp"
         android:background="#FFFFFF"
         android:elevation="8dp"
         android:orientation="horizontal"
@@ -538,6 +549,7 @@
 
         <!-- Dashboard (Active) -->
         <LinearLayout
+            android:id="@+id/navDashboard"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -545,15 +557,15 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_dashboard_outline"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_dashboard"
                 app:tint="#223D31" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="Dashboard"
                 android:textColor="#223D31"
@@ -569,6 +581,7 @@
 
         <!-- Manage Slots (Inactive) -->
         <LinearLayout
+            android:id="@+id/navManageSlots"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -576,15 +589,15 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@drawable/ic_calendar"
                 app:tint="#888888" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:fontFamily="sans-serif"
                 android:text="Manage Slots"
                 android:textColor="#888888"
@@ -593,22 +606,24 @@
 
         <!-- Requests (Inactive) -->
         <LinearLayout
+            android:id="@+id/navRequests"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:orientation="vertical">
 
+            <!-- Ensure you have an ic_clipboard or similar drawable here -->
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_clipboard_outline"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_dashboard"
                 app:tint="#888888" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:fontFamily="sans-serif"
                 android:text="Requests"
                 android:textColor="#888888"
@@ -617,6 +632,7 @@
 
         <!-- Profile (Inactive) -->
         <LinearLayout
+            android:id="@+id/navProfile"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -624,15 +640,15 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
                 android:src="@drawable/ic_profile"
                 app:tint="#888888" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
                 android:fontFamily="sans-serif"
                 android:text="Profile"
                 android:textColor="#888888"

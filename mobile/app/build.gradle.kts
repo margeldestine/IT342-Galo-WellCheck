@@ -52,6 +52,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 
     implementation("androidx.browser:browser:1.8.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 
     // Testing
     testImplementation(libs.junit)

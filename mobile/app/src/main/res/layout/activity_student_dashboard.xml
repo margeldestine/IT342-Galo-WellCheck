@@ -2,395 +2,776 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!-- Top Header Section (Dark Green) -->
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/headerSection"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/green_dark"
-    android:paddingHorizontal="24dp"
-    android:paddingTop="32dp"
-    android:paddingBottom="24dp"
-    app:layout_constraintTop_toTopOf="parent">
-
-    <TextView
-        android:id="@+id/tvPortalLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/inter"
-        android:text="Student Portal"
-        android:textColor="@color/white"
-        android:alpha="0.7"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvWelcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/inter_bold"
-        android:text="Good morning, Margel."
-        android:textColor="@color/white"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvPortalLabel" />
-
-    <!-- Date Pill -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardBackgroundColor="#2A4335"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvWelcome">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="12dp"
-            android:paddingVertical="6dp"
-            android:fontFamily="@font/inter"
-            android:text="Wednesday, May 6, 2026"
-            android:textColor="@color/white"
-            android:alpha="0.9"
-            android:textSize="12sp" />
-    </androidx.cardview.widget.CardView>
-
-    <!-- Profile Avatar -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        app:cardBackgroundColor="#E6F4EA"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="0dp"
-        app:strokeColor="#4CAF50"
-        app:strokeWidth="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvWelcome"
-        app:layout_constraintBottom_toBottomOf="@id/tvWelcome">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:fontFamily="@font/inter_bold"
-            android:text="MD"
-            android:textColor="#000000"
-            android:textSize="16sp" />
-    </androidx.cardview.widget.CardView>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Scrollable Main Content -->
-<ScrollView
-android:layout_width="match_parent"
-android:layout_height="0dp"
-android:clipToPadding="false"
-android:paddingBottom="24dp"
-app:layout_constraintTop_toBottomOf="@id/headerSection"
-app:layout_constraintBottom_toTopOf="@id/bottomNav">
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingHorizontal="24dp"
-    android:paddingTop="25dp">
-
-    <!-- Dashboard Label Pill -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#E2EFE7"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="0dp">
-
-    </androidx.cardview.widget.CardView>
-
-    <!-- Wellness Tip Card -->
-    <androidx.cardview.widget.CardView
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="@color/green_dark"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp">
+        android:background="@color/green_dark"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="24dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvPortalLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.7"
+            android:fontFamily="@font/inter"
+            android:text="Student Portal"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- FIXED: replaced dm_serif_display_italic with inter_bold -->
+        <TextView
+            android:id="@+id/tvWelcome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="@font/inter_bold"
+            android:text="Good morning, Student."
+            android:textColor="@color/white"
+            android:textSize="26sp"
+            app:layout_constraintEnd_toStartOf="@id/tvAvatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvPortalLabel" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:alpha="0.8"
+            android:background="@drawable/bg_date_pill"
+            android:fontFamily="@font/inter"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="5dp"
+            android:text="Saturday, May 9"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvWelcome" />
+
+        <!-- Avatar pill -->
+        <TextView
+            android:id="@+id/tvAvatar"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/bg_avatar_circle"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="center"
+            android:text="MG"
+            android:textColor="@color/green_dark"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvWelcome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvWelcome" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Scrollable content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav"
+        app:layout_constraintTop_toBottomOf="@id/headerSection">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp">
 
+            <!-- Wellness Quote Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/green_dark"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="18dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_bold"
+                            android:letterSpacing="0.1"
+                            android:text="WELLNESS QUOTE"
+                            android:textColor="#A4C2AE"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tvQuote"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:fontFamily="@font/inter"
+                            android:textStyle="italic"
+                            android:text="&quot;You are enough just as you are.&quot;"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tvQuoteAuthor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:alpha="0.7"
+                            android:fontFamily="@font/inter"
+                            android:text="— Meghan Markle"
+                            android:textColor="@color/white"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/btnRefreshQuote"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_refresh"
+                        app:tint="#A4C2AE" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Combined Mood & Quick Actions Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <!-- MOOD HEADER -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:fontFamily="@font/inter_bold"
+                        android:letterSpacing="0.05"
+                        android:text="HOW ARE YOU FEELING TODAY?"
+                        android:textColor="@color/text_gray"
+                        android:textSize="11sp" />
+
+                    <!-- MOOD EMOJIS -->
+                    <LinearLayout
+                        android:id="@+id/layoutMood"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="5">
+
+                        <!-- Awful -->
+                        <LinearLayout
+                            android:id="@+id/moodAwful"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_mood_unselected"
+                            android:padding="8dp"
+                            android:layout_marginEnd="4dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="😣"
+                                android:textSize="22sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/inter"
+                                android:text="Awful"
+                                android:textColor="@color/text_gray"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Low -->
+                        <LinearLayout
+                            android:id="@+id/moodLow"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_mood_unselected"
+                            android:padding="8dp"
+                            android:layout_marginEnd="4dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="😔"
+                                android:textSize="22sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/inter"
+                                android:text="Low"
+                                android:textColor="@color/text_gray"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Okay -->
+                        <LinearLayout
+                            android:id="@+id/moodOkay"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_mood_unselected"
+                            android:padding="8dp"
+                            android:layout_marginEnd="4dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="😐"
+                                android:textSize="22sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/inter"
+                                android:text="Okay"
+                                android:textColor="@color/text_gray"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Good -->
+                        <LinearLayout
+                            android:id="@+id/moodGood"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_mood_unselected"
+                            android:padding="8dp"
+                            android:layout_marginEnd="4dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="😊"
+                                android:textSize="22sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/inter"
+                                android:text="Good"
+                                android:textColor="@color/text_gray"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                        <!-- Great -->
+                        <LinearLayout
+                            android:id="@+id/moodGreat"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:background="@drawable/bg_mood_unselected"
+                            android:padding="8dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="😄"
+                                android:textSize="22sp" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/inter"
+                                android:text="Great"
+                                android:textColor="@color/text_gray"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!-- MOOD RESPONSE BOX -->
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/layoutMoodResponse"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_mood_response"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/tvMoodMessage"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter"
+                            android:textColor="@color/green_dark"
+                            android:textSize="13sp"
+                            app:layout_constraintEnd_toStartOf="@+id/btnCloseMood"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/btnCloseMood"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:padding="2dp"
+                            android:src="@drawable/ic_close"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/green_dark" />
+
+                        <TextView
+                            android:id="@+id/tvMoodSub"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:fontFamily="@font/inter"
+                            android:textColor="@color/text_gray"
+                            android:textSize="12sp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvMoodMessage" />
+
+                        <Button
+                            android:id="@+id/btnMoodAction"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="12dp"
+                            android:fontFamily="@font/inter_bold"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            android:textAllCaps="false"
+                            android:textColor="@color/green_dark"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvMoodSub"
+                            app:strokeColor="@color/green_dark" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <!-- SEPARATOR LINE -->
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="24dp"
+                        android:background="@color/border" />
+
+                    <!-- QUICK ACTIONS HEADER -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:fontFamily="@font/inter_bold"
+                        android:letterSpacing="0.05"
+                        android:text="QUICK ACTIONS"
+                        android:textColor="@color/text_gray"
+                        android:textSize="11sp" />
+
+                    <!-- PRIMARY BUTTON -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBookAppointment"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:backgroundTint="@color/green_dark"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="+ Book a new appointment"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:cornerRadius="8dp" />
+
+                    <!-- SECONDARY BUTTON -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnViewAppointments"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginTop="6dp"
+                        android:fontFamily="@font/inter_bold"
+                        android:text="View my appointments"
+                        android:textAllCaps="false"
+                        android:textColor="@color/text_dark"
+                        android:textSize="14sp"
+                        app:cornerRadius="8dp"
+                        app:icon="@drawable/ic_calendar"
+                        app:iconGravity="textStart"
+                        app:iconTint="@color/text_dark"
+                        app:strokeColor="@color/border" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Upcoming Appointment Label -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/inter_bold"
-                android:text="WELLNESS TIP"
-                android:textColor="#A4C2AE"
-                android:textSize="10sp"
-                android:letterSpacing="0.1"/>
+                android:letterSpacing="0.05"
+                android:text="UPCOMING APPOINTMENT"
+                android:textColor="@color/text_gray"
+                android:textSize="11sp" />
 
-            <TextView
+            <!-- Upcoming Appointment Card -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardAppointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/layoutNoAppointment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:paddingVertical="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_bold"
+                            android:text="No upcoming appointments"
+                            android:textColor="@color/text_gray"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:alpha="0.6"
+                            android:fontFamily="@font/inter"
+                            android:text="Book a session to get started"
+                            android:textColor="@color/text_gray"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutAppointmentData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/ivCounselorPhoto"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:src="@drawable/bg_avatar_circle" />
+
+                        <TextView
+                            android:id="@+id/tvCounselorInitials"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:background="@drawable/bg_avatar_circle"
+                            android:fontFamily="@font/inter_bold"
+                            android:gravity="center"
+                            android:textColor="@color/green_dark"
+                            android:textSize="14sp"
+                            android:visibility="gone"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvCounselorName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_bold"
+                                android:textColor="@color/text_dark"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tvCounselorSpec"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:alpha="0.6"
+                                android:fontFamily="@font/inter"
+                                android:textColor="@color/text_gray"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvAppointmentTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/inter"
+                                android:textColor="@color/text_gray"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvAppointmentStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/inter_bold"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:textSize="11sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Available Counselors Header row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/inter_bold"
+                    android:letterSpacing="0.05"
+                    android:text="AVAILABLE COUNSELORS"
+                    android:textColor="@color/text_gray"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tvViewAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="View all"
+                    android:textColor="@color/green_dark"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Counselors Card -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp">
+
+                <LinearLayout
+                    android:id="@+id/layoutCounselors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Counselors Card (Already exists in your code) -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp">
+
+                <!-- ... existing layoutCounselors ... -->
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- NEW: Logout Button -->
+            <LinearLayout
+                android:id="@+id/btnLogout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:fontFamily="@font/inter_bold"
-                android:text="Take a 5-minute break every hour."
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:layout_marginBottom="32dp"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="↪"
+                    android:textColor="@color/error_red"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="@font/inter_bold"
+                    android:text="Log Out"
+                    android:textColor="@color/error_red"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Bottom Nav -->
+    <LinearLayout
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@color/white"
+        android:elevation="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_dashboard"
+                app:tint="@color/green_dark" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/inter_bold"
+                android:text="Home"
+                android:textColor="@color/green_dark"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="4dp"
+                android:layout_height="4dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/shape_circle"
+                android:backgroundTint="@color/green_dark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/navCounselors"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_counselor"
+                app:tint="@color/text_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
                 android:fontFamily="@font/inter"
-                android:text="Small pauses improve focus and reduce stress."
-                android:textColor="@color/white"
-                android:alpha="0.8"
-                android:textSize="13sp" />
+                android:text="Counselors"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/inter_bold"
-        android:text="UPCOMING APPOINTMENTS"
-        android:textColor="@color/text_gray"
-        android:textSize="11sp"
-        android:letterSpacing="0.05"/>
-
-    <!-- Upcoming Appointments Card -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="1dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/navAppointments"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <!-- Appointment Item 1 -->
-            <include layout="@layout/item_appointment_pending" />
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_calendar"
+                app:tint="@color/text_gray" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/border" />
-
-            <!-- Appointment Item 2 -->
-            <include layout="@layout/item_appointment_confirmed" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/inter"
+                android:text="Appointments"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <!-- Recommended Counselors Label -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:fontFamily="@font/inter_bold"
-        android:text="RECOMMENDED COUNSELORS"
-        android:textColor="@color/text_gray"
-        android:textSize="11sp"
-        android:letterSpacing="0.05"/>
-
-    <!-- Recommended Counselors Card -->
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="1dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/navProfile"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
             android:orientation="vertical">
 
-            <!-- Counselor Item 1 -->
-            <include layout="@layout/item_counselor_recommended" />
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@drawable/ic_profile"
+                app:tint="@color/text_gray" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginHorizontal="16dp"
-                android:background="@color/border" />
-
-            <!-- Counselor Item 2 -->
-            <include layout="@layout/item_counselor_recommended" />
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:fontFamily="@font/inter"
+                android:text="Profile"
+                android:textColor="@color/text_gray"
+                android:textSize="10sp" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
-    <!-- NEW: Logout Button directly below the Recommended Counselors card -->
-    <LinearLayout
-        android:id="@+id/btnLogout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:background="?attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="12dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="↪"
-            android:textColor="#E53E3E"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:fontFamily="@font/inter_bold"
-            android:text="Log Out"
-            android:textColor="#E53E3E"
-            android:textSize="14sp" />
     </LinearLayout>
 
-</LinearLayout>
-</ScrollView>
-
-    <!-- Bottom Navigation Bar -->
-<LinearLayout
-android:id="@+id/bottomNav"
-android:layout_width="match_parent"
-android:layout_height="72dp"
-android:background="@color/white"
-android:elevation="8dp"
-android:orientation="horizontal"
-app:layout_constraintBottom_toBottomOf="parent">
-
-<!-- Home (Active) -->
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_home"
-        app:tint="@color/green_dark" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/inter_bold"
-        android:text="Home"
-        android:textColor="@color/green_dark"
-        android:textSize="10sp" />
-
-    <!-- Active Indicator Dot -->
-    <View
-        android:layout_width="4dp"
-        android:layout_height="4dp"
-        android:layout_marginTop="2dp"
-        android:background="@drawable/shape_circle"
-        android:backgroundTint="@color/green_dark"/>
-</LinearLayout>
-
-<!-- Counselors (Inactive) -->
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_counselor"
-        app:tint="@color/text_gray" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/inter"
-        android:text="Counselors"
-        android:textColor="@color/text_gray"
-        android:textSize="10sp" />
-</LinearLayout>
-
-<!-- Appointments (Inactive) -->
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_calendar"
-        app:tint="@color/text_gray" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/inter"
-        android:text="Appointments"
-        android:textColor="@color/text_gray"
-        android:textSize="10sp" />
-</LinearLayout>
-
-<!-- Profile (Inactive) -->
-<LinearLayout
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_profile"
-        app:tint="@color/text_gray" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/inter"
-        android:text="Profile"
-        android:textColor="@color/text_gray"
-        android:textSize="10sp" />
-</LinearLayout>
-</LinearLayout>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
