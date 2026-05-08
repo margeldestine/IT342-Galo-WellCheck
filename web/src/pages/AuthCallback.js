@@ -2,32 +2,54 @@ import { useEffect } from 'react';
 
 function AuthCallback() {
   useEffect(() => {
-    const hash = window.location.href;
-    const urlParams = new URL(hash);
-    const token = urlParams.searchParams.get('token');
-    const error = urlParams.searchParams.get('error');
-    const email = urlParams.searchParams.get('email');
-    const firstName = urlParams.searchParams.get('firstName');
-    const lastName = urlParams.searchParams.get('lastName');
-    const isNewUser = urlParams.searchParams.get('isNewUser');
-    const role = urlParams.searchParams.get('role') || 'STUDENT';
-    const status = urlParams.searchParams.get('status') || 'ACTIVE';
+    const run = async () => {
+      const hash = window.location.href;
+      const urlParams = new URL(hash);
+      const token = urlParams.searchParams.get('token');
+      const error = urlParams.searchParams.get('error');
+      const email = urlParams.searchParams.get('email');
+      const firstName = urlParams.searchParams.get('firstName');
+      const lastName = urlParams.searchParams.get('lastName');
+      const isNewUser = urlParams.searchParams.get('isNewUser');
+      const role = urlParams.searchParams.get('role') || 'STUDENT';
+      const status = urlParams.searchParams.get('status') || 'ACTIVE';
 
-    console.log('Token:', token);
-    console.log('Role:', role);
-    console.log('Status:', status);
-    console.log('Is New User:', isNewUser);
+      console.log('Token:', token);
+      console.log('Role:', role);
+      console.log('Status:', status);
+      console.log('Is New User:', isNewUser);
 
-    if (token) {
-      const user = { token, email, firstName, lastName, role, status };
+      if (!token) {
+        console.error('Google login failed:', error);
+        window.location.href = '/login';
+        return;
+      }
+
+      let user = { token, email, firstName, lastName, role, status };
       localStorage.setItem('token', token);
       localStorage.setItem('role', role);
       localStorage.setItem('user', JSON.stringify(user));
 
-      // If pending, redirect to pending page
       if (status === 'PENDING') {
         window.location.href = '/pending';
         return;
+      }
+
+      
+      try {
+        const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/me`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        console.log('ME status:', res.status);
+        if (res.ok) {
+          const fullProfile = await res.json();
+          console.log('ME response:', fullProfile);
+          user = { ...user, ...fullProfile, token };
+          console.log('Final user saved:', user);
+          localStorage.setItem('user', JSON.stringify(user));
+        }
+      } catch (e) {
+        console.warn('Could not fetch full profile:', e);
       }
 
       if (isNewUser === 'true') {
@@ -43,10 +65,9 @@ function AuthCallback() {
           window.location.href = '/dashboard';
         }
       }
-    } else {
-      console.error('Google login failed:', error);
-      window.location.href = '/login';
-    }
+    };
+
+    run();
   }, []);
 
   return (
