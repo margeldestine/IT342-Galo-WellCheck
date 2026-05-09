@@ -30,6 +30,7 @@ class CounselorProfileActivity : AppCompatActivity() {
 
         val dmSerifItalic = ResourcesCompat.getFont(this, R.font.dm_serif_display_italic)
         binding.tvTitle.typeface = dmSerifItalic
+        binding.tvRating.typeface = dmSerifItalic
 
         setupBottomNavigation()
         fetchProfile()

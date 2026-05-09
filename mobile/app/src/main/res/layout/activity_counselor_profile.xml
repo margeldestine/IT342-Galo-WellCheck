@@ -214,7 +214,7 @@
                             android:layout_height="wrap_content"
                             android:textSize="40sp"
                             android:textColor="#1A1A1A"
-                            android:fontFamily="@font/inter_bold"
+                            android:fontFamily="@font/dm_serif_display_italic"
                             android:layout_marginEnd="16dp"/>
 
                         <LinearLayout

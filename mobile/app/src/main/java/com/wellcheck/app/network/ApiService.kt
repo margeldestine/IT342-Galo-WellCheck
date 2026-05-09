@@ -33,6 +33,22 @@ data class SlotResponse(
     val status: String
 )
 
+data class BookAppointmentRequest(
+    @SerializedName("slotId") val slotId: Long,
+    @SerializedName("note")   val note: String? = null
+)
+
+data class StudentProfileResponse(
+    val id: Long?,
+    val studentIdNumber: String?,
+    val program: String?,
+    val yearLevel: String?,
+    val gender: String?,
+    val birthdate: String?,
+    val schoolIdPhotoUrl: String?,
+    val user: StudentProfileUser?
+)
+
 data class DeleteSlotResponse(
     val action: String,
     val message: String
@@ -54,6 +70,13 @@ data class CounselorProfileResponse(
     val profilePhotoType: String?,
     val credentialEntries: List<String>,
     val availableDays: List<String>
+)
+
+data class StudentProfileUser(
+    val id: Long?,
+    val firstName: String?,
+    val lastName: String?,
+    val email: String?
 )
 
 data class CredentialItemRequest(
@@ -115,6 +138,11 @@ interface ApiService {
         @Body request: CompleteCounselorProfileRequest
     ): Response<ResponseBody>
 
+    @GET("auth/profile/student")
+    suspend fun getStudentProfile(
+        @Header("Authorization") token: String
+    ): Response<StudentProfileResponse>
+
     @GET("appointments/my")
     suspend fun getMyAppointments(
         @Header("Authorization") token: String
@@ -134,6 +162,18 @@ interface ApiService {
     suspend fun getMySlots(
         @Header("Authorization") token: String
     ): Response<List<SlotResponse>>
+
+    @GET("slots/counselor/{id}")
+    suspend fun getCounselorSlots(
+        @Header("Authorization") token: String,
+        @Path("id") counselorId: Long
+    ): Response<List<SlotResponse>>
+
+    @POST("appointments")
+    suspend fun bookAppointment(
+        @Header("Authorization") token: String,
+        @Body request: BookAppointmentRequest
+    ): Response<AppointmentResponse>
 
     @POST("slots")
     suspend fun createSlot(

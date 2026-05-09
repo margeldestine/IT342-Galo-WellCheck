@@ -1,6 +1,7 @@
 package com.wellcheck.app
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.wellcheck.app.adapter.CounselorAdapter
@@ -32,6 +34,9 @@ class BrowseCounselorsActivity : AppCompatActivity() {
         binding = ActivityBrowseCounselorsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val dmSerifItalic: Typeface? = ResourcesCompat.getFont(this, R.font.dm_serif_display_italic)
+        binding.tvTitle.typeface = dmSerifItalic
+
         setupRecyclerView()
         setupBottomNav()
         setupSearchAndFilter()
@@ -42,7 +47,10 @@ class BrowseCounselorsActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = CounselorAdapter(this, emptyList()) { counselor ->
-            // TODO: Navigate to BookAppointmentActivity or show slots
+            val sheet = SlotsBottomSheet(counselor) {
+                // Refresh list after booking if needed
+            }
+            sheet.show(supportFragmentManager, "SlotsBottomSheet")
         }
         binding.rvCounselors.layoutManager = LinearLayoutManager(this)
         binding.rvCounselors.adapter = adapter
@@ -82,15 +90,14 @@ class BrowseCounselorsActivity : AppCompatActivity() {
             try {
                 val response = RetrofitClient.instance.getCounselors(token)
                 if (response.isSuccessful) {
-                    allCounselors = response.body() ?: emptyList()
+                    allCounselors = (response.body() ?: emptyList())
+                        .filter { it.availableSlots > 0 }
 
-                    // Extract unique specializations for the spinner
                     val specs = allCounselors.mapNotNull { it.specialization }.distinct().sorted()
                     specializations.clear()
                     specializations.add("All Specializations")
                     specializations.addAll(specs)
 
-                    // Use the custom layout here!
                     val spinnerAdapter = ArrayAdapter(
                         this@BrowseCounselorsActivity,
                         R.layout.item_spinner,
@@ -102,7 +109,7 @@ class BrowseCounselorsActivity : AppCompatActivity() {
                     applyFilters()
                 }
             } catch (e: Exception) {
-                // Silently fail or handle error
+                // Silently fail
             }
         }
     }
@@ -113,6 +120,6 @@ class BrowseCounselorsActivity : AppCompatActivity() {
             finish()
             overridePendingTransition(0, 0)
         }
-        // navCounselors is current page, do nothing
+        overridePendingTransition(0, 0)
     }
 }

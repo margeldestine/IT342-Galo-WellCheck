@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tvStep1Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal Information"
+            android:textColor="#1A1A1A"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvStep1Sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="Review your details before booking."
+            android:textColor="#6B7280"
+            android:textSize="13sp" />
+
+        <!-- Student ID -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Student ID"
+            android:textColor="#374151"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etStudentId"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:enabled="false"
+            android:paddingHorizontal="12dp"
+            android:textColor="#1A1A1A"
+            android:textSize="14sp" />
+
+        <!-- First Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="First Name"
+            android:textColor="#374151"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:enabled="false"
+            android:paddingHorizontal="12dp"
+            android:textColor="#1A1A1A"
+            android:textSize="14sp" />
+
+        <!-- Last Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Last Name"
+            android:textColor="#374151"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etLastName"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:enabled="false"
+            android:paddingHorizontal="12dp"
+            android:textColor="#1A1A1A"
+            android:textSize="14sp" />
+
+        <!-- Program -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Program"
+            android:textColor="#374151"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etProgram"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:enabled="false"
+            android:paddingHorizontal="12dp"
+            android:textColor="#1A1A1A"
+            android:textSize="14sp" />
+
+        <!-- Year Level -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Year Level"
+            android:textColor="#374151"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etYearLevel"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:enabled="false"
+            android:paddingHorizontal="12dp"
+            android:textColor="#1A1A1A"
+            android:textSize="14sp" />
+
+        <!-- Gender -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Gender"
+            android:textColor="#374151"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etGender"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:enabled="false"
+            android:paddingHorizontal="12dp"
+            android:textColor="#1A1A1A"
+            android:textSize="14sp" />
+
+        <!-- Birthdate -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:text="Birthdate"
+            android:textColor="#374151"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etBirthdate"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="6dp"
+            android:background="@drawable/bg_input_field"
+            android:enabled="false"
+            android:paddingHorizontal="12dp"
+            android:textColor="#1A1A1A"
+            android:textSize="14sp" />
+
+        <!-- Change / Confirm buttons -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStep1Change"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="20dp"
+            android:text="Update Profile"
+            android:textColor="@color/green_dark"
+            android:textSize="14sp"
+            app:cornerRadius="12dp"
+            app:strokeColor="@color/green_dark"
+            app:strokeWidth="1dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStep1Confirm"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"
+            android:text="Continue"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:backgroundTint="@color/green_dark"
+            app:cornerRadius="12dp" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

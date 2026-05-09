@@ -1,12 +1,14 @@
 package com.wellcheck.app
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.wellcheck.app.databinding.ActivityStudentDashboardBinding
@@ -34,19 +36,22 @@ class StudentDashboardActivity : AppCompatActivity() {
         binding = ActivityStudentDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val prefs = getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
+        val prefs     = getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
         val firstName = prefs.getString("firstName", "") ?: ""
         val lastName  = prefs.getString("lastName",  "") ?: ""
         val token     = prefs.getString("token",     "") ?: ""
 
+        // Apply DM Serif italic to greeting (same pattern as counselor dashboard)
+        val dmSerifItalic: Typeface? = ResourcesCompat.getFont(this, R.font.dm_serif_display_italic)
+        binding.tvWelcome.typeface = dmSerifItalic
+
         // Header
         binding.tvWelcome.text = "${getGreeting()}, $firstName."
-        binding.tvDate.text = SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(Date())
-        binding.tvAvatar.text = "${firstName.firstOrNull() ?: ""}${lastName.firstOrNull() ?: ""}".uppercase()
+        binding.tvDate.text    = SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(Date())
+        binding.tvAvatar.text  = "${firstName.firstOrNull() ?: ""}${lastName.firstOrNull() ?: ""}".uppercase()
 
         // Logout on avatar tap
         binding.tvAvatar.setOnClickListener { showLogoutDialog() }
-
         binding.btnLogout.setOnClickListener { showLogoutDialog() }
 
         // Quote
@@ -61,10 +66,10 @@ class StudentDashboardActivity : AppCompatActivity() {
 
         // Quick actions
         binding.btnBookAppointment.setOnClickListener {
-            //startActivity(Intent(this, BookAppointmentActivity::class.java))
+            // startActivity(Intent(this, BookAppointmentActivity::class.java))
         }
         binding.btnViewAppointments.setOnClickListener {
-           // startActivity(Intent(this, MyAppointmentsActivity::class.java))
+            // startActivity(Intent(this, MyAppointmentsActivity::class.java))
         }
 
         // View all counselors
@@ -72,19 +77,19 @@ class StudentDashboardActivity : AppCompatActivity() {
             startActivity(Intent(this, BrowseCounselorsActivity::class.java))
         }
 
-        // Bottom nav (Top-level destinations)
+        // Bottom nav
         binding.navCounselors.setOnClickListener {
             startActivity(Intent(this, BrowseCounselorsActivity::class.java))
             finish()
             overridePendingTransition(0, 0)
         }
         binding.navAppointments.setOnClickListener {
-           // startActivity(Intent(this, MyAppointmentsActivity::class.java))
+            // startActivity(Intent(this, MyAppointmentsActivity::class.java))
             finish()
             overridePendingTransition(0, 0)
         }
         binding.navProfile.setOnClickListener {
-            //startActivity(Intent(this, StudentProfileActivity::class.java))
+            // startActivity(Intent(this, StudentProfileActivity::class.java))
             finish()
             overridePendingTransition(0, 0)
         }
@@ -125,9 +130,7 @@ class StudentDashboardActivity : AppCompatActivity() {
 
         moods.forEach { (view, mood) ->
             view.setOnClickListener {
-                // Reset all backgrounds
                 moods.forEach { (v, _) -> v.setBackgroundResource(R.drawable.bg_mood_unselected) }
-                // Highlight selected
                 view.setBackgroundResource(R.drawable.bg_mood_selected)
                 showMoodResponse(mood)
             }
@@ -150,7 +153,7 @@ class StudentDashboardActivity : AppCompatActivity() {
                 binding.btnMoodAction.text       = "Book a session"
                 binding.btnMoodAction.visibility = View.VISIBLE
                 binding.btnMoodAction.setOnClickListener {
-                   // startActivity(Intent(this@StudentDashboardActivity, BookAppointmentActivity::class.java))
+                    // startActivity(Intent(this@StudentDashboardActivity, BookAppointmentActivity::class.java))
                 }
             }
             "Okay" -> {
@@ -204,23 +207,21 @@ class StudentDashboardActivity : AppCompatActivity() {
                             binding.tvCounselorName.text = "$cFirst $cLast"
                             binding.tvCounselorSpec.text = upcoming.counselorSpecialization ?: ""
 
-                            // Photo or initials fallback
                             val photo = upcoming.counselorProfilePhoto
                             if (!photo.isNullOrEmpty()) {
-                                binding.ivCounselorPhoto.visibility   = View.VISIBLE
+                                binding.ivCounselorPhoto.visibility    = View.VISIBLE
                                 binding.tvCounselorInitials.visibility = View.GONE
                                 Glide.with(this@StudentDashboardActivity)
                                     .load(photo)
                                     .circleCrop()
                                     .into(binding.ivCounselorPhoto)
                             } else {
-                                binding.ivCounselorPhoto.visibility   = View.GONE
+                                binding.ivCounselorPhoto.visibility    = View.GONE
                                 binding.tvCounselorInitials.visibility = View.VISIBLE
                                 binding.tvCounselorInitials.text =
                                     "${cFirst.firstOrNull() ?: ""}${cLast.firstOrNull() ?: ""}".uppercase()
                             }
 
-                            // Format date+time into tvAppointmentTime
                             try {
                                 val parsed = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
                                     .parse(upcoming.startTime)
@@ -231,7 +232,6 @@ class StudentDashboardActivity : AppCompatActivity() {
                                 binding.tvAppointmentTime.text = upcoming.startTime
                             }
 
-                            // Status badge
                             binding.tvAppointmentStatus.text = upcoming.status
                             when (upcoming.status) {
                                 "CONFIRMED" -> {
@@ -261,7 +261,9 @@ class StudentDashboardActivity : AppCompatActivity() {
             try {
                 val response = RetrofitClient.instance.getCounselors(token)
                 if (response.isSuccessful) {
-                    val counselors = (response.body() ?: emptyList()).take(3)
+                    val counselors = (response.body() ?: emptyList())
+                        .filter { it.availableSlots > 0 }
+                        .take(3)
                     runOnUiThread {
                         binding.layoutCounselors.removeAllViews()
                         counselors.forEachIndexed { index, c ->
