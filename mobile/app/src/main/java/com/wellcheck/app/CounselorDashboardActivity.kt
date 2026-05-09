@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.wellcheck.app.databinding.ActivityCounselorDashboardBinding
 import com.wellcheck.app.network.RetrofitClient
@@ -30,12 +32,29 @@ class CounselorDashboardActivity : AppCompatActivity() {
         val firstName = prefs.getString("firstName", "Counselor") ?: "Counselor"
         token = prefs.getString("token", "") ?: ""
 
+        applyFonts()
         setupHeader(firstName)
         setupActions()
         setupBottomNavigation()
-
-        // Pass only the string value, removing the "tokenHeader:" label that caused the error in image_19f27a.jpg
         fetchDashboardData("Bearer $token")
+    }
+
+    private fun applyFonts() {
+        val dmSerif = ResourcesCompat.getFont(this, R.font.dm_serif_display_regular)
+        val dmSerifItalic = ResourcesCompat.getFont(this, R.font.dm_serif_display_italic)
+        val interBold = ResourcesCompat.getFont(this, R.font.inter_bold)
+        val interRegular = ResourcesCompat.getFont(this, R.font.inter_regular)
+
+        binding.tvWelcome.typeface = dmSerifItalic
+        binding.tvDateDay.typeface = dmSerif
+        binding.tvPendingCount.typeface = interBold
+        binding.tvConfirmedCount.typeface = interBold
+        binding.tvTotalStudentsCount.typeface = interBold
+
+        binding.tvPortalLabel.typeface = interBold
+        binding.tvDateMonth.typeface = interBold
+        binding.tvSubtitle.typeface = interRegular
+        binding.tvPendingSub.typeface = interRegular
     }
 
     private fun setupHeader(firstName: String) {
@@ -69,7 +88,7 @@ class CounselorDashboardActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigation() {
-        binding.navDashboard.setOnClickListener { /* Already here */ }
+        binding.navDashboard.setOnClickListener { }
 
         binding.navManageSlots.setOnClickListener {
             navigateToManageSlots()
@@ -89,8 +108,7 @@ class CounselorDashboardActivity : AppCompatActivity() {
     }
 
     private fun navigateToManageSlots() {
-        val intent = Intent(this, CounselorManageSlotsActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, CounselorManageSlotsActivity::class.java))
         finish()
         overridePendingTransition(0, 0)
     }
@@ -102,15 +120,18 @@ class CounselorDashboardActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val appointments = response.body() ?: emptyList()
 
-                    // Filter logic matching the web UI
                     val pendingList = appointments.filter { it.status == "PENDING" }.sortedBy { it.startTime }
                     val confirmedCount = appointments.count { it.status == "CONFIRMED" }
                     val totalStudents = appointments.distinctBy { it.studentFirstName + it.studentLastName }.size
 
                     runOnUiThread {
+                        val interBold = ResourcesCompat.getFont(this@CounselorDashboardActivity, R.font.inter_bold)
                         binding.tvPendingCount.text = pendingList.size.toString()
+                        binding.tvPendingCount.typeface = interBold
                         binding.tvConfirmedCount.text = confirmedCount.toString()
+                        binding.tvConfirmedCount.typeface = interBold
                         binding.tvTotalStudentsCount.text = totalStudents.toString()
+                        binding.tvTotalStudentsCount.typeface = interBold
                         binding.tvPendingSub.text = "${pendingList.size} pending appointment${if (pendingList.size != 1) "s" else ""}"
 
                         if (pendingList.isEmpty()) {
@@ -124,36 +145,62 @@ class CounselorDashboardActivity : AppCompatActivity() {
                     }
                 }
             } catch (e: Exception) {
-                runOnUiThread { Toast.makeText(this@CounselorDashboardActivity, "Connection error", Toast.LENGTH_SHORT).show() }
+                runOnUiThread {
+                    Toast.makeText(this@CounselorDashboardActivity, "Connection error", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     private fun renderPendingRequests(requests: List<com.wellcheck.app.network.AppointmentResponse>) {
         binding.layoutPendingList.removeAllViews()
+        val interBold = ResourcesCompat.getFont(this, R.font.inter_bold)
+        val interRegular = ResourcesCompat.getFont(this, R.font.inter_regular)
+
         requests.forEach { apt ->
-            val row = LayoutInflater.from(this).inflate(R.layout.item_pending_request_counselor, binding.layoutPendingList, false)
+            val row = LayoutInflater.from(this).inflate(
+                R.layout.item_pending_request_counselor,
+                binding.layoutPendingList,
+                false
+            )
 
             val fName = apt.studentFirstName ?: ""
             val lName = apt.studentLastName ?: ""
-            row.findViewById<TextView>(R.id.tvStudentInitials).text = "${fName.firstOrNull() ?: ""}${lName.firstOrNull() ?: ""}".uppercase()
-            row.findViewById<TextView>(R.id.tvStudentName).text = "$fName $lName"
+
+            val tvInitials = row.findViewById<TextView>(R.id.tvStudentInitials)
+            val tvName = row.findViewById<TextView>(R.id.tvStudentName)
+            val tvDate = row.findViewById<TextView>(R.id.tvDate)
+            val tvTime = row.findViewById<TextView>(R.id.tvTime)
+            val btnAccept = row.findViewById<Button>(R.id.btnAccept)
+            val btnReject = row.findViewById<Button>(R.id.btnReject)
+
+            tvInitials.text = "${fName.firstOrNull() ?: ""}${lName.firstOrNull() ?: ""}".uppercase()
+            tvInitials.typeface = interBold
+            tvName.text = "$fName $lName"
+            tvName.typeface = interBold
+            tvDate.typeface = interRegular
+            tvTime.typeface = interRegular
+            btnAccept.typeface = interBold
+            btnReject.typeface = interBold
 
             try {
-                val parsedDate = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).parse(apt.startTime)
+                val parsedDate = SimpleDateFormat(
+                    "yyyy-MM-dd'T'HH:mm:ss",
+                    Locale.getDefault()
+                ).parse(apt.startTime)
                 parsedDate?.let {
-                    row.findViewById<TextView>(R.id.tvDate).text = SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(it)
-                    row.findViewById<TextView>(R.id.tvTime).text = SimpleDateFormat("h:mm a", Locale.getDefault()).format(it)
+                    tvDate.text = SimpleDateFormat("MMM d, yyyy", Locale.getDefault()).format(it)
+                    tvTime.text = SimpleDateFormat("h:mm a", Locale.getDefault()).format(it)
                 }
             } catch (e: Exception) {
-                row.findViewById<TextView>(R.id.tvDate).text = apt.startTime
+                tvDate.text = apt.startTime
             }
 
-            row.findViewById<View>(R.id.btnAccept).setOnClickListener {
+            btnAccept.setOnClickListener {
                 handleAppointmentAction(apt.id, "approve")
             }
 
-            row.findViewById<View>(R.id.btnReject).setOnClickListener {
+            btnReject.setOnClickListener {
                 showRejectReasonDialog(apt.id)
             }
 
@@ -164,28 +211,39 @@ class CounselorDashboardActivity : AppCompatActivity() {
     private fun handleAppointmentAction(id: Long, action: String, reason: String? = null) {
         lifecycleScope.launch {
             try {
-                // Retrofit call needs to be in a coroutine (launch)
                 val response = if (action == "approve") {
                     RetrofitClient.instance.approveAppointment("Bearer $token", id)
                 } else {
-                    // Passes the reason map just like your React code: { reason: "..." }
-                    RetrofitClient.instance.rejectAppointment("Bearer $token", id, mapOf("reason" to (reason ?: "")))
+                    RetrofitClient.instance.rejectAppointment(
+                        "Bearer $token", id, mapOf("reason" to (reason ?: ""))
+                    )
                 }
 
                 if (response.isSuccessful) {
                     runOnUiThread {
-                        Toast.makeText(this@CounselorDashboardActivity, "Appointment $action successful", Toast.LENGTH_SHORT).show()
-                        // Refresh the dashboard data to update the counts and list
+                        Toast.makeText(
+                            this@CounselorDashboardActivity,
+                            "Appointment $action successful",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         fetchDashboardData("Bearer $token")
                     }
                 } else {
                     runOnUiThread {
-                        Toast.makeText(this@CounselorDashboardActivity, "Failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@CounselorDashboardActivity,
+                            "Failed: ${response.message()}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             } catch (e: Exception) {
                 runOnUiThread {
-                    Toast.makeText(this@CounselorDashboardActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@CounselorDashboardActivity,
+                        "Error: ${e.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
