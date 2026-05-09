@@ -18,25 +18,6 @@ data class CompleteProfileRequest(val studentIdNumber: String, val program: Stri
 data class LoginResponse(val accessToken: String?, val role: String?, val status: String?, val email: String?, val firstName: String?, val lastName: String?, val profilePhoto: String?, val specialization: String?)
 data class ApiError(val code: String?, val message: String?, val details: Any?)
 data class CompleteCounselorProfileRequest(val employeeNumber: String, val specialization: String, val bio: String)
-data class AppointmentResponse(
-    val id: Long,
-    val slotId: Long,
-    val startTime: String,
-    val endTime: String,
-    val counselorFirstName: String?,
-    val counselorLastName: String?,
-    val counselorSpecialization: String?,
-    val counselorProfilePhoto: String?,
-    val studentFirstName: String?,
-    val studentLastName: String?,
-    val studentIdNumber: String?,
-    val studentProgram: String?,
-    val studentYearLevel: String?,
-    val studentGender: String?,
-    val status: String,
-    val note: String?,
-    val rejectionReason: String?
-)
 
 data class CounselorListItem(val id: Long, val firstName: String?, val lastName: String?, val specialization: String?, val bio: String?, val profilePhoto: String?, val availableSlots: Int, val averageRating: Double, val ratingCount: Int)
 
@@ -86,6 +67,29 @@ data class UpdateCounselorProfileRequest(
     val availableDays: List<String>,
     val credentials: List<CredentialItem>
 )
+
+data class AppointmentResponse(
+    val id: Long,
+    val slotId: Long,
+    val startTime: String,
+    val endTime: String,
+    val counselorFirstName: String?,
+    val counselorLastName: String?,
+    val counselorSpecialization: String?,
+    val counselorProfilePhoto: String?,
+    val studentFirstName: String?,
+    val studentLastName: String?,
+    val studentIdNumber: String?,
+    val studentProgram: String?,
+    val studentYearLevel: String?,
+    val studentGender: String?,
+    val studentBirthdate: String?,         // "yyyy-MM-dd"
+    val studentSchoolIdPhotoUrl: String?,
+    val status: String,
+    val note: String?,
+    val rejectionReason: String?
+)
+
 // --- Endpoints ---
 interface ApiService {
 

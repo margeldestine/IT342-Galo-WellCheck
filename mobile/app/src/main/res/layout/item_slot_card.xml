@@ -13,93 +13,290 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
-        android:padding="14dp">
+        android:orientation="vertical">
 
+        <!-- ── Top Row (always visible) ── -->
         <LinearLayout
-            android:layout_width="41dp"
-            android:layout_height="52dp"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/rounded_date_bg"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:id="@+id/layoutSlotHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="14dp"
+            android:clickable="true"
+            android:focusable="true">
 
+            <!-- Date Badge -->
+            <LinearLayout
+                android:layout_width="41dp"
+                android:layout_height="52dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/rounded_date_bg"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvSlotMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.7"
+                    android:letterSpacing="0.05"
+                    android:text="MAY"
+                    android:textColor="#FFFFFF"
+                    android:textSize="8sp"/>
+
+                <TextView
+                    android:id="@+id/tvSlotDayNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="15"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"/>
+
+            </LinearLayout>
+
+            <!-- Time + Date info -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvSlotTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10:00 AM → 10:30 AM"
+                    android:textColor="#1A1A1A"
+                    android:textSize="13sp"/>
+
+                <TextView
+                    android:id="@+id/tvSlotDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Friday, May 15, 2026"
+                    android:textColor="#9E9E9E"
+                    android:textSize="11sp"/>
+
+            </LinearLayout>
+
+            <!-- Edit icon — AVAILABLE only -->
+            <ImageView
+                android:id="@+id/btnEditSlot"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_edit"
+                android:layout_marginEnd="12dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:tint="#888888"/>
+
+            <!-- Delete icon — AVAILABLE only -->
+            <ImageView
+                android:id="@+id/btnDeleteSlot"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_delete"
+                android:layout_marginEnd="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:tint="#E53E3E"/>
+
+            <!-- Chevron — BOOKED only -->
+            <ImageView
+                android:id="@+id/ivChevron"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:src="@drawable/ic_chevron_down"
+                android:layout_marginEnd="10dp"
+                android:visibility="gone"
+                app:tint="#888888"/>
+
+            <!-- Status Badge -->
             <TextView
-                android:id="@+id/tvSlotMonth"
+                android:id="@+id/tvSlotStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:alpha="0.7"
-                android:letterSpacing="0.05"
-                android:text="MAY"
-                android:textColor="#FFFFFF"
-                android:textSize="8sp"/>
-
-            <TextView
-                android:id="@+id/tvSlotDayNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="15"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"/>
+                android:text="AVAILABLE"
+                android:textSize="9sp"
+                android:textColor="#16A34A"
+                android:background="@drawable/badge_available_bg"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"/>
 
         </LinearLayout>
 
+        <!-- ── Expandable Booked Section ── -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/layoutBookedExpanded"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/tvSlotTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="10:00 AM → 10:30 AM"
-                android:textColor="#1A1A1A"
-                android:textSize="13sp"/>
+            <!-- Thin divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#E8F5EF"
+                android:layout_marginHorizontal="14dp"/>
 
-            <TextView
-                android:id="@+id/tvSlotDate"
-                android:layout_width="wrap_content"
+            <!-- Student identity block — green tinted background -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:text="Friday, May 15, 2026"
-                android:textColor="#9E9E9E"
-                android:textSize="11sp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="14dp"
+                android:background="#F0FAF5">
+
+                <!-- Initials avatar -->
+                <TextView
+                    android:id="@+id/tvStudentAvatar"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:gravity="center"
+                    android:text="MD"
+                    android:textColor="#1B3A2D"
+                    android:textSize="14sp"
+                    android:background="@drawable/avatar_circle_bg"
+                    android:layout_marginEnd="12dp"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvStudentLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="STUDENT"
+                        android:textColor="#56B791"
+                        android:textSize="10sp"
+                        android:letterSpacing="0.08"/>
+
+                    <TextView
+                        android:id="@+id/tvStudentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Margel Destine"
+                        android:textColor="#1A1A1A"
+                        android:textSize="16sp"
+                        android:layout_marginTop="2dp"/>
+
+                    <TextView
+                        android:id="@+id/tvStudentIdNumber"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ID: 2019-78659"
+                        android:textColor="#9E9E9E"
+                        android:textSize="11sp"
+                        android:layout_marginTop="2dp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Meta chips row — scrollable in case chips overflow -->
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none"
+                android:paddingHorizontal="14dp"
+                android:paddingVertical="10dp"
+                android:background="#FFFFFF">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvChipProgram"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:textColor="#444444"
+                        android:background="@drawable/chip_outline_bg"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tvChipYear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:textColor="#444444"
+                        android:background="@drawable/chip_outline_bg"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tvChipGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:textColor="#444444"
+                        android:background="@drawable/chip_outline_bg"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"
+                        android:layout_marginEnd="6dp"/>
+
+                    <TextView
+                        android:id="@+id/tvChipDob"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="10sp"
+                        android:textColor="#444444"
+                        android:background="@drawable/chip_outline_bg"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="5dp"/>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Note from student (hidden if null) -->
+            <TextView
+                android:id="@+id/tvStudentNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="14dp"
+                android:paddingBottom="8dp"
+                android:textColor="#555555"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+            <!-- Footer: View School ID -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:paddingHorizontal="14dp"
+                android:paddingBottom="14dp"
+                android:background="#FFFFFF">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnViewSchoolId"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:text="View School ID"
+                    android:textAllCaps="false"
+                    android:textColor="#1B3A2D"
+                    android:textSize="12sp"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="#1B3A2D"
+                    app:strokeWidth="1dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/btnEditSlot"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/ic_edit"
-            android:layout_marginEnd="12dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:tint="#888888"/>
-
-        <ImageView
-            android:id="@+id/btnDeleteSlot"
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:src="@drawable/ic_delete"
-            android:layout_marginEnd="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            app:tint="#E53E3E"/>
-
-        <TextView
-            android:id="@+id/tvSlotStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="AVAILABLE"
-            android:textSize="9sp"
-            android:textColor="#16A34A"
-            android:background="@drawable/badge_available_bg"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="4dp"/>
 
     </LinearLayout>
 

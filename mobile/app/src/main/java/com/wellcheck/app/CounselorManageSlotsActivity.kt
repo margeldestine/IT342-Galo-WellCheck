@@ -70,9 +70,13 @@ class CounselorManageSlotsActivity : AppCompatActivity() {
     private fun fetchSlots() {
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.instance.getMySlots("Bearer $token")
-                if (response.isSuccessful) {
-                    val slots = response.body() ?: emptyList()
+                val slotsRes = RetrofitClient.instance.getMySlots("Bearer $token")
+                val aptsRes  = RetrofitClient.instance.getCounselorAppointments("Bearer $token")
+
+                if (slotsRes.isSuccessful && aptsRes.isSuccessful) {
+                    val slots = slotsRes.body() ?: emptyList()
+                    val apts  = aptsRes.body() ?: emptyList()
+                    adapter.updateAppointments(apts)           // ← feed appointments first
                     adapter.updateData(slots.sortedBy { it.startTime })
                 }
             } catch (e: Exception) {

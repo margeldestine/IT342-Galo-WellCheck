@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- White card background with rounded corners -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF"/>
+            <corners android:radius="12dp"/>
+        </shape>
+    </item>
+    <!-- Left orange/amber accent border -->
+    <item android:right="999dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#D97706"/>
+            <corners android:topLeftRadius="12dp" android:bottomLeftRadius="12dp"/>
+        </shape>
+    </item>
+</layer-list>

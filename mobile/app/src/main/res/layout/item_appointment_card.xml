@@ -1,104 +1,213 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardRoot"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp">
+    android:layout_marginBottom="10dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
 
+    <!-- Root horizontal: accent bar + content side by side inside the card -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="horizontal">
 
-        <!-- Student row -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:gravity="center_vertical">
+        <!-- LEFT ACCENT BAR — sits flush inside card, full height -->
+        <View
+            android:id="@+id/viewAccentBar"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="#D97706"/>
 
-            <!-- Initials circle -->
-            <TextView android:id="@+id/tvInitials"
-                android:layout_width="44dp" android:layout_height="44dp"
-                android:background="@drawable/circle_avatar_bg"
-                android:gravity="center" android:textColor="@color/white"
-                android:textStyle="bold" android:textSize="16sp"/>
+        <!-- Card content to the right of the bar -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="14dp">
 
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:orientation="vertical"
-                android:layout_marginStart="12dp">
+            <!-- Top row: avatar + name/id/program + status badge -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
-                <TextView android:id="@+id/tvStudentName"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:textStyle="bold" android:textSize="15sp"/>
+                <TextView
+                    android:id="@+id/tvInitials"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:gravity="center"
+                    android:text="MD"
+                    android:textColor="#1B3A2D"
+                    android:textSize="14sp"
+                    android:background="@drawable/avatar_circle_bg"
+                    android:layout_marginEnd="12dp"/>
 
-                <TextView android:id="@+id/tvStudentId"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView android:id="@+id/tvProgram"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                    <TextView
+                        android:id="@+id/tvStudentName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Margel Destine"
+                        android:textColor="#1A1A1A"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/inter_bold"/>
+
+                    <TextView
+                        android:id="@+id/tvStudentId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2019-78659"
+                        android:textColor="#888888"
+                        android:textSize="11sp"
+                        android:layout_marginTop="1dp"/>
+
+                    <TextView
+                        android:id="@+id/tvProgram"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BSA • 1"
+                        android:textColor="#888888"
+                        android:textSize="11sp"/>
+
+                </LinearLayout>
+
+                <!-- Status badge — non-PENDING tabs only -->
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="10sp"
+                    android:fontFamily="@font/inter_bold"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="5dp"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 
-            <!-- Status badge -->
-            <TextView android:id="@+id/tvStatus"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textSize="11sp" android:textStyle="bold"/>
+            <!-- Thin divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F5F5F5"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <!-- Date + Time row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_calendar"
+                    android:layout_marginEnd="4dp"
+                    app:tint="#888888"/>
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="May 19, 2026"
+                    android:textColor="#555555"
+                    android:textSize="12sp"/>
+
+                <ImageView
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_clock"
+                    android:layout_marginEnd="4dp"
+                    app:tint="#888888"/>
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10:00 AM"
+                    android:textColor="#555555"
+                    android:textSize="12sp"/>
+
+            </LinearLayout>
+
+            <!-- Note -->
+            <TextView
+                android:id="@+id/tvNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="#777777"
+                android:textSize="12sp"
+                android:visibility="gone"/>
+
+            <!-- Rejection reason -->
+            <TextView
+                android:id="@+id/tvRejectionReason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="#DC2626"
+                android:textSize="11sp"
+                android:visibility="gone"/>
+
+            <!-- Action buttons — PENDING only -->
+            <LinearLayout
+                android:id="@+id/layoutActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="12dp"
+                android:visibility="gone">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnApprove"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:text="Accept"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:fontFamily="@font/inter_bold"
+                    app:backgroundTint="#16A34A"
+                    app:cornerRadius="10dp"
+                    app:strokeWidth="0dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReject"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:text="Reject"
+                    android:textAllCaps="false"
+                    android:textColor="#E53E3E"
+                    android:fontFamily="@font/inter_bold"
+                    app:backgroundTint="#FFE5E5"
+                    app:cornerRadius="10dp"
+                    app:strokeWidth="0dp"/>
+
+            </LinearLayout>
+
         </LinearLayout>
 
-        <!-- Divider -->
-        <View android:layout_width="match_parent" android:layout_height="1dp"
-            android:background="#F0F0F0" android:layout_marginVertical="12dp"/>
-
-        <!-- Date & Time -->
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView android:id="@+id/tvDate"
-                android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:textSize="13sp"
-                android:textColor="@color/text_primary"/>
-
-            <TextView android:id="@+id/tvTime"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textSize="13sp" android:textColor="@color/text_primary"/>
-        </LinearLayout>
-
-        <!-- Note -->
-        <TextView android:id="@+id/tvNote"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textSize="13sp" android:textColor="@color/text_secondary"
-            android:visibility="gone"/>
-
-        <!-- Rejection reason -->
-        <TextView android:id="@+id/tvRejectionReason"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:textSize="13sp" android:textColor="#D32F2F"
-            android:visibility="gone"/>
-
-        <!-- Action buttons (PENDING only) -->
-        <LinearLayout android:id="@+id/layoutActions"
-            android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal" android:layout_marginTop="12dp"
-            android:visibility="gone">
-
-            <Button android:id="@+id/btnApprove"
-                android:layout_width="0dp" android:layout_height="40dp"
-                android:layout_weight="1" android:layout_marginEnd="8dp"
-                android:text="Approve"
-                android:backgroundTint="@color/primary_dark"
-                android:textColor="@color/white"/>
-
-            <Button android:id="@+id/btnReject"
-                android:layout_width="0dp" android:layout_height="40dp"
-                android:layout_weight="1"
-                android:text="Reject"
-                android:backgroundTint="#D32F2F"
-                android:textColor="@color/white"/>
-        </LinearLayout>
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+
+</com.google.android.material.card.MaterialCardView>
