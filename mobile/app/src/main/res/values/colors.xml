@@ -15,4 +15,12 @@
     <color name="green_dark">#1B4332</color>
     <color name="green_primary">#1B4332</color>
     <color name="success_green">#1B4332</color>
+    <color name="primary_dark">#1B3A2D</color>
+    <color name="background_light">#F5F5F0</color>
+    <color name="text_primary">#1A1A1A</color>
+    <color name="text_secondary">#757575</color>
+    <color name="status_pending">#F59E0B</color>
+    <color name="status_confirmed">#16A34A</color>
+    <color name="status_rejected">#DC2626</color>
+    <color name="status_cancelled">#9E9E9E</color>
 </resources>

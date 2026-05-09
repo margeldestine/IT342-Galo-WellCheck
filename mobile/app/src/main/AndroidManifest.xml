@@ -31,6 +31,8 @@
         <activity android:name=".PendingApprovalActivity" android:exported="false" />
         <activity android:name=".BrowseCounselorsActivity" android:exported="false" />
         <activity android:name=".CounselorManageSlotsActivity" android:exported="false" />
+        <activity android:name=".CounselorRequestsActivity" android:exported="false"/>
+        <activity android:name=".CounselorProfileActivity" android:exported="false"/>
 
 
         <!-- Catches the OAuth deep link: wellcheck://callback?token=...-->

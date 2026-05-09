@@ -18,7 +18,26 @@ data class CompleteProfileRequest(val studentIdNumber: String, val program: Stri
 data class LoginResponse(val accessToken: String?, val role: String?, val status: String?, val email: String?, val firstName: String?, val lastName: String?, val profilePhoto: String?, val specialization: String?)
 data class ApiError(val code: String?, val message: String?, val details: Any?)
 data class CompleteCounselorProfileRequest(val employeeNumber: String, val specialization: String, val bio: String)
-data class AppointmentResponse(val id: Long, val slotId: Long, val startTime: String, val endTime: String, val counselorFirstName: String?, val counselorLastName: String?, val counselorSpecialization: String?, val counselorProfilePhoto: String?, val studentFirstName: String?, val studentLastName: String?, val status: String, val note: String?, val rejectionReason: String?)
+data class AppointmentResponse(
+    val id: Long,
+    val slotId: Long,
+    val startTime: String,
+    val endTime: String,
+    val counselorFirstName: String?,
+    val counselorLastName: String?,
+    val counselorSpecialization: String?,
+    val counselorProfilePhoto: String?,
+    val studentFirstName: String?,
+    val studentLastName: String?,
+    val studentIdNumber: String?,
+    val studentProgram: String?,
+    val studentYearLevel: String?,
+    val studentGender: String?,
+    val status: String,
+    val note: String?,
+    val rejectionReason: String?
+)
+
 data class CounselorListItem(val id: Long, val firstName: String?, val lastName: String?, val specialization: String?, val bio: String?, val profilePhoto: String?, val availableSlots: Int, val averageRating: Double, val ratingCount: Int)
 
 // --- NEW Data Classes for Slot Management (Required for Counselor Portal) ---
@@ -39,6 +58,34 @@ data class DeleteSlotResponse(
     val message: String
 )
 
+data class CounselorProfileResponse(
+    val id: Long,
+    val firstName: String?,
+    val lastName: String?,
+    val email: String?,
+    val employeeNumber: String?,
+    val specialization: String?,
+    val bio: String?,
+    val yearsExperience: Int?,
+    val licenseNumber: String?,
+    val averageRating: Double,
+    val ratingCount: Int,
+    val profilePhoto: String?,
+    val profilePhotoType: String?,
+    val credentialEntries: List<String>,
+    val availableDays: List<String>
+)
+
+data class CredentialItem(val title: String, val year: String)
+
+data class UpdateCounselorProfileRequest(
+    val specialization: String,
+    val bio: String?,
+    val yearsExperience: Int?,
+    val licenseNumber: String?,
+    val availableDays: List<String>,
+    val credentials: List<CredentialItem>
+)
 // --- Endpoints ---
 interface ApiService {
 
@@ -116,4 +163,14 @@ interface ApiService {
         @Path("id") id: Long,
         @Body body: Map<String, String>
     ): Response<AppointmentResponse>
+    @GET("auth/profile/counselor")
+    suspend fun getMyCounselorProfile(
+        @Header("Authorization") token: String
+    ): Response<CounselorProfileResponse>
+
+    @PUT("auth/profile/counselor")
+    suspend fun updateCounselorProfile(
+        @Header("Authorization") token: String,
+        @Body request: UpdateCounselorProfileRequest
+    ): Response<CounselorProfileResponse>
 }

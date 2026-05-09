@@ -265,5 +265,11 @@ class CounselorManageSlotsActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
 
+        binding.navRequests.setOnClickListener {
+            startActivity(Intent(this, CounselorRequestsActivity::class.java))
+            finish()
+            overridePendingTransition(0, 0)
+        }
+
     }
 }

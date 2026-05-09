@@ -54,6 +54,7 @@ dependencies {
     implementation("androidx.browser:browser:1.8.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("io.coil-kt:coil:2.4.0")
 
     // Testing
     testImplementation(libs.junit)

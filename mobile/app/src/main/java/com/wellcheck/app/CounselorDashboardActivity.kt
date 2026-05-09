@@ -62,7 +62,9 @@ class CounselorDashboardActivity : AppCompatActivity() {
         }
 
         binding.cardReviewRequests.setOnClickListener {
-            // Logic for a dedicated requests activity can go here
+            startActivity(Intent(this, CounselorRequestsActivity::class.java))
+            finish()
+            overridePendingTransition(0, 0)
         }
     }
 
@@ -74,11 +76,15 @@ class CounselorDashboardActivity : AppCompatActivity() {
         }
 
         binding.navRequests.setOnClickListener {
-            // Intent to CounselorRequestsActivity
+            startActivity(Intent(this, CounselorRequestsActivity::class.java))
+            finish()
+            overridePendingTransition(0, 0)
         }
 
         binding.navProfile.setOnClickListener {
-            // Intent to CounselorProfileActivity
+            startActivity(Intent(this, CounselorProfileActivity::class.java))
+            finish()
+            overridePendingTransition(0, 0)
         }
     }
 
