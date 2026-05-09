@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.wellcheck.app.databinding.ActivityCounselorProfileBinding
@@ -16,7 +17,7 @@ class CounselorProfileActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCounselorProfileBinding
     private var token: String = ""
-    private var credentials = mutableListOf<CredentialItem>()
+    private var credentials = mutableListOf<CredentialItemRequest>()
     private var selectedDays = mutableSetOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +27,9 @@ class CounselorProfileActivity : AppCompatActivity() {
 
         val prefs = getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
         token = prefs.getString("token", "") ?: ""
+
+        val dmSerifItalic = ResourcesCompat.getFont(this, R.font.dm_serif_display_italic)
+        binding.tvTitle.typeface = dmSerifItalic
 
         setupBottomNavigation()
         fetchProfile()
@@ -43,8 +47,8 @@ class CounselorProfileActivity : AppCompatActivity() {
 
         val prefs = getSharedPreferences("wellcheck_prefs", MODE_PRIVATE)
         val savedFirstName = prefs.getString("firstName", "") ?: ""
-        val savedLastName = prefs.getString("lastName", "") ?: ""
-        val savedEmail = prefs.getString("email", "") ?: ""
+        val savedLastName  = prefs.getString("lastName",  "") ?: ""
+        val savedEmail     = prefs.getString("email",     "") ?: ""
 
         lifecycleScope.launch {
             try {
@@ -67,15 +71,20 @@ class CounselorProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun populateUI(profile: CounselorProfileResponse, firstName: String, lastName: String, email: String) {
+    private fun populateUI(
+        profile: CounselorProfileResponse,
+        firstName: String,
+        lastName: String,
+        email: String
+    ) {
         val first = firstName.firstOrNull()?.uppercaseChar() ?: ""
-        val last = lastName.firstOrNull()?.uppercaseChar() ?: ""
+        val last  = lastName.firstOrNull()?.uppercaseChar()  ?: ""
 
-        binding.tvProfileName.text = "$firstName $lastName"
-        binding.tvEmployeeId.text = "ID: ${profile.employeeNumber ?: "—"}"
+        binding.tvProfileName.text         = "$firstName $lastName"
+        binding.tvEmployeeId.text          = "ID: ${profile.employeeNumber ?: "—"}"
         binding.tvSpecializationBadge.text = profile.specialization ?: "—"
-        binding.tvRating.text = String.format("%.1f", profile.averageRating)
-        binding.tvReviewCount.text = "${profile.ratingCount} reviews"
+        binding.tvRating.text              = String.format("%.1f", profile.averageRating)
+        binding.tvReviewCount.text         = "${profile.ratingCount} reviews"
         renderStars(profile.averageRating)
 
         if (!profile.profilePhoto.isNullOrBlank()) {
@@ -98,14 +107,19 @@ class CounselorProfileActivity : AppCompatActivity() {
         binding.etEmail.setText(email)
         binding.etFirstName.setText(firstName)
         binding.etLastName.setText(lastName)
+
         binding.etSpecialization.setText(profile.specialization)
         binding.etYearsExperience.setText(profile.yearsExperience?.toString() ?: "")
         binding.etLicenseNumber.setText(profile.licenseNumber ?: "")
         binding.etBio.setText(profile.bio ?: "")
 
+        // Parse credentials from "Title|Year" strings
         credentials = profile.credentialEntries.map { entry ->
             val parts = entry.split("|")
-            CredentialItem(parts.getOrElse(0) { "" }, parts.getOrElse(1) { "" })
+            CredentialItemRequest(
+                title = parts.getOrElse(0) { "" }.trim(),
+                year  = parts.getOrElse(1) { "" }.trim()
+            )
         }.toMutableList()
         renderCredentials()
 
@@ -114,16 +128,12 @@ class CounselorProfileActivity : AppCompatActivity() {
     }
 
     private fun renderStars(rating: Double) {
-        val starViews = listOf(
-            binding.star1, binding.star2, binding.star3,
-            binding.star4, binding.star5
-        )
-        starViews.forEachIndexed { index, star ->
-            val filled = index + 1 <= rating
-            star.setImageResource(
-                if (filled) R.drawable.ic_star_filled else R.drawable.ic_star_empty
-            )
-        }
+        listOf(binding.star1, binding.star2, binding.star3, binding.star4, binding.star5)
+            .forEachIndexed { index, star ->
+                star.setImageResource(
+                    if (index + 1 <= rating) R.drawable.ic_star_filled else R.drawable.ic_star_empty
+                )
+            }
     }
 
     private fun renderCredentials() {
@@ -133,7 +143,7 @@ class CounselorProfileActivity : AppCompatActivity() {
                 .inflate(R.layout.item_credential_row, binding.credentialContainer, false)
 
             row.findViewById<TextView>(R.id.tvCredentialTitle).text =
-                if (cred.title.isNotBlank()) cred.title else "Degree ${index + 1}"
+                cred.title.ifBlank { "Degree ${index + 1}" }
             row.findViewById<TextView>(R.id.tvCredentialYear).text = cred.year
 
             row.findViewById<View>(R.id.btnRemoveCredential).setOnClickListener {
@@ -147,28 +157,27 @@ class CounselorProfileActivity : AppCompatActivity() {
 
     private fun addCredentialRow() {
         val title = binding.etNewCredentialTitle.text.toString().trim()
-        val year = binding.etNewCredentialYear.text.toString().trim()
+        val year  = binding.etNewCredentialYear.text.toString().trim()
 
         if (title.isBlank()) {
             Toast.makeText(this, "Please enter a degree or certificate name.", Toast.LENGTH_SHORT).show()
             return
         }
 
-        credentials.add(CredentialItem(title, year))
+        credentials.add(CredentialItemRequest(title, year))
         binding.etNewCredentialTitle.setText("")
         binding.etNewCredentialYear.setText("")
         renderCredentials()
     }
 
     private fun setupDayToggles() {
-        val dayButtons = mapOf(
+        mapOf(
             "Mon" to binding.btnMon,
             "Tue" to binding.btnTue,
             "Wed" to binding.btnWed,
             "Thu" to binding.btnThu,
             "Fri" to binding.btnFri
-        )
-        dayButtons.forEach { (day, btn) ->
+        ).forEach { (day, btn) ->
             btn.setOnClickListener {
                 if (selectedDays.contains(day)) selectedDays.remove(day)
                 else selectedDays.add(day)
@@ -178,45 +187,44 @@ class CounselorProfileActivity : AppCompatActivity() {
     }
 
     private fun updateDayToggleUI() {
-        val dayButtons = mapOf(
+        mapOf(
             "Mon" to binding.btnMon,
             "Tue" to binding.btnTue,
             "Wed" to binding.btnWed,
             "Thu" to binding.btnThu,
             "Fri" to binding.btnFri
-        )
-        dayButtons.forEach { (day, btn) ->
+        ).forEach { (day, btn) ->
             if (selectedDays.contains(day)) {
-                btn.setBackgroundResource(R.drawable.tab_active_bg)
-                btn.setTextColor(getColor(R.color.white))
+                btn.backgroundTintList = android.content.res.ColorStateList.valueOf(
+                    android.graphics.Color.parseColor("#1B3A2D")
+                )
+                btn.setTextColor(android.graphics.Color.WHITE)
             } else {
-                btn.setBackgroundResource(R.drawable.tab_inactive_bg)
-                btn.setTextColor(getColor(R.color.text_secondary))
+                btn.backgroundTintList = android.content.res.ColorStateList.valueOf(
+                    android.graphics.Color.parseColor("#F3F4F6")
+                )
+                btn.setTextColor(android.graphics.Color.parseColor("#9CA3AF"))
             }
         }
     }
 
     private fun buildUpdateRequest(): UpdateCounselorProfileRequest {
         return UpdateCounselorProfileRequest(
-            specialization = binding.etSpecialization.text.toString().trim(),
-            bio = binding.etBio.text.toString().trim(),
+            specialization  = binding.etSpecialization.text.toString().trim(),
+            bio             = binding.etBio.text.toString().trim(),
             yearsExperience = binding.etYearsExperience.text.toString().trim().toIntOrNull(),
-            licenseNumber = binding.etLicenseNumber.text.toString().trim(),
-            availableDays = selectedDays.toList(),
-            credentials = credentials
+            licenseNumber   = binding.etLicenseNumber.text.toString().trim(),
+            availableDays   = selectedDays.toList(),
+            credentials     = credentials
         )
     }
 
     private fun saveBasicInfo() {
-        val firstName = binding.etFirstName.text.toString().trim()
-        val lastName = binding.etLastName.text.toString().trim()
         val specialization = binding.etSpecialization.text.toString().trim()
-
-        if (firstName.isBlank() || lastName.isBlank() || specialization.isBlank()) {
-            Toast.makeText(this, "First name, last name, and specialization are required.", Toast.LENGTH_SHORT).show()
+        if (specialization.isBlank()) {
+            Toast.makeText(this, "Specialization is required.", Toast.LENGTH_SHORT).show()
             return
         }
-
         lifecycleScope.launch {
             try {
                 val response = RetrofitClient.instance.updateCounselorProfile(
@@ -225,17 +233,10 @@ class CounselorProfileActivity : AppCompatActivity() {
                 runOnUiThread {
                     if (response.isSuccessful) {
                         Toast.makeText(this@CounselorProfileActivity, "Profile updated!", Toast.LENGTH_SHORT).show()
-                        binding.tvProfileName.text = "$firstName $lastName"
                         binding.tvSpecializationBadge.text = specialization
-                        val f = firstName.firstOrNull()?.uppercaseChar() ?: ""
-                        val l = lastName.firstOrNull()?.uppercaseChar() ?: ""
-                        binding.tvProfileInitials.text = "$f$l"
-                        getSharedPreferences("wellcheck_prefs", MODE_PRIVATE).edit()
-                            .putString("firstName", firstName)
-                            .putString("lastName", lastName)
-                            .apply()
                     } else {
-                        Toast.makeText(this@CounselorProfileActivity, "Update failed.", Toast.LENGTH_SHORT).show()
+                        val errBody = response.errorBody()?.string() ?: "Unknown error"
+                        Toast.makeText(this@CounselorProfileActivity, "Update failed: $errBody", Toast.LENGTH_LONG).show()
                     }
                 }
             } catch (e: Exception) {
@@ -253,10 +254,12 @@ class CounselorProfileActivity : AppCompatActivity() {
                     "Bearer $token", buildUpdateRequest()
                 )
                 runOnUiThread {
-                    if (response.isSuccessful)
+                    if (response.isSuccessful) {
                         Toast.makeText(this@CounselorProfileActivity, "Credentials saved!", Toast.LENGTH_SHORT).show()
-                    else
-                        Toast.makeText(this@CounselorProfileActivity, "Failed to save credentials.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val errBody = response.errorBody()?.string() ?: "Unknown error"
+                        Toast.makeText(this@CounselorProfileActivity, "Failed to save credentials: $errBody", Toast.LENGTH_LONG).show()
+                    }
                 }
             } catch (e: Exception) {
                 runOnUiThread {
@@ -273,10 +276,12 @@ class CounselorProfileActivity : AppCompatActivity() {
                     "Bearer $token", buildUpdateRequest()
                 )
                 runOnUiThread {
-                    if (response.isSuccessful)
+                    if (response.isSuccessful) {
                         Toast.makeText(this@CounselorProfileActivity, "Availability saved!", Toast.LENGTH_SHORT).show()
-                    else
-                        Toast.makeText(this@CounselorProfileActivity, "Failed to save availability.", Toast.LENGTH_SHORT).show()
+                    } else {
+                        val errBody = response.errorBody()?.string() ?: "Unknown error"
+                        Toast.makeText(this@CounselorProfileActivity, "Failed to save availability: $errBody", Toast.LENGTH_LONG).show()
+                    }
                 }
             } catch (e: Exception) {
                 runOnUiThread {
@@ -289,18 +294,15 @@ class CounselorProfileActivity : AppCompatActivity() {
     private fun setupBottomNavigation() {
         binding.navDashboard.setOnClickListener {
             startActivity(Intent(this, CounselorDashboardActivity::class.java))
-            finish()
-            overridePendingTransition(0, 0)
+            finish(); overridePendingTransition(0, 0)
         }
         binding.navManageSlots.setOnClickListener {
             startActivity(Intent(this, CounselorManageSlotsActivity::class.java))
-            finish()
-            overridePendingTransition(0, 0)
+            finish(); overridePendingTransition(0, 0)
         }
         binding.navRequests.setOnClickListener {
             startActivity(Intent(this, CounselorRequestsActivity::class.java))
-            finish()
-            overridePendingTransition(0, 0)
+            finish(); overridePendingTransition(0, 0)
         }
         binding.navProfile.setOnClickListener { }
     }

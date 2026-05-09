@@ -9,8 +9,8 @@ import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import com.google.gson.annotations.SerializedName
 
-// --- Existing Data Classes ---
 data class LoginRequest(val email: String, val password: String)
 data class StudentRegisterRequest(val studentIdNumber: String, val firstName: String, val lastName: String, val program: String, val yearLevel: String, val gender: String, val birthdate: String, val email: String, val password: String)
 data class CounselorRegisterRequest(val firstName: String, val lastName: String, val employeeNumber: String, val specialization: String, val bio: String, val email: String, val password: String)
@@ -21,7 +21,6 @@ data class CompleteCounselorProfileRequest(val employeeNumber: String, val speci
 
 data class CounselorListItem(val id: Long, val firstName: String?, val lastName: String?, val specialization: String?, val bio: String?, val profilePhoto: String?, val availableSlots: Int, val averageRating: Double, val ratingCount: Int)
 
-// --- NEW Data Classes for Slot Management (Required for Counselor Portal) ---
 data class SlotRequest(
     val startTime: String,
     val endTime: String
@@ -57,15 +56,18 @@ data class CounselorProfileResponse(
     val availableDays: List<String>
 )
 
-data class CredentialItem(val title: String, val year: String)
+data class CredentialItemRequest(
+    @SerializedName("title") val title: String,
+    @SerializedName("year")  val year: String
+)
 
 data class UpdateCounselorProfileRequest(
-    val specialization: String,
-    val bio: String?,
-    val yearsExperience: Int?,
-    val licenseNumber: String?,
-    val availableDays: List<String>,
-    val credentials: List<CredentialItem>
+    @SerializedName("specialization")  val specialization: String?,
+    @SerializedName("bio")             val bio: String?,
+    @SerializedName("yearsExperience") val yearsExperience: Int?,
+    @SerializedName("licenseNumber")   val licenseNumber: String?,
+    @SerializedName("availableDays")   val availableDays: List<String>,
+    @SerializedName("credentials")     val credentials: List<CredentialItemRequest>
 )
 
 data class AppointmentResponse(
@@ -83,14 +85,13 @@ data class AppointmentResponse(
     val studentProgram: String?,
     val studentYearLevel: String?,
     val studentGender: String?,
-    val studentBirthdate: String?,         // "yyyy-MM-dd"
+    val studentBirthdate: String?,
     val studentSchoolIdPhotoUrl: String?,
     val status: String,
     val note: String?,
     val rejectionReason: String?
 )
 
-// --- Endpoints ---
 interface ApiService {
 
     @POST("auth/register/student")
@@ -124,13 +125,11 @@ interface ApiService {
         @Header("Authorization") token: String
     ): Response<List<CounselorListItem>>
 
-    // Counselor Dashboard Stat Endpoints
     @GET("appointments/counselor")
     suspend fun getCounselorAppointments(
         @Header("Authorization") token: String
     ): Response<List<AppointmentResponse>>
 
-    // Slot Management Endpoints
     @GET("slots/my")
     suspend fun getMySlots(
         @Header("Authorization") token: String
@@ -167,6 +166,7 @@ interface ApiService {
         @Path("id") id: Long,
         @Body body: Map<String, String>
     ): Response<AppointmentResponse>
+
     @GET("auth/profile/counselor")
     suspend fun getMyCounselorProfile(
         @Header("Authorization") token: String
@@ -176,5 +176,5 @@ interface ApiService {
     suspend fun updateCounselorProfile(
         @Header("Authorization") token: String,
         @Body request: UpdateCounselorProfileRequest
-    ): Response<CounselorProfileResponse>
+    ): Response<ResponseBody>
 }
