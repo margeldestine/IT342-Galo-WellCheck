@@ -43,7 +43,6 @@ function CounselorDashboard() {
   const [showPhotoModal, setShowPhotoModal] = useState(false);
   const [viewingPhotoUrl, setViewingPhotoUrl] = useState('');
 
-  // Calendar state
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [selectedCalendarDay, setSelectedCalendarDay] = useState(null);
 
@@ -118,24 +117,19 @@ function CounselorDashboard() {
     return `${String(endHours).padStart(2, '0')}:${String(endMinutes).padStart(2, '0')}`;
   };
 
-  // ─── SLOT FORM VALIDATION ────────────────────────────────────────────
   const isWeekday = (dateStr) => {
     if (!dateStr) return false;
-    const day = new Date(dateStr + 'T00:00:00').getDay(); // 0=Sun, 6=Sat
+    const day = new Date(dateStr + 'T00:00:00').getDay();
     return day >= 1 && day <= 5;
   };
 
   const isAllowedTime = (startTime, duration) => {
-    if (!startTime || !duration) return true; // let required check catch it
+    if (!startTime || !duration) return true;
     const [h, m] = startTime.split(':').map(Number);
     const startMinutes = h * 60 + m;
     const endMinutes = startMinutes + parseInt(duration);
-
-    // Morning block: 08:00–12:00 (480–720)
     const morningOk = startMinutes >= 480 && endMinutes <= 720;
-    // Afternoon block: 13:00–17:00 (780–1020)
     const afternoonOk = startMinutes >= 780 && endMinutes <= 1020;
-
     return morningOk || afternoonOk;
   };
 
@@ -152,7 +146,6 @@ function CounselorDashboard() {
       setSlotFormError('Time must be within 8:00 AM–12:00 PM or 1:00 PM–5:00 PM, and the slot must not overflow the block.');
       return false;
     }
-
     if (slotForm.repeat !== 'none' && !slotForm.repeatUntil) {
       setSlotFormError('Please choose an end date for the repeat.');
       return false;
@@ -168,20 +161,15 @@ function CounselorDashboard() {
   const buildRepeatDates = (startDate, repeat, repeatUntil) => {
     const dates = [startDate];
     if (repeat === 'none' || !repeatUntil) return dates;
-
     const incrementDays = repeat === 'daily' ? 1 : 7;
     const endDate = new Date(repeatUntil + 'T00:00:00');
     let current = new Date(startDate + 'T00:00:00');
-
     while (true) {
       current = new Date(current);
       current.setDate(current.getDate() + incrementDays);
       if (current > endDate) break;
-
       const dayOfWeek = current.getDay();
-      // For daily repeat, skip weekends
       if (repeat === 'daily' && (dayOfWeek === 0 || dayOfWeek === 6)) continue;
-
       dates.push(current.toISOString().split('T')[0]);
     }
     return dates;
@@ -189,9 +177,7 @@ function CounselorDashboard() {
 
   const handleSlotSubmit = async () => {
     if (!validateSlotForm()) return;
-
     const datesToCreate = buildRepeatDates(slotForm.date, slotForm.repeat, slotForm.repeatUntil);
-
     try {
       await Promise.all(
         datesToCreate.map(dateStr => {
@@ -208,11 +194,10 @@ function CounselorDashboard() {
       );
       setShowSlotForm(false);
       setEditingSlot(null);
-      setSlotForm({ date: '', startTime: '', duration: '30', endTime: '', repeat: 'none', repeatUntil: '' })
-
+      setSlotForm({ date: '', startTime: '', duration: '30', endTime: '', repeat: 'none', repeatUntil: '' });
       setSlotFormError('');
       fetchSlots();
-      } catch (err) { setSlotFormError(err.response?.data || 'Something went wrong.'); }
+    } catch (err) { setSlotFormError(err.response?.data || 'Something went wrong.'); }
   };
 
   const handleEditSlot = (slot) => {
@@ -226,7 +211,7 @@ function CounselorDashboard() {
       duration: String(diffMinutes),
       endTime: end.toTimeString().slice(0, 5),
       repeat: 'none',
-       repeatUntil: '',
+      repeatUntil: '',
     });
     setSlotFormError('');
     setShowSlotForm(true);
@@ -266,7 +251,6 @@ function CounselorDashboard() {
     return 'Good evening';
   };
 
-  // ─── UPCOMING SLOTS ONLY (today or future) ────────────────────────────
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -283,14 +267,11 @@ function CounselorDashboard() {
     return acc;
   }, {});
 
-  // ─── CALENDAR LOGIC ────────────────────────────────────────────────────
   const bookedDates = new Set(
-    slots
-      .filter(s => s.status === 'BOOKED')
-      .map(s => {
-        const d = new Date(s.startTime);
-        return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
-      })
+    slots.filter(s => s.status === 'BOOKED').map(s => {
+      const d = new Date(s.startTime);
+      return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+    })
   );
 
   const slotDates = new Set(
@@ -308,14 +289,8 @@ function CounselorDashboard() {
   const daysInMonth = getDaysInMonth(calYear, calMonth);
   const firstDay = getFirstDayOfMonth(calYear, calMonth);
 
-  const prevCalMonth = () => {
-    setCalendarDate(new Date(calYear, calMonth - 1, 1));
-    setSelectedCalendarDay(null);
-  };
-  const nextCalMonth = () => {
-    setCalendarDate(new Date(calYear, calMonth + 1, 1));
-    setSelectedCalendarDay(null);
-  };
+  const prevCalMonth = () => { setCalendarDate(new Date(calYear, calMonth - 1, 1)); setSelectedCalendarDay(null); };
+  const nextCalMonth = () => { setCalendarDate(new Date(calYear, calMonth + 1, 1)); setSelectedCalendarDay(null); };
 
   const handleCalDayClick = (day) => {
     const key = `${calYear}-${calMonth}-${day}`;
@@ -333,21 +308,18 @@ function CounselorDashboard() {
   const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const dayLabels = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 
-  // Minimum date = tomorrow (no same-day slots)
   const minDate = (() => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
     return d.toISOString().split('T')[0];
   })();
 
-  // ─── RENDER ────────────────────────────────────────────────────────────
   return (
     <div className="cp-app">
       <CounselorSidebar activeItem={activeTab} onTabChange={handleTabChange} pendingCount={pendingCount} />
 
       <main className="cp-main">
 
-        {/* ── DASHBOARD ──────────────────────────────────────────────── */}
         {activeTab === 'dashboard' && (
           <div className="cp-page cp-active">
             <div className="cp-welcome-bar">
@@ -446,7 +418,6 @@ function CounselorDashboard() {
           </div>
         )}
 
-        {/* ── MANAGE SLOTS ───────────────────────────────────────────── */}
         {activeTab === 'slots' && (
           <div className="cp-page cp-active">
             <div className="cp-page-header">
@@ -460,10 +431,7 @@ function CounselorDashboard() {
               </button>
             </div>
 
-            {/* Two-column layout: slots list + calendar sidebar */}
             <div className="cp-slots-layout">
-
-              {/* ── LEFT: Slots List ──────────────────────────────────── */}
               <div className="cp-slots-main">
                 <div className="cp-slots-toolbar">
                   <div className="cp-slots-count">
@@ -505,10 +473,6 @@ function CounselorDashboard() {
                                     <div className="cp-slot-date-full">{formatDateFull(slot.startTime)}</div>
                                   </div>
 
-                                  <span className={`cp-slot-status cp-${slot.status.toLowerCase()}`}>
-                                    {slot.status === 'AVAILABLE' ? 'Available' : slot.status === 'BOOKED' ? 'Booked' : 'Unavailable'}
-                                  </span>
-
                                   <div className="cp-slot-actions">
                                     {slot.status === 'AVAILABLE' && (
                                       <>
@@ -534,6 +498,10 @@ function CounselorDashboard() {
                                       </div>
                                     )}
                                   </div>
+
+                                  <span className={`cp-slot-status cp-${slot.status.toLowerCase()}`}>
+                                    {slot.status === 'AVAILABLE' ? 'Available' : slot.status === 'BOOKED' ? 'Booked' : 'Unavailable'}
+                                  </span>
                                 </div>
 
                                 {isExpanded && apt && (
@@ -606,10 +574,7 @@ function CounselorDashboard() {
                 )}
               </div>
 
-              {/* ── RIGHT: Calendar Sidebar ────────────────────────────── */}
               <div className="cp-cal-sidebar">
-
-                {/* Mini Calendar */}
                 <div className="cp-cal-widget">
                   <div className="cp-cal-header">
                     <button className="cp-cal-nav" onClick={prevCalMonth}>
@@ -625,11 +590,9 @@ function CounselorDashboard() {
                     {dayLabels.map(d => (
                       <div key={d} className="cp-cal-day-label">{d}</div>
                     ))}
-
                     {Array.from({ length: firstDay }).map((_, i) => (
                       <div key={`empty-${i}`} className="cp-cal-cell cp-cal-empty" />
                     ))}
-
                     {Array.from({ length: daysInMonth }).map((_, i) => {
                       const day = i + 1;
                       const key = `${calYear}-${calMonth}-${day}`;
@@ -640,7 +603,6 @@ function CounselorDashboard() {
                         new Date().getMonth() === calMonth &&
                         new Date().getDate() === day;
                       const isSelected = selectedCalendarDay === day;
-
                       return (
                         <div
                           key={day}
@@ -673,7 +635,6 @@ function CounselorDashboard() {
                   </div>
                 </div>
 
-                {/* Day Schedule Panel */}
                 {selectedCalendarDay && (
                   <div className="cp-cal-schedule">
                     <div className="cp-cal-schedule-title">
@@ -707,11 +668,7 @@ function CounselorDashboard() {
                   </div>
                 )}
 
-                {/* History Button */}
-                <button
-                  className="cp-history-btn"
-                  onClick={() => navigate('/counselor/appointments/history')}
-                >
+                <button className="cp-history-btn" onClick={() => navigate('/counselor/appointments/history')}>
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path d="M12 8v4l3 3"/>
                     <path d="M3.05 11a9 9 0 1 0 .5-4"/>
@@ -719,13 +676,11 @@ function CounselorDashboard() {
                   </svg>
                   View Appointment History
                 </button>
-
               </div>
             </div>
           </div>
         )}
 
-        {/* ── REQUESTS ───────────────────────────────────────────────── */}
         {activeTab === 'requests' && (
           <div className="cp-page cp-active">
             <div className="cp-page-header">
@@ -794,7 +749,6 @@ function CounselorDashboard() {
                           </span>
                         </div>
                       </div>
-
                       {apt.status === 'PENDING' ? (
                         <div className="cp-req-actions">
                           <button className="cp-accept-btn" onClick={(e) => { e.stopPropagation(); setActionId(apt.id); setShowApproveModal(true); }}>Accept</button>
@@ -811,7 +765,6 @@ function CounselorDashboard() {
           </div>
         )}
 
-        {/* ── PROFILE ────────────────────────────────────────────────── */}
         {activeTab === 'profile' && (
           <div className="cp-page cp-active">
             <div className="cp-page-header">
@@ -886,8 +839,6 @@ function CounselorDashboard() {
         )}
       </main>
 
-      {/* ── MODALS ────────────────────────────────────────────────────── */}
-
       {showSlotForm && (
         <div className="cp-modal-overlay" onClick={() => { setShowSlotForm(false); setEditingSlot(null); setSlotFormError(''); }}>
           <div className="cp-modal" onClick={e => e.stopPropagation()}>
@@ -897,7 +848,6 @@ function CounselorDashboard() {
             <div className="cp-modal-title">{editingSlot ? 'Edit Slot' : 'Create a New Slot'}</div>
             <div className="cp-modal-sub">Weekdays only · 8–12 AM or 1–5 PM</div>
 
-            {/* Date */}
             <div className="cp-form-group" style={{ marginBottom: '14px' }}>
               <label className="cp-form-label">Date <span className="cp-form-hint">(Mon – Fri)</span></label>
               <input
@@ -918,7 +868,6 @@ function CounselorDashboard() {
               )}
             </div>
 
-            {/* Start time + Duration */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '14px' }}>
               <div className="cp-form-group">
                 <label className="cp-form-label">Start time</label>
@@ -933,11 +882,9 @@ function CounselorDashboard() {
                   }}
                 >
                   <option value="">Select time</option>
-                  {/* Morning slots: 8:00–11:30 */}
                   {['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30'].map(t => (
                     <option key={t} value={t}>{new Date(`1970-01-01T${t}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</option>
                   ))}
-                  {/* Afternoon slots: 13:00–16:30 */}
                   {['13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30'].map(t => (
                     <option key={t} value={t}>{new Date(`1970-01-01T${t}`).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}</option>
                   ))}
@@ -963,7 +910,6 @@ function CounselorDashboard() {
               </div>
             </div>
 
-            {/* End time preview */}
             {slotForm.startTime && slotForm.endTime && (
               <div className="cp-slot-time-preview">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
@@ -976,7 +922,6 @@ function CounselorDashboard() {
               </div>
             )}
 
-            {/* Repeat option — hidden when editing */}
             {!editingSlot && (
               <div className="cp-form-group" style={{ marginTop: '14px' }}>
                 <label className="cp-form-label">Repeat</label>
@@ -997,34 +942,32 @@ function CounselorDashboard() {
                     </button>
                   ))}
                 </div>
-            
 
-    {slotForm.repeat !== 'none' && (
-      <div className="cp-repeat-until-wrap">
-        <label className="cp-form-label" style={{ marginTop: '10px' }}>
-          Repeat until <span className="cp-form-hint">(inclusive)</span>
-        </label>
-        <input
-          type="date"
-          className="cp-form-input"
-          value={slotForm.repeatUntil}
-          min={slotForm.date || minDate}
-          onChange={e => setSlotForm(prev => ({ ...prev, repeatUntil: e.target.value }))}
-        />
-        {slotForm.date && slotForm.repeatUntil && (
-          <div className="cp-repeat-info">
-            {slotForm.repeat === 'daily'
-              ? `Creates a slot every weekday from ${new Date(slotForm.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} to ${new Date(slotForm.repeatUntil + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — weekends skipped.`
-              : `Creates a slot every week on the same day from ${new Date(slotForm.date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })} until ${new Date(slotForm.repeatUntil + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}.`
-            }
-          </div>
-        )}
-      </div>
-    )}
-  </div>
-)}
+                {slotForm.repeat !== 'none' && (
+                  <div className="cp-repeat-until-wrap">
+                    <label className="cp-form-label" style={{ marginTop: '10px' }}>
+                      Repeat until <span className="cp-form-hint">(inclusive)</span>
+                    </label>
+                    <input
+                      type="date"
+                      className="cp-form-input"
+                      value={slotForm.repeatUntil}
+                      min={slotForm.date || minDate}
+                      onChange={e => setSlotForm(prev => ({ ...prev, repeatUntil: e.target.value }))}
+                    />
+                    {slotForm.date && slotForm.repeatUntil && (
+                      <div className="cp-repeat-info">
+                        {slotForm.repeat === 'daily'
+                          ? `Creates a slot every weekday from ${new Date(slotForm.date + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} to ${new Date(slotForm.repeatUntil + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} — weekends skipped.`
+                          : `Creates a slot every week on the same day from ${new Date(slotForm.date + 'T00:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })} until ${new Date(slotForm.repeatUntil + 'T00:00:00').toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}.`
+                        }
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
 
-            {/* Error message */}
             {slotFormError && (
               <div className="cp-form-error cp-form-error-main">{slotFormError}</div>
             )}
@@ -1032,7 +975,7 @@ function CounselorDashboard() {
             <div className="cp-modal-footer">
               <button className="cp-btn-secondary" onClick={() => { setShowSlotForm(false); setEditingSlot(null); setSlotFormError(''); }}>Cancel</button>
               <button className="cp-btn-primary" onClick={handleSlotSubmit}>
-                {editingSlot ? 'Update Slot' : slotForm.repeat !== 'none' ? `Create Slots` : 'Create Slot'}
+                {editingSlot ? 'Update Slot' : slotForm.repeat !== 'none' ? 'Create Slots' : 'Create Slot'}
               </button>
             </div>
           </div>
