@@ -21,8 +21,8 @@ public class CounselorProfile {
     @Column(columnDefinition = "TEXT")
     private String bio;
 
-    private String profilePhoto;
-    private String profilePhotoType;
+        private String profilePhoto;
+        private String profilePhotoType;
 
     @Column
     private Integer yearsExperience;
