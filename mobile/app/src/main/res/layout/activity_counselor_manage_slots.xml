@@ -1,69 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F6F1">
+    android:background="#F2F4EF">
 
-    <LinearLayout
-        android:id="@+id/headerContainer"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerSection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
+        android:background="#1B3A2D"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="52dp"
+        android:paddingBottom="64dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/tvPageLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text="Manage Slots"
-            android:textColor="#1A1A1A"
-            android:textSize="28sp"
-            android:textStyle="bold" />
+            android:text="COUNSELOR PORTAL"
+            android:textColor="#FFFFFF"
+            android:alpha="0.5"
+            android:textSize="9sp"
+            android:letterSpacing="0.15"
+            android:fontFamily="@font/inter_bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="Create and manage your available time slots."
-            android:textColor="#888888"
-            android:textSize="13sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnCreateSlot"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:layout_marginTop="20dp"
-            android:text="+ Create Slot"
-            android:textAllCaps="false"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="12dp"
+            android:text="Manage Slots"
             android:textColor="#FFFFFF"
-            app:backgroundTint="#223D31"
-            app:cornerRadius="12dp" />
-    </LinearLayout>
+            android:textSize="26sp"
+            android:fontFamily="@font/dm_serif_display_italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnCreateSlot"
+            app:layout_constraintTop_toBottomOf="@id/tvPageLabel"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvSlots"
+        <TextView
+            android:id="@+id/btnCreateSlot"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:text="+"
+            android:textColor="#1B3A2D"
+            android:textSize="26sp"
+            android:gravity="center"
+            android:background="@drawable/rounded_create_btn"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/inter_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvTitle"
+            app:layout_constraintBottom_toBottomOf="@id/tvTitle"/>
+
+        <TextView
+            android:id="@+id/tvSubtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Create and manage your available time slots."
+            android:textColor="#FFFFFF"
+            android:alpha="0.6"
+            android:textSize="12sp"
+            android:fontFamily="@font/inter_regular"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="-28dp"
         android:clipToPadding="false"
-        android:paddingHorizontal="20dp"
-        android:paddingBottom="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerContainer" />
+        android:paddingBottom="32dp"
+        app:layout_constraintTop_toBottomOf="@id/headerSection"
+        app:layout_constraintBottom_toTopOf="@id/bottomNav">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="36dp">
 
-    <!-- Bottom Navigation Bar -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSlots"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingHorizontal="16dp"
+                android:nestedScrollingEnabled="false"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
     <LinearLayout
         android:id="@+id/bottomNav"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="68dp"
         android:background="#FFFFFF"
-        android:elevation="8dp"
+        android:elevation="12dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <!-- Dashboard (Inactive) -->
         <LinearLayout
             android:id="@+id/navDashboard"
             android:layout_width="0dp"
@@ -75,17 +122,17 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_dashboard"
-                app:tint="#888888" />
+                app:tint="#AAAAAA"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="Dashboard"
-                android:textColor="#888888"
-                android:textSize="10sp" />
+                android:textColor="#AAAAAA"
+                android:textSize="10sp"
+                android:fontFamily="@font/inter_regular"/>
         </LinearLayout>
 
-        <!-- Manage Slots (Active) -->
         <LinearLayout
             android:id="@+id/navManageSlots"
             android:layout_width="0dp"
@@ -97,24 +144,23 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_calendar"
-                app:tint="#223D31" />
+                app:tint="#1B3A2D"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
-                android:fontFamily="sans-serif-medium"
                 android:text="Manage Slots"
-                android:textColor="#223D31"
-                android:textSize="10sp" />
+                android:textColor="#1B3A2D"
+                android:textSize="10sp"
+                android:fontFamily="@font/inter_bold"/>
             <View
                 android:layout_width="4dp"
                 android:layout_height="4dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="3dp"
                 android:background="@drawable/shape_circle"
-                android:backgroundTint="#223D31" />
+                android:backgroundTint="#1B3A2D"/>
         </LinearLayout>
 
-        <!-- Requests (Inactive) -->
         <LinearLayout
             android:id="@+id/navRequests"
             android:layout_width="0dp"
@@ -126,17 +172,17 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_clipboard"
-                app:tint="#888888" />
+                app:tint="#AAAAAA"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="Requests"
-                android:textColor="#888888"
-                android:textSize="10sp" />
+                android:textColor="#AAAAAA"
+                android:textSize="10sp"
+                android:fontFamily="@font/inter_regular"/>
         </LinearLayout>
 
-        <!-- Profile (Inactive) -->
         <LinearLayout
             android:id="@+id/navProfile"
             android:layout_width="0dp"
@@ -148,15 +194,17 @@
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:src="@drawable/ic_profile"
-                app:tint="#888888" />
+                app:tint="#AAAAAA"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:text="Profile"
-                android:textColor="#888888"
-                android:textSize="10sp" />
+                android:textColor="#AAAAAA"
+                android:textSize="10sp"
+                android:fontFamily="@font/inter_regular"/>
         </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

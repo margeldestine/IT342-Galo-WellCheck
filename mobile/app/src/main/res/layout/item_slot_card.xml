@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp"
+    app:cardBackgroundColor="#FFFFFF"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="14dp">
+
+        <LinearLayout
+            android:layout_width="41dp"
+            android:layout_height="52dp"
+            android:layout_marginEnd="12dp"
+            android:background="@drawable/rounded_date_bg"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvSlotMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:letterSpacing="0.05"
+                android:text="MAY"
+                android:textColor="#FFFFFF"
+                android:textSize="8sp"/>
+
+            <TextView
+                android:id="@+id/tvSlotDayNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvSlotTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10:00 AM → 10:30 AM"
+                android:textColor="#1A1A1A"
+                android:textSize="13sp"/>
+
+            <TextView
+                android:id="@+id/tvSlotDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="Friday, May 15, 2026"
+                android:textColor="#9E9E9E"
+                android:textSize="11sp"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnEditSlot"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_edit"
+            android:layout_marginEnd="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="#888888"/>
+
+        <ImageView
+            android:id="@+id/btnDeleteSlot"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_delete"
+            android:layout_marginEnd="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            app:tint="#E53E3E"/>
+
+        <TextView
+            android:id="@+id/tvSlotStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AVAILABLE"
+            android:textSize="9sp"
+            android:textColor="#16A34A"
+            android:background="@drawable/badge_available_bg"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="4dp"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
