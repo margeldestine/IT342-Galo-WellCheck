@@ -121,5 +121,13 @@ class BrowseCounselorsActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
         overridePendingTransition(0, 0)
+
+        binding.navAppointments.setOnClickListener {
+            startActivity(Intent(this, MyAppointmentsActivity::class.java))
+            finish()
+            overridePendingTransition(0, 0)
+        }
     }
+
+
 }

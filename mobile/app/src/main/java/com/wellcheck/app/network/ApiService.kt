@@ -217,4 +217,11 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body request: UpdateCounselorProfileRequest
     ): Response<ResponseBody>
+
+    @DELETE("appointments/{id}")
+    suspend fun cancelAppointment(
+        @Header("Authorization") token: String,
+        @Path("id") id: Long
+    ): Response<ResponseBody>
+
 }

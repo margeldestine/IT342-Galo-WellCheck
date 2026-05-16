@@ -34,6 +34,7 @@
         <activity android:name=".CounselorRequestsActivity" android:exported="false"/>
         <activity android:name=".CounselorProfileActivity" android:exported="false"/>
         <activity android:name=".BookAppointmentActivity" android:exported="false"/>
+        <activity android:name=".MyAppointmentsActivity" android:exported="false"/>
 
         <!-- Catches the OAuth deep link: wellcheck://callback?token=...-->
         <activity

@@ -69,7 +69,7 @@ class StudentDashboardActivity : AppCompatActivity() {
             // startActivity(Intent(this, BookAppointmentActivity::class.java))
         }
         binding.btnViewAppointments.setOnClickListener {
-            // startActivity(Intent(this, MyAppointmentsActivity::class.java))
+            startActivity(Intent(this, MyAppointmentsActivity::class.java))
         }
 
         // View all counselors
@@ -84,7 +84,7 @@ class StudentDashboardActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
         binding.navAppointments.setOnClickListener {
-            // startActivity(Intent(this, MyAppointmentsActivity::class.java))
+            startActivity(Intent(this, MyAppointmentsActivity::class.java))
             finish()
             overridePendingTransition(0, 0)
         }

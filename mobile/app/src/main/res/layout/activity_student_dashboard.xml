@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!-- ═══════════════════════════════════════════════════════════ HEADER -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerSection"
         android:layout_width="match_parent"

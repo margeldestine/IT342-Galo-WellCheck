@@ -232,7 +232,10 @@ class BookAppointmentActivity : AppCompatActivity() {
         ss.tvSuccessDate.text         = formatDate(slotStart)
         ss.tvSuccessTime.text         = "${formatTime(slotStart)} to ${formatTime(slotEnd)}"
 
-        ss.btnSuccessViewApts.setOnClickListener { finish() }
+        ss.btnSuccessViewApts.setOnClickListener {
+            startActivity(Intent(this, MyAppointmentsActivity::class.java))
+            finish()
+        }
         ss.btnSuccessDashboard.setOnClickListener {
             startActivity(Intent(this, StudentDashboardActivity::class.java))
             finish()
