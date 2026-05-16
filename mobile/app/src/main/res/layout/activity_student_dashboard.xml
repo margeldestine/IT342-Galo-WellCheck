@@ -69,7 +69,7 @@
             android:fontFamily="@font/inter_bold"
             android:gravity="center"
             android:text="MG"
-            android:textColor="@color/green_dark"
+            android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/tvWelcome"
             app:layout_constraintEnd_toEndOf="parent"

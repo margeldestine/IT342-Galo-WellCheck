@@ -10,6 +10,9 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import com.google.gson.annotations.SerializedName
+import okhttp3.MultipartBody
+import retrofit2.http.Multipart
+import retrofit2.http.Part
 
 data class LoginRequest(val email: String, val password: String)
 data class StudentRegisterRequest(val studentIdNumber: String, val firstName: String, val lastName: String, val program: String, val yearLevel: String, val gender: String, val birthdate: String, val email: String, val password: String)
@@ -113,6 +116,11 @@ data class AppointmentResponse(
     val status: String,
     val note: String?,
     val rejectionReason: String?
+)
+
+data class WellnessQuote(
+    @SerializedName("q") val q: String?,
+    @SerializedName("a") val a: String?
 )
 
 interface ApiService {
@@ -223,5 +231,18 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: Long
     ): Response<ResponseBody>
+
+    @Multipart
+    @POST("upload/school-id")
+    suspend fun uploadSchoolId(
+        @Header("Authorization") token: String,
+        @Part file: MultipartBody.Part
+    ): Response<String>
+
+    @GET("wellness/quotes")
+    suspend fun getWellnessQuotes(
+        @Header("Authorization") token: String
+    ): Response<List<WellnessQuote>>
+
 
 }

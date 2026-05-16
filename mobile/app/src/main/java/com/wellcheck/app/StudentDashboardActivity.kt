@@ -22,14 +22,19 @@ class StudentDashboardActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityStudentDashboardBinding
 
-    private val quotes = listOf(
-        Pair("You are enough just as you are.", "Meghan Markle"),
+    // ── Fallback quotes (used when API fails) ─────────────────────────────────
+    private val fallbackQuotes = listOf(
         Pair("Almost everything will work again if you unplug it for a few minutes, including you.", "Anne Lamott"),
+        Pair("You don't have to be positive all the time. It's perfectly okay to feel sad, angry, or frustrated.", "Lori Deschene"),
         Pair("Take care of your body. It's the only place you have to live.", "Jim Rohn"),
         Pair("Self-care is not selfish. You cannot serve from an empty vessel.", "Eleanor Brown"),
-        Pair("You don't have to be positive all the time. It's perfectly okay to feel sad.", "Lori Deschene")
+        Pair("You are enough just as you are.", "Meghan Markle")
     )
+
+    // ── Quote pool — fetched from API, cycled locally (same as web) ───────────
+    private val quotePool = mutableListOf<Pair<String, String>>()
     private var quoteIndex = 0
+    private var quoteLoading = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +46,7 @@ class StudentDashboardActivity : AppCompatActivity() {
         val lastName  = prefs.getString("lastName",  "") ?: ""
         val token     = prefs.getString("token",     "") ?: ""
 
-        // Apply DM Serif italic to greeting (same pattern as counselor dashboard)
+        // Apply DM Serif italic to greeting
         val dmSerifItalic: Typeface? = ResourcesCompat.getFont(this, R.font.dm_serif_display_italic)
         binding.tvWelcome.typeface = dmSerifItalic
 
@@ -50,15 +55,17 @@ class StudentDashboardActivity : AppCompatActivity() {
         binding.tvDate.text    = SimpleDateFormat("EEEE, MMM d", Locale.getDefault()).format(Date())
         binding.tvAvatar.text  = "${firstName.firstOrNull() ?: ""}${lastName.firstOrNull() ?: ""}".uppercase()
 
-        // Logout on avatar tap
+        // Logout on avatar / button tap
         binding.tvAvatar.setOnClickListener { showLogoutDialog() }
         binding.btnLogout.setOnClickListener { showLogoutDialog() }
 
-        // Quote
-        showQuote(quoteIndex)
+        // Quote — show loading placeholder then fetch from API
+        binding.tvQuote.text       = "\u201cThe greatest wealth is to live content with little.\u201d"
+        binding.tvQuoteAuthor.text = "\u2014 Plato"
+        fetchQuote(token)
+
         binding.btnRefreshQuote.setOnClickListener {
-            quoteIndex = (quoteIndex + 1) % quotes.size
-            showQuote(quoteIndex)
+            if (!quoteLoading) fetchQuote(token)
         }
 
         // Mood
@@ -66,15 +73,21 @@ class StudentDashboardActivity : AppCompatActivity() {
 
         // Quick actions
         binding.btnBookAppointment.setOnClickListener {
-            // startActivity(Intent(this, BookAppointmentActivity::class.java))
+            startActivity(Intent(this, BrowseCounselorsActivity::class.java))
+            finish()
+            overridePendingTransition(0, 0)
         }
         binding.btnViewAppointments.setOnClickListener {
             startActivity(Intent(this, MyAppointmentsActivity::class.java))
+            finish()
+            overridePendingTransition(0, 0)
         }
 
         // View all counselors
         binding.tvViewAll.setOnClickListener {
             startActivity(Intent(this, BrowseCounselorsActivity::class.java))
+            finish()
+            overridePendingTransition(0, 0)
         }
 
         // Bottom nav
@@ -89,13 +102,67 @@ class StudentDashboardActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
         binding.navProfile.setOnClickListener {
-            // startActivity(Intent(this, StudentProfileActivity::class.java))
+            startActivity(Intent(this, StudentProfileActivity::class.java))
             finish()
             overridePendingTransition(0, 0)
         }
 
         fetchAppointments("Bearer $token")
         fetchCounselors("Bearer $token")
+    }
+
+    // ── Quote — Retrofit fetch + local pool cycling (matches web logic) ────────
+
+    private fun fetchQuote(token: String) {
+        // Pool still has quotes — cycle locally, no API call needed
+        if (quotePool.isNotEmpty() && quoteIndex < quotePool.size) {
+            val (q, a) = quotePool[quoteIndex]
+            quoteIndex++
+            binding.tvQuote.text       = "\u201c$q\u201d"
+            binding.tvQuoteAuthor.text = "\u2014 $a"
+            return
+        }
+
+        // Pool exhausted or empty — fetch fresh batch from backend
+        quoteLoading = true
+        binding.btnRefreshQuote.isEnabled = false
+
+        lifecycleScope.launch {
+            try {
+                val response = RetrofitClient.instance.getWellnessQuotes("Bearer $token")
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (!body.isNullOrEmpty()) {
+                        quotePool.clear()
+                        quotePool.addAll(
+                            body.filter { !it.q.isNullOrEmpty() }
+                                .map { Pair(it.q!!, it.a ?: "") }
+                                .shuffled()
+                        )
+                        quoteIndex = 0
+                        val (q, a) = quotePool[quoteIndex]
+                        quoteIndex++
+                        binding.tvQuote.text       = "\u201c$q\u201d"
+                        binding.tvQuoteAuthor.text = "\u2014 $a"
+                    } else {
+                        showFallbackQuote()
+                    }
+                } else {
+                    showFallbackQuote()
+                }
+            } catch (e: Exception) {
+                showFallbackQuote()
+            } finally {
+                quoteLoading = false
+                binding.btnRefreshQuote.isEnabled = true
+            }
+        }
+    }
+
+    private fun showFallbackQuote() {
+        val pick = fallbackQuotes.random()
+        binding.tvQuote.text       = "\u201c${pick.first}\u201d"
+        binding.tvQuoteAuthor.text = "\u2014 ${pick.second}"
     }
 
     // ── Logout ────────────────────────────────────────────────────────────────
@@ -153,7 +220,7 @@ class StudentDashboardActivity : AppCompatActivity() {
                 binding.btnMoodAction.text       = "Book a session"
                 binding.btnMoodAction.visibility = View.VISIBLE
                 binding.btnMoodAction.setOnClickListener {
-                    // startActivity(Intent(this@StudentDashboardActivity, BookAppointmentActivity::class.java))
+                    startActivity(Intent(this@StudentDashboardActivity, BrowseCounselorsActivity::class.java))
                 }
             }
             "Okay" -> {
@@ -172,14 +239,6 @@ class StudentDashboardActivity : AppCompatActivity() {
                 binding.btnMoodAction.visibility = View.GONE
             }
         }
-    }
-
-    // ── Quote ─────────────────────────────────────────────────────────────────
-
-    private fun showQuote(index: Int) {
-        val (q, a) = quotes[index]
-        binding.tvQuote.text       = "\u201c$q\u201d"
-        binding.tvQuoteAuthor.text = "\u2014 $a"
     }
 
     // ── Appointments ──────────────────────────────────────────────────────────

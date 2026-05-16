@@ -154,7 +154,10 @@ class MyAppointmentsActivity : AppCompatActivity() {
             overridePendingTransition(0, 0)
         }
         binding.navProfile.setOnClickListener {
+            startActivity(Intent(this, StudentProfileActivity::class.java))
+            finish()
             overridePendingTransition(0, 0)
+
         }
     }
 }
